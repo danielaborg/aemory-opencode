@@ -591,6 +591,8 @@ export namespace Config {
       .describe("Display tokens per second in assistant message footer"),
   })
 
+  export type TUI = z.infer<typeof TUI>
+
   export const Layout = z.enum(["auto", "stretch"]).meta({
     ref: "LayoutConfig",
   })

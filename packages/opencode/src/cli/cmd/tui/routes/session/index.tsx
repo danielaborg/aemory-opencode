@@ -1273,7 +1273,7 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
   const TPS = createMemo(() => {
     if (!final()) return 0
     if (!props.message.time.completed) return 0
-    if (!sync.data.config.tui?.display_message_tps) return 0
+    if (!(sync.data.config.tui as any)?.display_message_tps) return 0
   
     const assistantMessages : AssistantMessage[] = messages().filter((msg) => msg.role === "assistant" && msg.id !== props.message.id) as AssistantMessage[]
 
@@ -1376,7 +1376,7 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
               <Show when={duration()}>
                 <span style={{ fg: theme.textMuted }}> · {Locale.duration(duration())}</span>
               </Show>
-              <Show when={sync.data.config.tui?.display_message_tps && TPS()}>
+              <Show when={(sync.data.config.tui as any)?.display_message_tps && TPS()}>
                 <span style={{ fg: theme.textMuted }}> · {TPS()} tps</span>
               </Show>
             </text>
