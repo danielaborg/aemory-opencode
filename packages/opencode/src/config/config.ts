@@ -585,6 +585,10 @@ export namespace Config {
       .enum(["auto", "stacked"])
       .optional()
       .describe("Control diff rendering style: 'auto' adapts to terminal width, 'stacked' always shows single column"),
+    display_message_tps: z
+      .boolean()
+      .optional()
+      .describe("Display tokens per second in assistant message footer"),
   })
 
   export const Layout = z.enum(["auto", "stretch"]).meta({
