@@ -9,6 +9,7 @@ import {
   ParentProps,
   Show,
   Switch,
+  untrack,
   type JSX,
 } from "solid-js"
 import { DateTime } from "luxon"
@@ -129,40 +130,18 @@ export default function Layout(props: ParentProps) {
     return bUpdated - aUpdated
   }
 
-  function flattenSessions(sessions: Session[]): Session[] {
-    const childrenMap = new Map<string, Session[]>()
-    for (const session of sessions) {
-      if (session.parentID) {
-        const children = childrenMap.get(session.parentID) ?? []
-        children.push(session)
-        childrenMap.set(session.parentID, children)
-      }
-    }
-    const result: Session[] = []
-    function visit(session: Session) {
-      result.push(session)
-      for (const child of childrenMap.get(session.id) ?? []) {
-        visit(child)
-      }
-    }
-    for (const session of sessions) {
-      if (!session.parentID) visit(session)
-    }
-    return result
-  }
-
   function scrollToSession(sessionId: string) {
     if (!scrollContainerRef) return
     const element = scrollContainerRef.querySelector(`[data-session-id="${sessionId}"]`)
     if (element) {
-      element.scrollIntoView({ block: "center", behavior: "smooth" })
+      element.scrollIntoView({ block: "nearest", behavior: "smooth" })
     }
   }
 
   function projectSessions(directory: string) {
     if (!directory) return []
     const sessions = globalSync.child(directory)[0].session.toSorted(sortSessions)
-    return flattenSessions(sessions ?? [])
+    return (sessions ?? []).filter((s) => !s.parentID)
   }
 
   const currentSessions = createMemo(() => {
@@ -342,8 +321,11 @@ export default function Layout(props: ParentProps) {
   createEffect(() => {
     if (!params.dir || !params.id) return
     const directory = base64Decode(params.dir)
-    setStore("lastSession", directory, params.id)
-    notification.session.markViewed(params.id)
+    const id = params.id
+    setStore("lastSession", directory, id)
+    notification.session.markViewed(id)
+    untrack(() => layout.projects.expand(directory))
+    requestAnimationFrame(() => scrollToSession(id))
   })
 
   createEffect(() => {
@@ -466,13 +448,9 @@ export default function Layout(props: ParentProps) {
     session: Session
     slug: string
     project: LocalProject
-    depth?: number
-    childrenMap: Map<string, Session[]>
     mobile?: boolean
   }): JSX.Element => {
     const notification = useNotification()
-    const depth = props.depth ?? 0
-    const children = createMemo(() => props.childrenMap.get(props.session.id) ?? [])
     const updated = createMemo(() => DateTime.fromMillis(props.session.time.updated))
     const notifications = createMemo(() => notification.session.unseen(props.session.id))
     const hasError = createMemo(() => notifications().some((n) => n.type === "error"))
@@ -487,7 +465,7 @@ export default function Layout(props: ParentProps) {
           data-session-id={props.session.id}
           class="group/session relative w-full pr-2 py-1 rounded-md cursor-default transition-colors
                  hover:bg-surface-raised-base-hover focus-within:bg-surface-raised-base-hover has-[.active]:bg-surface-raised-base-hover"
-          style={{ "padding-left": `${16 + depth * 12}px` }}
+          style={{ "padding-left": "16px" }}
         >
           <Tooltip placement={props.mobile ? "bottom" : "right"} value={props.session.title} gutter={10}>
             <A
@@ -495,7 +473,12 @@ export default function Layout(props: ParentProps) {
               class="flex flex-col min-w-0 text-left w-full focus:outline-none"
             >
               <div class="flex items-center self-stretch gap-6 justify-between transition-[padding] group-hover/session:pr-7 group-focus-within/session:pr-7 group-active/session:pr-7">
-                <span class="text-14-regular text-text-strong overflow-hidden text-ellipsis truncate">
+                <span
+                  classList={{
+                    "text-14-regular text-text-strong overflow-hidden text-ellipsis truncate": true,
+                    "animate-pulse": isWorking(),
+                  }}
+                >
                   {props.session.title}
                 </span>
                 <div class="shrink-0 group-hover/session:hidden group-active/session:hidden group-focus-within/session:hidden">
@@ -536,23 +519,19 @@ export default function Layout(props: ParentProps) {
             </A>
           </Tooltip>
           <div class="hidden group-hover/session:flex group-active/session:flex group-focus-within/session:flex text-text-base gap-1 items-center absolute top-1 right-1">
-            <Tooltip placement={props.mobile ? "bottom" : "right"} value="Archive session">
+            <Tooltip
+              placement={props.mobile ? "bottom" : "right"}
+              value={
+                <div class="flex items-center gap-2">
+                  <span>Archive session</span>
+                  <span class="text-icon-base text-12-medium">{command.keybind("session.archive")}</span>
+                </div>
+              }
+            >
               <IconButton icon="archive" variant="ghost" onClick={() => archiveSession(props.session)} />
             </Tooltip>
           </div>
         </div>
-        <For each={children()}>
-          {(child) => (
-            <SessionItem
-              session={child}
-              slug={props.slug}
-              project={props.project}
-              depth={depth + 1}
-              childrenMap={props.childrenMap}
-              mobile={props.mobile}
-            />
-          )}
-        </For>
       </>
     )
   }
@@ -565,17 +544,6 @@ export default function Layout(props: ParentProps) {
     const [store, setProjectStore] = globalSync.child(props.project.worktree)
     const sessions = createMemo(() => store.session.toSorted(sortSessions))
     const rootSessions = createMemo(() => sessions().filter((s) => !s.parentID))
-    const childSessionsByParent = createMemo(() => {
-      const map = new Map<string, Session[]>()
-      for (const session of sessions()) {
-        if (session.parentID) {
-          const children = map.get(session.parentID) ?? []
-          children.push(session)
-          map.set(session.parentID, children)
-        }
-      }
-      return map
-    })
     const hasMoreSessions = createMemo(() => store.session.length >= store.limit)
     const loadMoreSessions = async () => {
       setProjectStore("limit", (limit) => limit + 5)
@@ -624,7 +592,15 @@ export default function Layout(props: ParentProps) {
                       </DropdownMenu.Content>
                     </DropdownMenu.Portal>
                   </DropdownMenu>
-                  <Tooltip placement="top" value="New session">
+                  <Tooltip
+                    placement="top"
+                    value={
+                      <div class="flex items-center gap-2">
+                        <span>New session</span>
+                        <span class="text-icon-base text-12-medium">{command.keybind("session.new")}</span>
+                      </div>
+                    }
+                  >
                     <IconButton as={A} href={`${slug()}/session`} icon="plus-small" variant="ghost" />
                   </Tooltip>
                 </div>
@@ -633,13 +609,7 @@ export default function Layout(props: ParentProps) {
                 <nav class="hidden @[4rem]:flex w-full flex-col gap-1.5">
                   <For each={rootSessions()}>
                     {(session) => (
-                      <SessionItem
-                        session={session}
-                        slug={slug()}
-                        project={props.project}
-                        childrenMap={childSessionsByParent()}
-                        mobile={props.mobile}
-                      />
+                      <SessionItem session={session} slug={slug()} project={props.project} mobile={props.mobile} />
                     )}
                   </For>
                   <Show when={rootSessions().length === 0}>
@@ -761,7 +731,9 @@ export default function Layout(props: ParentProps) {
             <DragDropSensors />
             <ConstrainDragXAxis />
             <div
-              ref={sidebarProps.mobile ? undefined : scrollContainerRef}
+              ref={(el) => {
+                if (!sidebarProps.mobile) scrollContainerRef = el
+              }}
               class="w-full min-w-8 flex flex-col gap-2 min-h-0 overflow-y-auto no-scrollbar"
             >
               <SortableProvider ids={layout.projects.list().map((p) => p.worktree)}>

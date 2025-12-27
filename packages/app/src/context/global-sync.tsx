@@ -5,8 +5,6 @@ import {
   type Part,
   type Config,
   type Path,
-  type File,
-  type FileNode,
   type Project,
   type FileDiff,
   type Todo,
@@ -14,6 +12,9 @@ import {
   type ProviderListResponse,
   type ProviderAuthResponse,
   type Command,
+  type McpStatus,
+  type LspStatus,
+  type VcsInfo,
   createOpencodeClient,
 } from "@opencode-ai/sdk/v2/client"
 import { createStore, produce, reconcile } from "solid-js/store"
@@ -43,6 +44,11 @@ type State = {
   todo: {
     [sessionID: string]: Todo[]
   }
+  mcp: {
+    [name: string]: McpStatus
+  }
+  lsp: LspStatus[]
+  vcs: VcsInfo | undefined
   limit: number
   message: {
     [sessionID: string]: Message[]
@@ -50,8 +56,6 @@ type State = {
   part: {
     [messageID: string]: Part[]
   }
-  node: FileNode[]
-  changes: File[]
 }
 
 function createGlobalSync() {
@@ -89,11 +93,12 @@ function createGlobalSync() {
         session_status: {},
         session_diff: {},
         todo: {},
+        mcp: {},
+        lsp: [],
+        vcs: undefined,
         limit: 5,
         message: {},
         part: {},
-        node: [],
-        changes: [],
       })
       children[directory] = createStore(globalStore.children[directory])
       bootstrapInstance(directory)
@@ -155,8 +160,9 @@ function createGlobalSync() {
       session: () => loadSessions(directory),
       status: () => sdk.session.status().then((x) => setStore("session_status", x.data!)),
       config: () => sdk.config.get().then((x) => setStore("config", x.data!)),
-      changes: () => sdk.file.status().then((x) => setStore("changes", x.data!)),
-      node: () => sdk.file.list({ path: "/" }).then((x) => setStore("node", x.data!)),
+      mcp: () => sdk.mcp.status().then((x) => setStore("mcp", x.data ?? {})),
+      lsp: () => sdk.lsp.status().then((x) => setStore("lsp", x.data ?? [])),
+      vcs: () => sdk.vcs.get().then((x) => setStore("vcs", x.data)),
     }
     await Promise.all(Object.values(load).map((p) => retry(p).catch((e) => setGlobalStore("error", e))))
       .then(() => setStore("ready", true))
@@ -223,13 +229,13 @@ function createGlobalSync() {
         break
       }
       case "session.diff":
-        setStore("session_diff", event.properties.sessionID, event.properties.diff)
+        setStore("session_diff", event.properties.sessionID, reconcile(event.properties.diff, { key: "file" }))
         break
       case "todo.updated":
-        setStore("todo", event.properties.sessionID, event.properties.todos)
+        setStore("todo", event.properties.sessionID, reconcile(event.properties.todos))
         break
       case "session.status": {
-        setStore("session_status", event.properties.sessionID, event.properties.status)
+        setStore("session_status", event.properties.sessionID, reconcile(event.properties.status))
         break
       }
       case "message.updated": {
@@ -303,11 +309,18 @@ function createGlobalSync() {
         }
         break
       }
+      case "vcs.branch.updated": {
+        setStore("vcs", { branch: event.properties.branch })
+        break
+      }
     }
   })
 
   async function bootstrap() {
-    const health = await globalSDK.client.global.health().then((x) => x.data)
+    const health = await globalSDK.client.global
+      .health()
+      .then((x) => x.data)
+      .catch(() => undefined)
     if (!health?.healthy) {
       setGlobalStore(
         "error",
