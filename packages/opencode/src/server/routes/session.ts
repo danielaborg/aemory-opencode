@@ -268,6 +268,7 @@ export const SessionRoutes = lazy(() =>
           time: z
             .object({
               archived: z.number().optional(),
+              pinned: z.number().nullable().optional(),
             })
             .optional(),
         }),
@@ -283,6 +284,7 @@ export const SessionRoutes = lazy(() =>
               session.title = updates.title
             }
             if (updates.time?.archived !== undefined) session.time.archived = updates.time.archived
+            if (updates.time?.pinned !== undefined) session.time.pinned = updates.time.pinned ?? undefined
           },
           { touch: false },
         )
