@@ -55,53 +55,6 @@ export type PromptRef = {
 
 const PLACEHOLDERS = ["Fix a TODO in the codebase", "What is the tech stack of this project?", "Fix broken tests"]
 
-function getWordBoundariesForTransformation(text: string, cursorOffset: number): { start: number; end: number } | null {
-  if (text.length === 0) return null
-
-  // Check if cursor is on a word character (inside a word)
-  const effectiveOffset = Math.min(cursorOffset, text.length)
-  if (effectiveOffset < text.length && !/\s/.test(text[effectiveOffset])) {
-    // Inside a word - transform from cursor to end of word (Emacs-style behavior)
-    let end = effectiveOffset
-    while (end < text.length && !/\s/.test(text[end])) end++
-
-    return { start: effectiveOffset, end }
-  }
-
-  // Cursor is on whitespace or at end - find the next word
-  let end = effectiveOffset
-  while (end < text.length && /\s/.test(text[end])) end++
-
-  let nextEnd = end
-  while (nextEnd < text.length && !/\s/.test(text[nextEnd])) nextEnd++
-
-  if (nextEnd > end) {
-    return { start: end, end: nextEnd }
-  }
-
-  // No next word - find the previous word
-  let start = effectiveOffset
-  while (start > 0 && /\s/.test(text[start - 1])) start--
-
-  let wordStart = start
-  while (wordStart > 0 && !/\s/.test(text[wordStart - 1])) wordStart--
-
-  return { start: wordStart, end: start }
-}
-
-function lowercaseWord(text: string, start: number, end: number): string {
-  return text.slice(0, start) + text.slice(start, end).toLowerCase() + text.slice(end)
-}
-
-function uppercaseWord(text: string, start: number, end: number): string {
-  return text.slice(0, start) + text.slice(start, end).toUpperCase() + text.slice(end)
-}
-
-function capitalizeWord(text: string, start: number, end: number): string {
-  const segment = text.slice(start, end)
-  const capitalized = segment.charAt(0).toUpperCase() + segment.slice(1).toLowerCase()
-  return text.slice(0, start) + capitalized + text.slice(end)
-}
 
 export function Prompt(props: PromptProps) {
   let input: TextareaRenderable

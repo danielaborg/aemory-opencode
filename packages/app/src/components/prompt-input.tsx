@@ -415,6 +415,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
     key: (x) => x?.id,
     filterKeys: ["trigger", "title", "description"],
     onSelect: handleSlashSelect,
+    sortKey: "trigger",
   })
 
   const createPill = (part: FileAttachmentPart | AgentPart) => {
