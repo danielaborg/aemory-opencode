@@ -1610,30 +1610,32 @@ function TextPart(props: { last: boolean; part: TextPart; message: AssistantMess
   return (
     <Show when={props.part.text?.trim()}>
       <box id={"text-" + props.part.id} paddingLeft={3} marginTop={1} flexShrink={0}>
-        <Switch>
-          <Match when={Flag.OPENCODE_EXPERIMENTAL_MARKDOWN}>
-            <markdown
-              syntaxStyle={tui.syntax()}
-              streaming={true}
-              content={props.part.text.trim()}
-              conceal={ctx.conceal()}
-            />
-          </Match>
-          <Match when={!Flag.OPENCODE_EXPERIMENTAL_MARKDOWN}>
-            <box flexDirection="column">
-              <Index each={segments()}>
-                {(segment) => (
-                  <Show
-                    when={segment().type === "code"}
-                    fallback={<Prose segment={segment() as any} theme={tui.theme} width={ctx.width - 3} />}
-                  >
-                    <CodeBlock segment={segment() as any} syntax={tui.syntax()} />
-                  </Show>
-                )}
-              </Index>
-            </box>
-          </Match>
-        </Switch>
+        <Show when={ctx.markdownAll()} fallback={<text fg={tui.theme.text}>{props.part.text.trim()}</text>}>
+          <Switch>
+            <Match when={Flag.OPENCODE_EXPERIMENTAL_MARKDOWN}>
+              <markdown
+                syntaxStyle={tui.syntax()}
+                streaming={true}
+                content={props.part.text.trim()}
+                conceal={ctx.conceal()}
+              />
+            </Match>
+            <Match when={!Flag.OPENCODE_EXPERIMENTAL_MARKDOWN}>
+              <box flexDirection="column">
+                <Index each={segments()}>
+                  {(segment) => (
+                    <Show
+                      when={segment().type === "code"}
+                      fallback={<Prose segment={segment() as any} theme={tui.theme} width={ctx.width - 3} />}
+                    >
+                      <CodeBlock segment={segment() as any} syntax={tui.syntax()} />
+                    </Show>
+                  )}
+                </Index>
+              </box>
+            </Match>
+          </Switch>
+        </Show>
       </box>
     </Show>
   )
