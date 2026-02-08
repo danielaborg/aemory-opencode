@@ -34,6 +34,49 @@ import { useTextareaKeybindings } from "../textarea-keybindings"
 import { useListContinuation } from "../list-continuation"
 import { DialogSkill } from "../dialog-skill"
 
+function getWordBoundariesForTransformation(text: string, cursorOffset: number): { start: number; end: number } | null {
+  if (text.length === 0) return null
+
+  const effectiveOffset = Math.min(cursorOffset, text.length)
+  if (effectiveOffset < text.length && !/\s/.test(text[effectiveOffset])) {
+    let end = effectiveOffset
+    while (end < text.length && !/\s/.test(text[end])) end++
+    return { start: effectiveOffset, end }
+  }
+
+  let end = effectiveOffset
+  while (end < text.length && /\s/.test(text[end])) end++
+
+  let nextEnd = end
+  while (nextEnd < text.length && !/\s/.test(text[nextEnd])) nextEnd++
+
+  if (nextEnd > end) {
+    return { start: end, end: nextEnd }
+  }
+
+  let start = effectiveOffset
+  while (start > 0 && /\s/.test(text[start - 1])) start--
+
+  let wordStart = start
+  while (wordStart > 0 && !/\s/.test(text[wordStart - 1])) wordStart--
+
+  return { start: wordStart, end: start }
+}
+
+function lowercaseWord(text: string, start: number, end: number): string {
+  return text.slice(0, start) + text.slice(start, end).toLowerCase() + text.slice(end)
+}
+
+function uppercaseWord(text: string, start: number, end: number): string {
+  return text.slice(0, start) + text.slice(start, end).toUpperCase() + text.slice(end)
+}
+
+function capitalizeWord(text: string, start: number, end: number): string {
+  const segment = text.slice(start, end)
+  const capitalized = segment.charAt(0).toUpperCase() + segment.slice(1).toLowerCase()
+  return text.slice(0, start) + capitalized + text.slice(end)
+}
+
 export type PromptProps = {
   sessionID?: string
   visible?: boolean

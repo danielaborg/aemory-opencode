@@ -664,7 +664,7 @@ export function Session() {
       value: "session.toggle.markdown_all",
       category: "Session",
       onSelect: (dialog) => {
-        setMarkdownAll((prev) => !prev)
+        setMarkdownAll(!markdownAll())
         dialog.clear()
       },
     },
@@ -1377,7 +1377,6 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
     return props.message.time.completed - user.time.created
   })
 
-<<<<<<< HEAD
   const TPS = createMemo(() => {
     if (!final()) return 0
     if (!props.message.time.completed) return 0
@@ -1486,6 +1485,7 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
     onCleanup(() => {
       clearInterval(interval)
     })
+  })
 
   return (
     <>
@@ -1537,7 +1537,6 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
               <Show when={duration()}>
                 <span style={{ fg: theme.textMuted }}> · {Locale.duration(duration())}</span>
               </Show>
-<<<<<<< HEAD
               <Show when={(sync.data.config.tui as any)?.display_message_tps && TPS()}>
                 <span style={{ fg: theme.textMuted }}> · {TPS()} tps</span>
               </Show>
