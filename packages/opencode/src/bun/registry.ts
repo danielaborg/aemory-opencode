@@ -43,6 +43,16 @@ export namespace PackageRegistry {
     const isRange = /[\s^~*xX<>|=]/.test(cachedVersion)
     if (isRange) return !semver.satisfies(latestVersion, cachedVersion)
 
+    // Handle non-semver versions (e.g., date-based versions like "2026-02-08-00-04")
+    // Semver requires X.Y.Z format, so check if versions follow that pattern
+    const semverPattern = /^\d+\.\d+\.\d+/
+    const cachedIsSemver = semverPattern.test(cachedVersion)
+    const latestIsSemver = semverPattern.test(latestVersion)
+    
+    if (!cachedIsSemver || !latestIsSemver) {
+      return cachedVersion !== latestVersion
+    }
+
     return semver.order(cachedVersion, latestVersion) === -1
   }
 }
