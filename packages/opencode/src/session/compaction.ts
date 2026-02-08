@@ -5,6 +5,8 @@ import { Identifier } from "../id/id"
 import { Instance } from "../project/instance"
 import { Provider } from "../provider/provider"
 import { MessageV2 } from "./message-v2"
+import { Config } from "../config/config"
+import { Flag } from "../flag/flag"
 import z from "zod"
 import { SessionPrompt } from "./prompt"
 import { Token } from "../util/token"
@@ -13,7 +15,6 @@ import { SessionProcessor } from "./processor"
 import { fn } from "@/util/fn"
 import { Agent } from "@/agent/agent"
 import { Plugin } from "@/plugin"
-import { Config } from "@/config/config"
 
 export namespace SessionCompaction {
   const log = Log.create({ service: "session.compaction" })
@@ -28,6 +29,7 @@ export namespace SessionCompaction {
   }
 
   export async function isOverflow(input: { tokens: MessageV2.Assistant["tokens"]; model: Provider.Model }) {
+    if (Flag.OPENCODE_DISABLE_AUTOCOMPACT) return false
     const config = await Config.get()
     if (config.compaction?.auto === false) return false
     const context = input.model.limit.context
@@ -35,7 +37,14 @@ export namespace SessionCompaction {
     const count = input.tokens.input + input.tokens.cache.read + input.tokens.output
     const output = Math.min(input.model.limit.output, SessionPrompt.OUTPUT_TOKEN_MAX) || SessionPrompt.OUTPUT_TOKEN_MAX
     const usable = input.model.limit.input || context - output
-    return count > usable
+    
+    // Get configurable threshold (default 100% to maintain current behavior)
+    const threshold = config.experimental?.context_compaction_threshold ?? 100
+    const thresholdMultiplier = threshold / 100
+    const thresholdedUsable = usable * thresholdMultiplier
+    
+    log.debug("Checking overflow", { count, usable, thresholdedUsable, threshold })
+    return count > thresholdedUsable
   }
 
   export const PRUNE_MINIMUM = 20_000
