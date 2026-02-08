@@ -54,7 +54,7 @@ export type PromptRef = {
   submit(): void
 }
 
-const PLACEHOLDERS = ["Fix a TODO in the codebase", "What is the tech stack of this project?", "Fix broken tests"]
+import { SINISTER_PLACEHOLDERS as PLACEHOLDERS } from "@opencode-ai/ui/constants/placeholders"
 
 export function Prompt(props: PromptProps) {
   let input: TextareaRenderable
@@ -113,6 +113,18 @@ export function Prompt(props: PromptProps) {
   createEffect(() => {
     if (props.disabled) input.cursorColor = theme.backgroundElement
     if (!props.disabled) input.cursorColor = theme.text
+  })
+
+  // Resize textarea when placeholder changes (e.g., when switching sessions or when placeholder index changes)
+  createEffect(() => {
+    const placeholderText = props.sessionID ? undefined : PLACEHOLDERS[store.placeholder]
+    // Track both the placeholder text and sessionID changes
+    if (input) {
+      setTimeout(() => {
+        input.getLayoutNode().markDirty()
+        renderer.requestRender()
+      }, 0)
+    }
   })
 
   const lastUserMessage = createMemo(() => {
@@ -842,7 +854,11 @@ export function Prompt(props: PromptProps) {
             flexGrow={1}
           >
             <textarea
-              placeholder={props.sessionID ? undefined : `Ask anything... "${PLACEHOLDERS[store.placeholder]}"`}
+              // **CRITICAL MERGE WARNING**: Keep this EXACT format (NO "Ask anything" prefix, NO quotes):
+              //   CORRECT: `${PLACEHOLDERS[store.placeholder]}`
+              //   WRONG:   `Ask anything... "${PLACEHOLDERS[store.placeholder]}"`
+              // The sinister-quotes feature intentionally removes the prefix. A test validates this.
+              placeholder={props.sessionID ? undefined : `${PLACEHOLDERS[store.placeholder]}`}
               textColor={keybind.leader ? theme.textMuted : theme.text}
               focusedTextColor={keybind.leader ? theme.textMuted : theme.text}
               minHeight={1}
