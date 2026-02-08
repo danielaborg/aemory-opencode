@@ -210,6 +210,7 @@ function App() {
     renderer.clearSelection()
   }
   const [terminalTitleEnabled, setTerminalTitleEnabled] = createSignal(kv.get("terminal_title_enabled", true))
+  const [markdownAll, setMarkdownAll] = kv.signal("markdown_all_messages", false)
 
   createEffect(() => {
     console.log(JSON.stringify(route.data))
@@ -632,13 +633,15 @@ function App() {
       },
     },
     {
-      title: kv.get("markdown_all_messages", false)
-        ? "Render markdown: agent messages only"
-        : "Render markdown: all messages",
+      get title() {
+        return markdownAll()
+          ? "Render markdown: agent messages only"
+          : "Render markdown: all messages"
+      },
       value: "app.toggle.markdown_all",
       category: "System",
       onSelect: (dialog) => {
-        kv.set("markdown_all_messages", !kv.get("markdown_all_messages", false))
+        setMarkdownAll(!markdownAll())
         dialog.clear()
       },
     },
