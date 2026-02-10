@@ -929,7 +929,13 @@ export namespace Config {
       .enum(["auto", "stacked"])
       .optional()
       .describe("Control diff rendering style: 'auto' adapts to terminal width, 'stacked' always shows single column"),
+    display_message_tps: z
+      .boolean()
+      .optional()
+      .describe("Display tokens per second in assistant message footer"),
   })
+
+  export type TUI = z.infer<typeof TUI>
 
   export const Server = z
     .object({
@@ -943,6 +949,8 @@ export namespace Config {
     .meta({
       ref: "ServerConfig",
     })
+
+  export type Server = z.infer<typeof Server>
 
   export const Layout = z.enum(["auto", "stretch"]).meta({
     ref: "LayoutConfig",
