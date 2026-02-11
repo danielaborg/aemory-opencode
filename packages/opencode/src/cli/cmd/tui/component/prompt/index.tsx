@@ -54,7 +54,7 @@ export type PromptRef = {
   submit(): void
 }
 
-const PLACEHOLDERS = ["Fix a TODO in the codebase", "What is the tech stack of this project?", "Fix broken tests"]
+import { SINISTER_PLACEHOLDERS as PLACEHOLDERS } from "@opencode-ai/ui/constants/placeholders"
 const SHELL_PLACEHOLDERS = ["ls -la", "git status", "pwd"]
 
 export function Prompt(props: PromptProps) {
@@ -91,7 +91,6 @@ export function Prompt(props: PromptProps) {
   const textareaKeybindings = useTextareaKeybindings()
   const listContinuation = useListContinuation()
 
-  // Filter out newline from keybindings so we can handle it in onKeyDown with list continuation
   const promptKeybindings = createMemo(() => textareaKeybindings().filter((b) => b.action !== "newline"))
 
   const fileStyleId = syntax().getStyleId("extmark.file")!
@@ -114,6 +113,16 @@ export function Prompt(props: PromptProps) {
   createEffect(() => {
     if (props.disabled) input.cursorColor = theme.backgroundElement
     if (!props.disabled) input.cursorColor = theme.text
+  })
+
+  createEffect(() => {
+    const placeholderText = props.sessionID ? undefined : PLACEHOLDERS[store.placeholder]
+    if (input) {
+      setTimeout(() => {
+        input.getLayoutNode().markDirty()
+        renderer.requestRender()
+      }, 0)
+    }
   })
 
   const lastUserMessage = createMemo(() => {
@@ -765,7 +774,7 @@ export function Prompt(props: PromptProps) {
       const example = SHELL_PLACEHOLDERS[store.placeholder % SHELL_PLACEHOLDERS.length]
       return `Run a command... "${example}"`
     }
-    return `Ask anything... "${PLACEHOLDERS[store.placeholder % PLACEHOLDERS.length]}"`
+    return `${PLACEHOLDERS[store.placeholder % PLACEHOLDERS.length]}`
   })
 
   const spinnerDef = createMemo(() => {
