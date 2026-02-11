@@ -1,4 +1,5 @@
 {
+  "theme": "my-matrix",
   "$schema": "https://opencode.ai/config.json",
   // "enterprise": {
   //   "url": "https://enterprise.dev.opencode.ai",

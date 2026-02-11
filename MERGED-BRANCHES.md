@@ -25,6 +25,24 @@
 | 19 | feat/permission-spinner | origin | 397e9aaef6 | Merged |
 | 20 | feat/persist-sidebar-group-folding-states | origin | 1e61a33ea4 | Merged |
 | 21 | feat/persistant-sidebar-overlay-behaviour | origin | 2173fc7bec | Merged |
+| 22 | feat/shell-advice | origin | 4e197a5878 | Merged |
+| 23 | feat/elapsed-timer | origin | 0a545df3cf | Merged |
+| 24 | feat/opencode-expand | origin | 831b159713 | Merged |
+| 25 | feat/sidebar-no-auto-setting | origin | 218000e19f | Merged |
+| 26 | feat/set-session-title | origin | eb1ed769a1 | Merged |
+| 27 | feat/get-session-title | origin | 1e34844dfd | Merged |
+| 28 | feat/session-timeline-repeat | origin | e993eccdb5 | Merged |
+| 29 | feat/automatic-list-continuation | origin | 0eb70df18d | Merged |
+| 30 | feat/continue-command | origin | c048539961 | Merged |
+| 31 | feat/session-bookmarks | origin | e4fe40b733 | Merged |
+| 32 | fix/dialog-datetime-alignment | origin | e97a5c65f6 | Merged |
+| 33 | feat/keybindable-commands | origin | 6a7922aad3 | Merged |
+| 34 | feat/configurable-snapshot-lifespan | origin | 5c572eaece | Merged |
+| 35 | feat/configurable-new-plan-mode | origin | 991469f8ba | Merged |
+| 36 | feat/config-imports | origin | 3f3492b264 | Merged |
+| 37 | feat/canceled-prompts-in-history | origin | 339a4ac3ea | Merged |
+| 38 | feat/sinister-quotes | origin | f3254588fe | Merged |
+| 39 | feat/base-one-rebrand | origin | 8bfc2c205e | Merged |
 
 ## Merge Log
 
@@ -133,3 +151,92 @@
 - **Result**: Merged successfully (no conflicts)
 - **Files changed**: 3 (sidebar.tsx, kv.tsx, session/index.tsx)
 
+### 22. feat/shell-advice (origin)
+- **Commit**: 4e197a5878
+- **Result**: Merged successfully (no conflicts)
+- **Files changed**: Shell advice feature files
+
+### 23. feat/elapsed-timer (origin)
+- **Commit**: 0a545df3cf
+- **Result**: Merged with conflicts in prompt/index.tsx and session/index.tsx (resolved: kept HEAD text-transform functions, kept both TPS + elapsed timer code)
+- **Files changed**: prompt/index.tsx, session/index.tsx
+
+### 24. feat/opencode-expand (origin)
+- **Commit**: 831b159713
+- **Result**: Merged successfully (no conflicts)
+- **Files changed**: Expand feature files
+
+### 25. feat/sidebar-no-auto-setting (origin)
+- **Commit**: 218000e19f
+- **Result**: Merged with conflicts in config.ts, session/index.tsx, types.gen.ts (resolved: kept both sides — session_list_limit, messages_limit, no_sidebar_auto)
+- **Files changed**: config.ts, session/index.tsx, types.gen.ts
+
+### 26. feat/set-session-title (origin)
+- **Commit**: eb1ed769a1
+- **Result**: Merged successfully (no conflicts)
+- **Files changed**: Set session title tool files
+
+### 27. feat/get-session-title (origin)
+- **Commit**: 1e34844dfd
+- **Result**: Merged successfully (no conflicts)
+- **Files changed**: Get session title tool files
+
+### 28. feat/session-timeline-repeat (origin)
+- **Commit**: e993eccdb5
+- **Result**: Merged with conflict in prompt/index.tsx (resolved: kept HEAD text-transform functions)
+- **Files changed**: prompt/index.tsx, session timeline files
+
+### 29. feat/automatic-list-continuation (origin)
+- **Commit**: 0eb70df18d
+- **Result**: Merged successfully (no conflicts)
+- **Files changed**: List continuation feature files
+
+### 30. feat/continue-command (origin)
+- **Commit**: c048539961
+- **Result**: Merged successfully (fixed type error: SessionPrompt.loop(sessionID) -> SessionPrompt.loop({ sessionID }))
+- **Files changed**: session.ts, continue command files
+
+### 31. feat/session-bookmarks (origin)
+- **Commit**: e4fe40b733
+- **Result**: Merged with conflicts in dialog-session-list.tsx and registry.ts (resolved: kept both imports, combined bookmarks UI with session_list_limit)
+- **Files changed**: dialog-session-list.tsx, registry.ts, app.tsx, kv.tsx, session.ts, session/index.ts, sdk.gen.ts, types.gen.ts
+
+### 32. fix/dialog-datetime-alignment (origin)
+- **Commit**: e97a5c65f6
+- **Result**: Merged successfully (auto-merged locale.ts)
+- **Files changed**: locale.ts
+
+### 33. feat/keybindable-commands (origin)
+- **Commit**: 6a7922aad3
+- **Result**: Merged successfully (auto-merged app.tsx, config.ts, types.gen.ts)
+- **Files changed**: app.tsx, keybind.tsx, config.ts, types.gen.ts
+
+### 34. feat/configurable-snapshot-lifespan (origin)
+- **Commit**: 5c572eaece
+- **Result**: Merged successfully (auto-merged config.ts, types.gen.ts)
+- **Files changed**: config.ts, snapshot/index.ts, snapshot.test.ts, types.gen.ts
+
+### 35. feat/configurable-new-plan-mode (origin)
+- **Commit**: 991469f8ba
+- **Result**: Merged with conflict in config.ts (resolved: kept both loadThemeFile and experimentalPlanMode functions)
+- **Files changed**: config.ts, prompt.ts, registry.ts
+
+### 36. feat/config-imports (origin)
+- **Commit**: 3f3492b264
+- **Result**: Merged successfully (auto-merged config.ts, config.test.ts)
+- **Files changed**: config.ts, config.test.ts, config.mdx
+
+### 37. feat/canceled-prompts-in-history (origin)
+- **Commit**: 339a4ac3ea
+- **Result**: Merged with conflict in app.tsx (resolved: kept both markdown toggle and prompt history toggle menu items)
+- **Files changed**: app.tsx, prompt/index.tsx
+
+### 38. feat/sinister-quotes (origin)
+- **Commit**: f3254588fe
+- **Result**: Merged with conflicts in prompt/index.tsx (4 regions resolved: kept text-transform functions, imported SINISTER_PLACEHOLDERS, kept list continuation, added placeholder resize effect, used sinister placeholder format)
+- **Files changed**: prompt/index.tsx, prompt-input.tsx, placeholders constants
+
+### 39. feat/base-one-rebrand (origin)
+- **Commit**: 8bfc2c205e
+- **Result**: Merged successfully (auto-merged app.tsx, sidebar.tsx, config.ts, index.ts)
+- **Files changed**: 22 files (rebrand from opencode to base-one naming)
