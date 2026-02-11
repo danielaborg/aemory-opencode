@@ -1864,10 +1864,9 @@ NOTE: At any point in time through this workflow you should feel free to ask the
             .find((line) => line.length > 0)
           if (!cleaned) return
 
-          const title = cleaned.length > 100 ? cleaned.substring(0, 97) + "..." : cleaned
-          draft.title = title
-        },
-        { touch: false },
-      )
+        const title = cleaned.length > 100 ? cleaned.substring(0, 97) + "..." : cleaned
+        // Only set if title is still default (wasn't changed by tool during LLM call)
+        if (Session.isDefaultTitle(draft.title)) draft.title = title
+      }, { touch: false })
   }
 }
