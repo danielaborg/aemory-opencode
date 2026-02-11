@@ -1214,6 +1214,7 @@ export namespace Config {
             .positive()
             .optional()
             .describe("Timeout in milliseconds for model context protocol (MCP) requests"),
+          plan_mode: z.boolean().optional().describe("Enable experimental plan mode"),
         })
         .optional(),
     })
@@ -1404,7 +1405,6 @@ export namespace Config {
       throw new Error("Empty theme file")
     }
 
-    // Parse JSONC directly without special features for themes
     const errors: JsoncParseError[] = []
     const data = parseJsonc(text, errors, { allowTrailingComma: true })
 
@@ -1430,8 +1430,13 @@ export namespace Config {
       })
     }
 
-    // Return data as ThemeJson (basic validation)
     return data as ThemeJson
+  }
+
+  export async function experimentalPlanMode() {
+    if (Flag.OPENCODE_EXPERIMENTAL_PLAN_MODE) return true
+    const config = await get()
+    return config.experimental?.plan_mode === true
   }
 
   export async function getGlobal() {
