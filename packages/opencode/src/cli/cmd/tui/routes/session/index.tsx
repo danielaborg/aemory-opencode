@@ -78,6 +78,7 @@ import { usePromptRef } from "../../context/prompt"
 import { useExit } from "../../context/exit"
 import { Filesystem } from "@/util/filesystem"
 import { iife } from "@/util/iife"
+import { DialogSubagent } from "./dialog-subagent.tsx"
 import { Global } from "@/global"
 import { PermissionPrompt } from "./permission"
 import { QuestionPrompt } from "./question"
@@ -105,6 +106,7 @@ const context = createContext<{
   showThinking: () => boolean
   showTimestamps: () => boolean
   showDetails: () => boolean
+  showTps: () => boolean
   diffWrapMode: () => "word" | "none"
   markdownAll: () => boolean
   sync: ReturnType<typeof useSync>
@@ -161,6 +163,7 @@ export function Session() {
   const [diffWrapMode] = kv.signal<"word" | "none">("diff_wrap_mode", "word")
   const [markdownAll, setMarkdownAll] = kv.signal("markdown_all_messages", false)
   const [animationsEnabled, setAnimationsEnabled] = kv.signal("animations_enabled", true)
+  const [showTps, setShowTps] = kv.signal("tps_visibility", false)
 
   const wide = createMemo(() => dimensions().width > 120)
   const sidebarVisible = createMemo(() => {
@@ -664,6 +667,16 @@ export function Session() {
     },
 
     {
+      title: showTps() ? "Hide message TPS" : "Show message TPS",
+      value: "system.toggle.tps",
+      keybind: "tps_toggle",
+      category: "System",
+      onSelect: (dialog) => {
+        setShowTps(!showTps())
+        dialog.clear()
+      },
+    },
+    {
       title: "Page up",
       value: "session.page.up",
       keybind: "messages_page_up",
@@ -1037,6 +1050,7 @@ export function Session() {
         showThinking,
         showTimestamps,
         showDetails,
+        showTps,
         diffWrapMode,
         markdownAll,
         sync,
@@ -1355,6 +1369,7 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
   const local = useLocal()
   const { theme } = useTheme()
   const sync = useSync()
+  const ctx = use()
   const messages = createMemo(() => sync.data.message[props.message.sessionID] ?? [])
 
   function getParts(messageID: string) {
@@ -1376,7 +1391,7 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
   const TPS = createMemo(() => {
     if (!final()) return 0
     if (!props.message.time.completed) return 0
-    if (!(sync.data.config.tui as any)?.display_message_tps) return 0
+    if (!ctx.showTps()) return 0
 
     const allParts = getParts(props.message.id)
 
@@ -1510,7 +1525,7 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
               <Show when={duration()}>
                 <span style={{ fg: theme.textMuted }}> · {Locale.duration(duration())}</span>
               </Show>
-              <Show when={(sync.data.config.tui as any)?.display_message_tps && TPS()}>
+              <Show when={ctx.showTps() && TPS()}>
                 <span style={{ fg: theme.textMuted }}> · {TPS()} tps</span>
               </Show>
               <Show when={!final() && elapsedTime()}>
