@@ -1665,6 +1665,10 @@ export type Config = {
      */
     diff_style?: "auto" | "stacked"
     /**
+     * Display tokens per second in assistant message footer
+     */
+    display_message_tps?: boolean
+    /**
      * Maximum number of sessions to display in session list, or 'none' to show all sessions
      */
     session_list_limit?: number | "none"
@@ -1672,6 +1676,10 @@ export type Config = {
      * Maximum number of message parts to load per session when syncing, or 'none' to load all messages
      */
     messages_limit?: number | "none"
+    /**
+     * When true, 'auto' sidebar mode always shows the sidebar regardless of window width
+     */
+    no_sidebar_auto?: boolean
   }
   server?: ServerConfig
   /**
