@@ -10,6 +10,8 @@ import {
   Show,
   Switch,
   useContext,
+  onCleanup,
+  type Component,
 } from "solid-js"
 import { Dynamic } from "solid-js/web"
 import path from "path"
@@ -1319,33 +1321,22 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
     if (!props.message.time.completed) return 0
     if (!(sync.data.config.tui as any)?.display_message_tps) return 0
 
-    // Get parts for the current message only
     const allParts = getParts(props.message.id)
 
     const INVALID_REASONING_TEXTS = ["[REDACTED]", "", null, undefined] as const
   
-    // Filter for actual streaming parts (reasoning + text), exclude tool/step markers
     const streamingParts = allParts.filter((part): part is TextPart | ReasoningPart => {
-      // Only text and reasoning parts have streaming time data
       if (part.type !== "text" && part.type !== "reasoning") return false
-
-      // Skip parts without valid timestamps
       if (!part.time?.start || !part.time?.end) return false
-
-      // Include text parts with content
       if (part.type === "text" && (part.text?.trim().length ?? 0) > 0) return true
-
-      // Include reasoning parts with valid (non-empty) text
       if (part.type === "reasoning" && !INVALID_REASONING_TEXTS.includes(part.text as any)) {
         return true
       }
-
       return false
     })
   
     if (streamingParts.length === 0) return 0
   
-    // Sum individual part durations (excludes tool execution time between parts)
     let totalStreamingTimeMs = 0
     let hasValidReasoning = false
   
@@ -1358,18 +1349,58 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
   
     if (totalStreamingTimeMs === 0) return 0
 
-    // Use token counts from the current message
     const outputTokens = props.message.tokens.output
     const reasoningTokens = hasValidReasoning ? props.message.tokens.reasoning : 0
     const totalTokens = outputTokens + reasoningTokens
   
     if (totalTokens === 0) return 0
   
-    // Calculate tokens per second
     const totalStreamingTimeSec = totalStreamingTimeMs / 1000
     const tokensPerSecond = totalTokens / totalStreamingTimeSec
   
     return Number(tokensPerSecond.toFixed(2))
+  })
+
+  const [elapsedTime, setElapsedTime] = createSignal(0)
+  
+  createEffect(() => {
+    if (!props.last || final()) {
+      setElapsedTime(0)
+      return
+    }
+
+    const parts = sync.data.part[props.message.id] ?? []
+
+    let startTime: number | undefined
+
+    for (let i = parts.length - 1; i >= 0; i--) {
+      const part = parts[i]
+
+      if (part.type === "tool") {
+        if (part.state.status === "running" && part.state.time?.start) {
+          startTime = part.state.time.start
+          break
+        }
+      } else if (part.type === "text" || part.type === "reasoning") {
+        if (part.time?.start && !part.time?.end) {
+          startTime = part.time.start
+          break
+        }
+      }
+    }
+
+    if (!startTime) {
+      setElapsedTime(0)
+      return
+    }
+
+    const interval = setInterval(() => {
+      setElapsedTime(Date.now() - startTime!)
+    }, 1000)
+
+    onCleanup(() => {
+      clearInterval(interval)
+    })
   })
 
   return (
@@ -1424,6 +1455,9 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
               </Show>
               <Show when={(sync.data.config.tui as any)?.display_message_tps && TPS()}>
                 <span style={{ fg: theme.textMuted }}> · {TPS()} tps</span>
+              </Show>
+              <Show when={!final() && elapsedTime()}>
+                <span style={{ fg: theme.textMuted }}> · running {Locale.duration(elapsedTime())}</span>
               </Show>
               <Show when={props.message.error?.name === "MessageAbortedError"}>
                 <span style={{ fg: theme.textMuted }}> · interrupted</span>
