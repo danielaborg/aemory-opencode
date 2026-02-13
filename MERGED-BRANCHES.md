@@ -11,6 +11,7 @@ Base: `origin/dev`
 | fix/remove-dot-true | origin | d86a591 | Merged | Removed `.true` from config/tool files |
 | fix/rfc2119-question-tool | origin | 00acb1b | Merged | Updated RFC2119 keywords in question tool |
 | fix/restore-footer | origin | 81e0e4f | Merged | Restored footer in session view |
+| fix/persist-sidebar | origin | e142b31 | Merged | Persist sidebar state in KV storage |
 
 ## Merge Log
 
@@ -25,4 +26,8 @@ Base: `origin/dev`
 ### 3. fix/restore-footer (81e0e4f)
 - Restored footer in session view
 - Modified: packages/opencode/src/cli/cmd/tui/routes/session/index.tsx
+
+### 4. fix/persist-sidebar (e142b31)
+- Persist sidebar state in KV storage
+- Modified: packages/opencode/src/cli/cmd/tui/context/kv.tsx, packages/opencode/src/cli/cmd/tui/routes/session/index.tsx
 
