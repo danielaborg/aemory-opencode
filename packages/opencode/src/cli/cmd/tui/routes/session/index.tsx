@@ -595,7 +595,7 @@ export function Session() {
       keybind: "tps_toggle",
       category: "System",
       onSelect: (dialog) => {
-        setShowTps((prev) => !prev)
+        setShowTps(!showTps())
         dialog.clear()
       },
     },
