@@ -622,7 +622,7 @@ export function Session() {
     {
       title: showTimestamps() ? "Hide timestamps" : "Show timestamps",
       value: "session.toggle.timestamps",
-      category: "Session",
+      category: "System",
       slash: {
         name: "timestamps",
         aliases: ["toggle-timestamps"],
@@ -636,7 +636,7 @@ export function Session() {
       title: showThinking() ? "Hide thinking" : "Show thinking",
       value: "session.toggle.thinking",
       keybind: "display_thinking",
-      category: "Session",
+      category: "System",
       slash: {
         name: "thinking",
         aliases: ["toggle-thinking"],
@@ -650,7 +650,7 @@ export function Session() {
       title: showDetails() ? "Hide tool details" : "Show tool details",
       value: "session.toggle.actions",
       keybind: "tool_details",
-      category: "Session",
+      category: "System",
       onSelect: (dialog) => {
         setShowDetails(!showDetails())
         dialog.clear()
@@ -680,7 +680,7 @@ export function Session() {
     {
       title: showHeader() ? "Hide header" : "Show header",
       value: "session.toggle.header",
-      category: "Session",
+      category: "System",
       onSelect: (dialog) => {
         setShowHeader(!showHeader())
         dialog.clear()
