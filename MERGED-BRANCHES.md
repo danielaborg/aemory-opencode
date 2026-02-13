@@ -17,14 +17,15 @@ Base: `origin/dev`
 | feat/edit-tool-description | origin | c86f864 | Merged | Updated edit tool description |
 | feat/opeoginni--display-message-tps | origin | e2cfb32 | Merged | Display message TPS in session |
 | feat/kv-diff-style-clean | origin | f423190 | Merged | KV diff style clean |
+| feat/global-compaction-threshold | origin | 2d6bcde | Merged | Global compaction threshold config |
 
 ## Merge Log
-
-### 8. feat/opeoginni--display-message-tps (e2cfb32)
-- Display message TPS in session
-- Modified: packages/opencode/src/cli/cmd/tui/routes/session/index.tsx, packages/opencode/src/config/config.ts, packages/opencode/src/session/processor.ts
 
 ### 9. feat/kv-diff-style-clean (f423190)
 - KV diff style clean
 - Modified: packages/opencode/src/cli/cmd/tui/app.tsx, packages/opencode/src/cli/cmd/tui/routes/session/index.tsx, packages/opencode/src/cli/cmd/tui/routes/session/permission.tsx, packages/opencode/src/config/config.ts
+
+### 10. feat/global-compaction-threshold (2d6bcde)
+- Global compaction threshold config
+- Modified: packages/opencode/src/config/config.ts, packages/opencode/src/session/compaction.ts
 
