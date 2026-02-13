@@ -968,7 +968,7 @@ export const SessionRoutes = lazy(() =>
         })
 
         // Start the conversation loop to continue
-        await SessionPrompt.loop(sessionID)
+        await SessionPrompt.loop({ sessionID })
 
         return c.json(true)
       },

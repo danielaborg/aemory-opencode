@@ -673,7 +673,7 @@ export function Session() {
       keybind: "tps_toggle",
       category: "System",
       onSelect: (dialog) => {
-        setShowTps((prev) => !prev)
+        setShowTps(!showTps())
         dialog.clear()
       },
     },
@@ -682,7 +682,7 @@ export function Session() {
       value: "session.toggle.header",
       category: "Session",
       onSelect: (dialog) => {
-        setShowHeader((prev) => !prev)
+        setShowHeader(!showHeader())
         dialog.clear()
       },
     },
