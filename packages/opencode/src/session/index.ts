@@ -78,6 +78,7 @@ export namespace Session {
         updated: z.number(),
         compacting: z.number().optional(),
         archived: z.number().optional(),
+        pinned: z.number().optional(),
       }),
       permission: PermissionNext.Ruleset.optional(),
       revert: z
@@ -195,6 +196,14 @@ export namespace Session {
           })
         }
       }
+
+      // Inherit bookmark status from original session
+      if (original.time.pinned !== undefined) {
+        await update(session.id, (draft) => {
+          draft.time.pinned = original.time.pinned
+        }, { touch: false })
+      }
+
       return session
     },
   )
