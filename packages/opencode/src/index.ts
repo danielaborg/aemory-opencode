@@ -28,6 +28,10 @@ import { WebCommand } from "./cli/cmd/web"
 import { PrCommand } from "./cli/cmd/pr"
 import { SessionCommand } from "./cli/cmd/session"
 
+if (process.env.OPENCODE_ORIGINAL_CWD) {
+  process.chdir(process.env.OPENCODE_ORIGINAL_CWD)
+}
+
 process.on("unhandledRejection", (e) => {
   Log.Default.error("rejection", {
     e: e instanceof Error ? e.message : e,
