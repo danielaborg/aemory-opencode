@@ -20,12 +20,17 @@ Base: `origin/dev`
 | feat/global-compaction-threshold | origin | 2d6bcde | Merged | Global compaction threshold config |
 | feat/configurable-message-limit-wip | origin | 4087740 | Merged | Configurable message/session limits |
 | feat/experimental-dont-cache-markdown | origin | 23287ce | Merged | Experimental markdown caching option |
+| feat/interjections | origin | f9f7011 | Merged | Interjection support for sessions |
 
 ## Merge Log
 
 ### 11. feat/configurable-message-limit-wip (4087740)
 - Configurable message/session limits
 - Modified: packages/opencode/src/config/config.ts, packages/opencode/src/cli/cmd/tui/component/dialog-session-list.tsx, packages/opencode/src/cli/cmd/tui/context/sync.tsx, packages/opencode/src/session/index.ts, packages/opencode/test/config/config.test.ts, packages/sdk/js/src/gen/types.gen.ts, packages/sdk/js/src/v2/gen/types.gen.ts
+
+### 13. feat/interjections (f9f7011)
+- Interjection support for sessions
+- Modified: packages/opencode/src/cli/cmd/tui/routes/session/index.tsx, packages/opencode/src/session/processor.ts, packages/sdk/js/src/gen/types.gen.ts, packages/sdk/js/src/v2/gen/sdk.gen.ts, packages/sdk/js/src/v2/gen/types.gen.ts
 
 ### 12. feat/experimental-dont-cache-markdown (23287ce)
 - Experimental markdown caching option
