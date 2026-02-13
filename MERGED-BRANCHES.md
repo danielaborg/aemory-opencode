@@ -15,14 +15,15 @@ Base: `origin/dev`
 | fix/autocompletion-filtered-order | origin | b82ba26 | Merged | Fixed autocompletion filtered order |
 | fix/modal-menus-filtered-order | origin | ed29c25 | Merged | Fixed modal menus filtered order |
 | feat/edit-tool-description | origin | c86f864 | Merged | Updated edit tool description |
+| feat/opeoginni--display-message-tps | origin | e2cfb32 | Merged | Display message TPS in session |
 
 ## Merge Log
-
-### 6. fix/modal-menus-filtered-order (ed29c25)
-- Fixed modal menus filtered order
-- Modified: packages/sdk/js/src/v2/gen/sdk.gen.ts
 
 ### 7. feat/edit-tool-description (c86f864)
 - Updated edit tool description
 - Modified: packages/opencode/src/tool/edit.txt
+
+### 8. feat/opeoginni--display-message-tps (e2cfb32)
+- Display message TPS in session
+- Modified: packages/opencode/src/cli/cmd/tui/routes/session/index.tsx, packages/opencode/src/config/config.ts, packages/opencode/src/session/processor.ts
 
