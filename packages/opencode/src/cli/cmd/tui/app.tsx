@@ -633,15 +633,6 @@ function App() {
       },
     },
     {
-<<<<<<< HEAD
-      title: kv.get("markdown_all_messages", false)
-        ? "Render markdown: agent messages only"
-        : "Render markdown: all messages",
-      value: "app.toggle.markdown_all",
-      category: "System",
-      onSelect: (dialog) => {
-        kv.set("markdown_all_messages", !kv.get("markdown_all_messages", false))
-=======
       title: kv.get("timestamps", "hide") === "show" ? "Hide timestamps" : "Show timestamps",
       value: "app.toggle.timestamps",
       category: "System",
@@ -652,18 +643,10 @@ function App() {
       onSelect: (dialog) => {
         const current = kv.get("timestamps", "hide")
         kv.set("timestamps", current === "show" ? "hide" : "show")
->>>>>>> origin/feat/command-palette-consistecy
         dialog.clear()
       },
     },
     {
-<<<<<<< HEAD
-      title: kv.get("clear_prompt_save_history", false) ? "Don't include cleared prompts in history" : "Include cleared prompts in history",
-      value: "app.toggle.clear_prompt_history",
-      category: "System",
-      onSelect: (dialog) => {
-        kv.set("clear_prompt_save_history", !kv.get("clear_prompt_save_history", false))
-=======
       title: kv.get("thinking_visibility", true) ? "Hide thinking" : "Show thinking",
       value: "app.toggle.thinking",
       keybind: "display_thinking",
@@ -693,7 +676,26 @@ function App() {
       category: "System",
       onSelect: (dialog) => {
         kv.set("header_visible", !kv.get("header_visible", true))
->>>>>>> origin/feat/command-palette-consistecy
+        dialog.clear()
+      },
+    },
+    {
+      title: kv.get("markdown_all_messages", false)
+        ? "Render markdown: agent messages only"
+        : "Render markdown: all messages",
+      value: "app.toggle.markdown_all",
+      category: "System",
+      onSelect: (dialog) => {
+        kv.set("markdown_all_messages", !kv.get("markdown_all_messages", false))
+        dialog.clear()
+      },
+    },
+    {
+      title: kv.get("clear_prompt_save_history", false) ? "Don't include cleared prompts in history" : "Include cleared prompts in history",
+      value: "app.toggle.clear_prompt_history",
+      category: "System",
+      onSelect: (dialog) => {
+        kv.set("clear_prompt_save_history", !kv.get("clear_prompt_save_history", false))
         dialog.clear()
       },
     },

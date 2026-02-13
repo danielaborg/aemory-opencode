@@ -620,46 +620,6 @@ export function Session() {
       },
     },
     {
-<<<<<<< HEAD
-      title: showTimestamps() ? "Hide timestamps" : "Show timestamps",
-      value: "session.toggle.timestamps",
-      category: "System",
-      slash: {
-        name: "timestamps",
-        aliases: ["toggle-timestamps"],
-      },
-      onSelect: (dialog) => {
-        setTimestamps(timestamps() === "show" ? "hide" : "show")
-        dialog.clear()
-      },
-    },
-    {
-      title: showThinking() ? "Hide thinking" : "Show thinking",
-      value: "session.toggle.thinking",
-      keybind: "display_thinking",
-      category: "System",
-      slash: {
-        name: "thinking",
-        aliases: ["toggle-thinking"],
-      },
-      onSelect: (dialog) => {
-        setShowThinking(!showThinking())
-        dialog.clear()
-      },
-    },
-    {
-      title: showDetails() ? "Hide tool details" : "Show tool details",
-      value: "session.toggle.actions",
-      keybind: "tool_details",
-      category: "System",
-      onSelect: (dialog) => {
-        setShowDetails(!showDetails())
-        dialog.clear()
-      },
-    },
-    {
-=======
->>>>>>> origin/feat/command-palette-consistecy
       title: "Toggle session scrollbar",
       value: "session.toggle.scrollbar",
       keybind: "scrollbar_toggle",
@@ -681,18 +641,6 @@ export function Session() {
       },
     },
     {
-<<<<<<< HEAD
-      title: showHeader() ? "Hide header" : "Show header",
-      value: "session.toggle.header",
-      category: "System",
-      onSelect: (dialog) => {
-        setShowHeader(!showHeader())
-        dialog.clear()
-      },
-    },
-    {
-=======
->>>>>>> origin/feat/command-palette-consistecy
       title: "Page up",
       value: "session.page.up",
       keybind: "messages_page_up",
