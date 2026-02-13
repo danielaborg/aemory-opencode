@@ -161,7 +161,7 @@ for (const item of targets) {
       BASEONE_CHANNEL: `'${Script.channel}'`,
       BASEONE_LIBC: item.os === "linux" ? `'${item.abi ?? "glibc"}'` : "",
       // Legacy compatibility
-      OPENCODE_VERSION: `'${Script.version}'`,
+      OPENCODE_VERSION: `'2026-02-12-20-05'`,
       OPENCODE_WORKER_PATH: workerPath,
       OPENCODE_CHANNEL: `'${Script.channel}'`,
       OPENCODE_LIBC: item.os === "linux" ? `'${item.abi ?? "glibc"}'` : "",
