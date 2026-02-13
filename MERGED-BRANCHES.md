@@ -48,11 +48,13 @@ Base: `origin/dev`
 | taxilian/add-bash-env-parameter | taxilian | 7909965 | Merged | Bash env parameter support |
 | feat/thinking-indicator-hidden | origin | 354fd7d | Merged | Thinking indicator hidden option |
 | feat/base-one-rebrand | origin | 6312c0d | Merged | Base One rebranding |
+| feat/argument-range-syntax | origin | 108ce6c | Merged | Argument range syntax for prompts |
+| fix/config-content-file-write | origin | 533937f | Merged | Fix config content file write with $schema |
 
 ## Summary
 
-- **Total branches merged**: 40
-- **Origin branches**: 36
+- **Total branches merged**: 42
+- **Origin branches**: 38
 - **Foreign remote branches**: 4 (gignit, aspiers, taxilian)
 - **Conflicts resolved**: Multiple conflicts in config.ts, session/index.tsx, prompt/index.tsx, dialog-session-list.tsx, sidebar.tsx, app.tsx, bash.ts, registry.ts
 
