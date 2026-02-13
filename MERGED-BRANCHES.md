@@ -8,6 +8,7 @@ This document records all branches merged into this integration branch.
 |--------|--------|-------------|--------|
 | feature/markdown-renderer | gignit | 4521827aa44165d10c5423a2674bffff89089b27 | Merged |
 | readline-additions | aspiers | a18b09cffdb59697c474087cd34824bbd3e537c3 | Merged |
+| add-bash-env-parameter | taxilian | 5eefa62b953fe096124296a3d489981b1a07ea8d | Merged |
 
 ## Merge Log
 
