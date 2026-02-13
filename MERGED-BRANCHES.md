@@ -14,30 +14,15 @@ Base: `origin/dev`
 | fix/persist-sidebar | origin | e142b31 | Merged | Persist sidebar state in KV storage |
 | fix/autocompletion-filtered-order | origin | b82ba26 | Merged | Fixed autocompletion filtered order |
 | fix/modal-menus-filtered-order | origin | ed29c25 | Merged | Fixed modal menus filtered order |
+| feat/edit-tool-description | origin | c86f864 | Merged | Updated edit tool description |
 
 ## Merge Log
-
-### 1. fix/remove-dot-true (d86a591)
-- Removed `.true` references from config and tool registry
-- Modified: packages/opencode/src/config/config.ts, packages/opencode/src/skill/skill.ts, packages/opencode/src/tool/registry.ts
-
-### 2. fix/rfc2119-question-tool (00acb1b)
-- Updated RFC2119 keywords in question tool description
-- Modified: packages/opencode/src/tool/question.txt
-
-### 3. fix/restore-footer (81e0e4f)
-- Restored footer in session view
-- Modified: packages/opencode/src/cli/cmd/tui/routes/session/index.tsx
-
-### 4. fix/persist-sidebar (e142b31)
-- Persist sidebar state in KV storage
-- Modified: packages/opencode/src/cli/cmd/tui/context/kv.tsx, packages/opencode/src/cli/cmd/tui/routes/session/index.tsx
-
-### 5. fix/autocompletion-filtered-order (b82ba26)
-- Fixed autocompletion filtered order
-- Modified: packages/app/src/components/prompt-input.tsx, packages/opencode/src/cli/cmd/tui/component/prompt/autocomplete.tsx, packages/ui/src/hooks/use-filtered-list.tsx
 
 ### 6. fix/modal-menus-filtered-order (ed29c25)
 - Fixed modal menus filtered order
 - Modified: packages/sdk/js/src/v2/gen/sdk.gen.ts
+
+### 7. feat/edit-tool-description (c86f864)
+- Updated edit tool description
+- Modified: packages/opencode/src/tool/edit.txt
 
