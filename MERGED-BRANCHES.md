@@ -13,6 +13,7 @@ Base: `origin/dev`
 | fix/restore-footer | origin | 81e0e4f | Merged | Restored footer in session view |
 | fix/persist-sidebar | origin | e142b31 | Merged | Persist sidebar state in KV storage |
 | fix/autocompletion-filtered-order | origin | b82ba26 | Merged | Fixed autocompletion filtered order |
+| fix/modal-menus-filtered-order | origin | ed29c25 | Merged | Fixed modal menus filtered order |
 
 ## Merge Log
 
@@ -35,4 +36,8 @@ Base: `origin/dev`
 ### 5. fix/autocompletion-filtered-order (b82ba26)
 - Fixed autocompletion filtered order
 - Modified: packages/app/src/components/prompt-input.tsx, packages/opencode/src/cli/cmd/tui/component/prompt/autocomplete.tsx, packages/ui/src/hooks/use-filtered-list.tsx
+
+### 6. fix/modal-menus-filtered-order (ed29c25)
+- Fixed modal menus filtered order
+- Modified: packages/sdk/js/src/v2/gen/sdk.gen.ts
 
