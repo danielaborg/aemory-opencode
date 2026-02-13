@@ -111,6 +111,7 @@ export function DialogSessionList() {
 
   createEffect(() => {
     console.log("session count", sync.data.session.length)
+  })
 
   onMount(() => {
     dialog.setSize("large")
