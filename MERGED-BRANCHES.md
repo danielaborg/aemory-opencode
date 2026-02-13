@@ -19,14 +19,15 @@ Base: `origin/dev`
 | feat/kv-diff-style-clean | origin | f423190 | Merged | KV diff style clean |
 | feat/global-compaction-threshold | origin | 2d6bcde | Merged | Global compaction threshold config |
 | feat/configurable-message-limit-wip | origin | 4087740 | Merged | Configurable message/session limits |
+| feat/experimental-dont-cache-markdown | origin | 23287ce | Merged | Experimental markdown caching option |
 
 ## Merge Log
-
-### 10. feat/global-compaction-threshold (2d6bcde)
-- Global compaction threshold config
-- Modified: packages/opencode/src/config/config.ts, packages/opencode/src/session/compaction.ts
 
 ### 11. feat/configurable-message-limit-wip (4087740)
 - Configurable message/session limits
 - Modified: packages/opencode/src/config/config.ts, packages/opencode/src/cli/cmd/tui/component/dialog-session-list.tsx, packages/opencode/src/cli/cmd/tui/context/sync.tsx, packages/opencode/src/session/index.ts, packages/opencode/test/config/config.test.ts, packages/sdk/js/src/gen/types.gen.ts, packages/sdk/js/src/v2/gen/types.gen.ts
+
+### 12. feat/experimental-dont-cache-markdown (23287ce)
+- Experimental markdown caching option
+- Modified: packages/opencode/src/command/index.ts, packages/opencode/src/config/config.ts, packages/sdk/js/src/v2/gen/types.gen.ts
 
