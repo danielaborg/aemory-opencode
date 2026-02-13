@@ -620,6 +620,7 @@ export function Session() {
       },
     },
     {
+<<<<<<< HEAD
       title: showTimestamps() ? "Hide timestamps" : "Show timestamps",
       value: "session.toggle.timestamps",
       category: "System",
@@ -657,6 +658,8 @@ export function Session() {
       },
     },
     {
+=======
+>>>>>>> origin/feat/command-palette-consistecy
       title: "Toggle session scrollbar",
       value: "session.toggle.scrollbar",
       keybind: "scrollbar_toggle",
@@ -678,6 +681,7 @@ export function Session() {
       },
     },
     {
+<<<<<<< HEAD
       title: showHeader() ? "Hide header" : "Show header",
       value: "session.toggle.header",
       category: "System",
@@ -687,6 +691,8 @@ export function Session() {
       },
     },
     {
+=======
+>>>>>>> origin/feat/command-palette-consistecy
       title: "Page up",
       value: "session.page.up",
       keybind: "messages_page_up",
