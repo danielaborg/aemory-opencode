@@ -12,6 +12,7 @@ Base: `origin/dev`
 | fix/rfc2119-question-tool | origin | 00acb1b | Merged | Updated RFC2119 keywords in question tool |
 | fix/restore-footer | origin | 81e0e4f | Merged | Restored footer in session view |
 | fix/persist-sidebar | origin | e142b31 | Merged | Persist sidebar state in KV storage |
+| fix/autocompletion-filtered-order | origin | b82ba26 | Merged | Fixed autocompletion filtered order |
 
 ## Merge Log
 
@@ -30,4 +31,8 @@ Base: `origin/dev`
 ### 4. fix/persist-sidebar (e142b31)
 - Persist sidebar state in KV storage
 - Modified: packages/opencode/src/cli/cmd/tui/context/kv.tsx, packages/opencode/src/cli/cmd/tui/routes/session/index.tsx
+
+### 5. fix/autocompletion-filtered-order (b82ba26)
+- Fixed autocompletion filtered order
+- Modified: packages/app/src/components/prompt-input.tsx, packages/opencode/src/cli/cmd/tui/component/prompt/autocomplete.tsx, packages/ui/src/hooks/use-filtered-list.tsx
 
