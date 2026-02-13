@@ -90,3 +90,16 @@ Merge rcdailey/feat/thinking-indicator-hidden --no-ff
 
 All 39 branches merged successfully!
 ```
+
+### Additional Branches
+
+| Branch | Source | Commit Hash | Status |
+|--------|--------|-------------|--------|
+| feat/command-palette-consistecy | origin | 62cfb681a596727c2ce509905053b8d5d8968159 | Merged |
+
+2026-02-12: Merged feat/command-palette-consistecy --no-ff
+- Commit: 62cfb681a596727c2ce509905053b8d5d8968159
+- Status: Success
+- Files changed: 1 file changed, 4 insertions(+), 4 deletions(-)
+- Changes: Moved KV-persisted toggles (timestamps, thinking, tool details, header) from Session to System category for consistency
+
