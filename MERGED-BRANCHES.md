@@ -18,14 +18,15 @@ Base: `origin/dev`
 | feat/opeoginni--display-message-tps | origin | e2cfb32 | Merged | Display message TPS in session |
 | feat/kv-diff-style-clean | origin | f423190 | Merged | KV diff style clean |
 | feat/global-compaction-threshold | origin | 2d6bcde | Merged | Global compaction threshold config |
+| feat/configurable-message-limit-wip | origin | 4087740 | Merged | Configurable message/session limits |
 
 ## Merge Log
-
-### 9. feat/kv-diff-style-clean (f423190)
-- KV diff style clean
-- Modified: packages/opencode/src/cli/cmd/tui/app.tsx, packages/opencode/src/cli/cmd/tui/routes/session/index.tsx, packages/opencode/src/cli/cmd/tui/routes/session/permission.tsx, packages/opencode/src/config/config.ts
 
 ### 10. feat/global-compaction-threshold (2d6bcde)
 - Global compaction threshold config
 - Modified: packages/opencode/src/config/config.ts, packages/opencode/src/session/compaction.ts
+
+### 11. feat/configurable-message-limit-wip (4087740)
+- Configurable message/session limits
+- Modified: packages/opencode/src/config/config.ts, packages/opencode/src/cli/cmd/tui/component/dialog-session-list.tsx, packages/opencode/src/cli/cmd/tui/context/sync.tsx, packages/opencode/src/session/index.ts, packages/opencode/test/config/config.test.ts, packages/sdk/js/src/gen/types.gen.ts, packages/sdk/js/src/v2/gen/types.gen.ts
 

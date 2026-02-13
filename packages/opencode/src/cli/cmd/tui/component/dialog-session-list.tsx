@@ -2,7 +2,7 @@ import { useDialog } from "@tui/ui/dialog"
 import { DialogSelect } from "@tui/ui/dialog-select"
 import { useRoute } from "@tui/context/route"
 import { useSync } from "@tui/context/sync"
-import { createMemo, createSignal, createResource, onMount, Show } from "solid-js"
+import { createMemo, createSignal, createResource, onMount, Show, createEffect } from "solid-js"
 import { Locale } from "@/util/locale"
 import { useKeybind } from "../context/keybind"
 import { useTheme } from "../context/theme"
@@ -36,6 +36,9 @@ export function DialogSessionList() {
 
   const options = createMemo(() => {
     const today = new Date().toDateString()
+    const sessionsListLimit = (sync.data.config.tui as any)?.session_list_limit
+    const limit = sessionsListLimit === "none" ? undefined : sessionsListLimit || 150
+
     return sessions()
       .filter((x) => x.parentID === undefined)
       .toSorted((a, b) => b.time.updated - a.time.updated)
@@ -57,6 +60,11 @@ export function DialogSessionList() {
           gutter: isWorking ? <Spinner /> : undefined,
         }
       })
+      .slice(0, limit)
+  })
+
+  createEffect(() => {
+    console.log("session count", sync.data.session.length)
   })
 
   onMount(() => {
