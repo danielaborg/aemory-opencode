@@ -13,7 +13,5 @@
     "github-triage": false,
     "github-pr-search": false,
   },
-  "tui": {
-    "theme": "my-matrix",
-  },
+  "theme": "my-matrix",
 }
