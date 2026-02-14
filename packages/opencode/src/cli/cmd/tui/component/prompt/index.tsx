@@ -137,13 +137,10 @@ export function Prompt(props: PromptProps) {
   }
 
   const textareaKeybindings = useTextareaKeybindings()
-<<<<<<< HEAD
   const listContinuation = useListContinuation()
 
   // Filter out newline from keybindings so we can handle it in onKeyDown with list continuation
   const promptKeybindings = createMemo(() => textareaKeybindings().filter((b) => b.action !== "newline"))
-=======
->>>>>>> feat/sinister-quotes
 
   const fileStyleId = syntax().getStyleId("extmark.file")!
   const agentStyleId = syntax().getStyleId("extmark.agent")!
@@ -167,8 +164,6 @@ export function Prompt(props: PromptProps) {
     if (!props.disabled) input.cursorColor = theme.text
   })
 
-<<<<<<< HEAD
-=======
   // Resize textarea when placeholder changes (e.g., when switching sessions or when placeholder index changes)
   createEffect(() => {
     const placeholderText = props.sessionID ? undefined : PLACEHOLDERS[store.placeholder]
@@ -181,7 +176,6 @@ export function Prompt(props: PromptProps) {
     }
   })
 
->>>>>>> feat/sinister-quotes
   const lastUserMessage = createMemo(() => {
     if (!props.sessionID) return undefined
     const messages = sync.data.message[props.sessionID]
@@ -928,15 +922,11 @@ export function Prompt(props: PromptProps) {
             flexGrow={1}
           >
             <textarea
-<<<<<<< HEAD
-              placeholder={placeholderText()}
-=======
-// **CRITICAL MERGE WARNING**: Keep this EXACT format (NO "Ask anything" prefix, NO quotes):
+              // **CRITICAL MERGE WARNING**: Keep this EXACT format (NO "Ask anything" prefix, NO quotes):
               //   CORRECT: `${PLACEHOLDERS[store.placeholder]}`
               //   WRONG:   `Ask anything... "${PLACEHOLDERS[store.placeholder]}"`
               // The sinister-quotes feature intentionally removes the prefix. A test validates this.
               placeholder={props.sessionID ? undefined : `${PLACEHOLDERS[store.placeholder]}`}
->>>>>>> feat/sinister-quotes
               textColor={keybind.leader ? theme.textMuted : theme.text}
               focusedTextColor={keybind.leader ? theme.textMuted : theme.text}
               minHeight={1}
