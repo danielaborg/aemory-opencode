@@ -32,6 +32,11 @@ import { Global } from "./global"
 import { JsonMigration } from "./storage/json-migration"
 import { Database } from "./storage/db"
 
+// Restore original working directory if running via wrapper script
+if (process.env.OPENCODE_ORIGINAL_CWD) {
+  process.chdir(process.env.OPENCODE_ORIGINAL_CWD)
+}
+
 process.on("unhandledRejection", (e) => {
   Log.Default.error("rejection", {
     e: e instanceof Error ? e.message : e,
