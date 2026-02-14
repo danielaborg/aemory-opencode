@@ -54,7 +54,7 @@ export type PromptRef = {
   submit(): void
 }
 
-import { SINISTER_PLACEHOLDERS as PLACEHOLDERS } from "@opencode-ai/ui/constants/placeholders"
+const PLACEHOLDERS = ["Fix a TODO in the codebase", "What is the tech stack of this project?", "Fix broken tests"]
 const SHELL_PLACEHOLDERS = ["ls -la", "git status", "pwd"]
 
 function getWordBoundariesForTransformation(text: string, cursorOffset: number): { start: number; end: number } | null {
