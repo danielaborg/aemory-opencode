@@ -8,6 +8,7 @@ This document records all branches merged into the integration branch `integrati
 |--------|--------|-------------|--------|
 | fix/remove-dot-true | origin | 02faae36abc7e27f5a31e09a8648d7e9c9c4de54 | Merged |
 | fix/rfc2119-question-tool | origin | d3848e5b0d710bbe97554c14f7252cc067ae3da4 | Merged |
+| fix/restore-footer | origin | 5cd6f0385c5de82da737734a8d246fbfec8ce274 | Merged |
 
 ## Merge Log
 
@@ -18,4 +19,8 @@ This document records all branches merged into the integration branch `integrati
 ### fix/rfc2119-question-tool
 - Merged successfully at commit d3848e5b0d710bbe97554c14f7252cc067ae3da4
 - Modified files: packages/opencode/src/tool/question.txt
+
+### fix/restore-footer
+- Merged successfully at commit 5cd6f0385c5de82da737734a8d246fbfec8ce274
+- Modified files: packages/opencode/src/cli/cmd/tui/routes/session/index.tsx
 
