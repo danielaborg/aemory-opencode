@@ -15,6 +15,7 @@ This document records all branches merged into the integration branch `integrati
 | fix/config-content-file-write | origin | 331c8801b7a60ab4b8c505b7f66a6e9f1a59e62c | Merged |
 | fix/bad-plugin-errors | origin | f8bf69bde911bb3781364648d87c1faf60ed3005 | Merged |
 | feat/edit-tool-description | origin | bf8d44de3fbe5ee5f6e4598ff5cec4ee1ea1c4ee | Merged |
+| feat/opeoginni--display-message-tps | origin | 570656032fb6caaf03b76d736671608ef7d247f6 | Merged |
 
 ## Merge Log
 
@@ -53,4 +54,8 @@ This document records all branches merged into the integration branch `integrati
 ### feat/edit-tool-description
 - Merged successfully at commit bf8d44de3fbe5ee5f6e4598ff5cec4ee1ea1c4ee
 - Modified files: packages/opencode/src/tool/edit.txt
+
+### feat/opeoginni--display-message-tps
+- Merged successfully at commit 570656032fb6caaf03b76d736671608ef7d247f6
+- Modified files: packages/opencode/src/cli/cmd/tui/routes/session/index.tsx, packages/opencode/src/config/config.ts, packages/opencode/src/session/processor.ts
 
