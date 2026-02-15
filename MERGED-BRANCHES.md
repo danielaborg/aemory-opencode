@@ -6,9 +6,11 @@ This document records all branches merged into the integration branch `integrati
 
 | Branch | Remote | Commit Hash | Status |
 |--------|--------|-------------|--------|
-| | | | |
+| fix/remove-dot-true | origin | 02faae36abc7e27f5a31e09a8648d7e9c9c4de54 | Merged |
 
 ## Merge Log
 
-*This log will be updated as branches are merged.*
+### fix/remove-dot-true
+- Merged successfully at commit 02faae36abc7e27f5a31e09a8648d7e9c9c4de54
+- Modified files: packages/opencode/src/config/config.ts, packages/opencode/src/skill/skill.ts, packages/opencode/src/tool/registry.ts
 
