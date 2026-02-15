@@ -13,6 +13,7 @@ This document records all branches merged into the integration branch `integrati
 | fix/autocompletion-filtered-order | origin | 9e810c0b985564ad314f4fcf2feb048e24a5ea08 | Merged |
 | fix/modal-menus-filtered-order | origin | 7612ee972d1aa06a2cb316f548fa58848badc9d9 | Merged |
 | fix/config-content-file-write | origin | 331c8801b7a60ab4b8c505b7f66a6e9f1a59e62c | Merged |
+| fix/bad-plugin-errors | origin | f8bf69bde911bb3781364648d87c1faf60ed3005 | Merged |
 
 ## Merge Log
 
@@ -43,4 +44,8 @@ This document records all branches merged into the integration branch `integrati
 ### fix/config-content-file-write
 - Merged successfully at commit 331c8801b7a60ab4b8c505b7f66a6e9f1a59e62c
 - Modified files: packages/opencode/src/config/config.ts, packages/opencode/src/flag/flag.ts, packages/opencode/test/config/config.test.ts
+
+### fix/bad-plugin-errors
+- Merged successfully at commit f8bf69bde911bb3781364648d87c1faf60ed3005
+- Modified files: packages/opencode/src/cli/cmd/tui/context/sync.tsx, packages/opencode/src/plugin/index.ts, packages/opencode/src/server/routes/config.ts, packages/sdk/js/src/v2/gen/sdk.gen.ts, packages/sdk/js/src/v2/gen/types.gen.ts
 
