@@ -17,6 +17,7 @@ This document records all branches merged into the integration branch `integrati
 | feat/edit-tool-description | origin | bf8d44de3fbe5ee5f6e4598ff5cec4ee1ea1c4ee | Merged |
 | feat/opeoginni--display-message-tps | origin | 570656032fb6caaf03b76d736671608ef7d247f6 | Merged |
 | feat/kv-diff-style-clean | origin | df0357285fb3e623660833225f5ab0fb266359ef | Merged |
+| feat/global-compaction-threshold | origin | 8e458b946498b0a70f4a2206a29f275b3f864432 | Merged |
 
 ## Merge Log
 
@@ -63,4 +64,8 @@ This document records all branches merged into the integration branch `integrati
 ### feat/kv-diff-style-clean
 - Merged successfully at commit df0357285fb3e623660833225f5ab0fb266359ef
 - Modified files: packages/opencode/src/cli/cmd/tui/app.tsx, packages/opencode/src/cli/cmd/tui/routes/session/index.tsx, packages/opencode/src/cli/cmd/tui/routes/session/permission.tsx, packages/opencode/src/config/config.ts
+
+### feat/global-compaction-threshold
+- Merged successfully at commit 8e458b946498b0a70f4a2206a29f275b3f864432
+- Modified files: packages/opencode/src/config/config.ts, packages/opencode/src/session/compaction.ts
 
