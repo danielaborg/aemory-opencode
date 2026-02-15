@@ -11,6 +11,7 @@ This document records all branches merged into the integration branch `integrati
 | fix/restore-footer | origin | 5cd6f0385c5de82da737734a8d246fbfec8ce274 | Merged |
 | fix/persist-sidebar | origin | 105e701ca76448f4ead49cb50626d642ed7c8c0b | Merged |
 | fix/autocompletion-filtered-order | origin | 9e810c0b985564ad314f4fcf2feb048e24a5ea08 | Merged |
+| fix/modal-menus-filtered-order | origin | 7612ee972d1aa06a2cb316f548fa58848badc9d9 | Merged |
 
 ## Merge Log
 
@@ -33,4 +34,8 @@ This document records all branches merged into the integration branch `integrati
 ### fix/autocompletion-filtered-order
 - Merged successfully at commit 9e810c0b985564ad314f4fcf2feb048e24a5ea08
 - Modified files: packages/app/src/components/prompt-input.tsx, packages/opencode/src/cli/cmd/tui/component/prompt/autocomplete.tsx, packages/ui/src/hooks/use-filtered-list.tsx
+
+### fix/modal-menus-filtered-order
+- Merged successfully at commit 7612ee972d1aa06a2cb316f548fa58848badc9d9
+- Modified files: packages/sdk/js/src/v2/gen/sdk.gen.ts
 
