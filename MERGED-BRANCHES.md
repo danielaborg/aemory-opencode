@@ -9,6 +9,7 @@ This document records all branches merged into the integration branch `integrati
 | fix/remove-dot-true | origin | 02faae36abc7e27f5a31e09a8648d7e9c9c4de54 | Merged |
 | fix/rfc2119-question-tool | origin | d3848e5b0d710bbe97554c14f7252cc067ae3da4 | Merged |
 | fix/restore-footer | origin | 5cd6f0385c5de82da737734a8d246fbfec8ce274 | Merged |
+| fix/persist-sidebar | origin | 105e701ca76448f4ead49cb50626d642ed7c8c0b | Merged |
 
 ## Merge Log
 
@@ -23,4 +24,8 @@ This document records all branches merged into the integration branch `integrati
 ### fix/restore-footer
 - Merged successfully at commit 5cd6f0385c5de82da737734a8d246fbfec8ce274
 - Modified files: packages/opencode/src/cli/cmd/tui/routes/session/index.tsx
+
+### fix/persist-sidebar
+- Merged successfully at commit 105e701ca76448f4ead49cb50626d642ed7c8c0b
+- Modified files: packages/opencode/src/cli/cmd/tui/context/kv.tsx, packages/opencode/src/cli/cmd/tui/routes/session/index.tsx
 
