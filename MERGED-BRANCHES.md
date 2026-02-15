@@ -12,6 +12,7 @@ This document records all branches merged into the integration branch `integrati
 | fix/persist-sidebar | origin | 105e701ca76448f4ead49cb50626d642ed7c8c0b | Merged |
 | fix/autocompletion-filtered-order | origin | 9e810c0b985564ad314f4fcf2feb048e24a5ea08 | Merged |
 | fix/modal-menus-filtered-order | origin | 7612ee972d1aa06a2cb316f548fa58848badc9d9 | Merged |
+| fix/config-content-file-write | origin | 331c8801b7a60ab4b8c505b7f66a6e9f1a59e62c | Merged |
 
 ## Merge Log
 
@@ -38,4 +39,8 @@ This document records all branches merged into the integration branch `integrati
 ### fix/modal-menus-filtered-order
 - Merged successfully at commit 7612ee972d1aa06a2cb316f548fa58848badc9d9
 - Modified files: packages/sdk/js/src/v2/gen/sdk.gen.ts
+
+### fix/config-content-file-write
+- Merged successfully at commit 331c8801b7a60ab4b8c505b7f66a6e9f1a59e62c
+- Modified files: packages/opencode/src/config/config.ts, packages/opencode/src/flag/flag.ts, packages/opencode/test/config/config.test.ts
 
