@@ -18,6 +18,28 @@ This document records all branches merged into the integration branch `integrati
 | feat/opeoginni--display-message-tps | origin | 570656032fb6caaf03b76d736671608ef7d247f6 | Merged |
 | feat/kv-diff-style-clean | origin | df0357285fb3e623660833225f5ab0fb266359ef | Merged |
 | feat/global-compaction-threshold | origin | 8e458b946498b0a70f4a2206a29f275b3f864432 | Merged |
+| feat/configurable-message-limit-wip | origin | 446c1b41b2a8069bb870d9565ee7e0298b8ee8b1 | Merged |
+| feat/experimental-dont-cache-markdown | origin | c038650d88d92a7725edfe845112858ee1ba0dfd | Merged |
+| feat/interjections | origin | e1d9f3b98b75734a7d287270418ca63ea56e0117 | Merged |
+| feat/jsonc-user-themes | origin | 054490f739df2290717a27346c8dfd6054652438 | Merged |
+| feat/permission-indicator-in-sidebar | origin | 754ea596562133ca6671e22eaea0b23ed794f957 | Merged |
+| feat/permission-spinner | origin | d59cd0e6384956dfc9d7e91ca322470846d75d84 | Merged |
+| feat/persist-sidebar-group-folding-states | origin | ba7cdb0cc9d2d789f4044b2ac35fc58a51f56408 | Merged |
+| feat/persistant-sidebar-overlay-behaviour | origin | 8493859e5e8d44ceddec4de0f7cde4ff74155664 | Merged |
+| feat/shell-advice | origin | 3d65ccb7054439210957ae45c458d3b24cc5cac8 | Merged |
+| feat/elapsed-timer | origin | dfafd1c4c331e5d6b801e68fff80ae20b7ab72ba | Merged |
+| feat/opencode-expand | origin | 2135ccd89601a5228cc3de8cc2942eb8acba10ce | Merged |
+| feat/sidebar-no-auto-setting | origin | 729dbdcc84859afda0fcf873d7ea633860d7d51b | Merged |
+| feat/set-session-title | origin | 9f95c4faff181314aafae655fc3cbe5b84e4f53b | Merged |
+| feat/get-session-title | origin | 483c4bb46363026c0db168cae1efba83100f4373 | Merged |
+| feat/session-timeline-repeat | origin | 4b323a93f9047575c1f3ded3f2d7a6a19b50d5a1 | Merged |
+| feat/automatic-list-continuation | origin | 195f4b7edef2c0b41ac9b1e25406df87f677a4b3 | Merged |
+| feat/continue-command | origin | bf09bde4b40dda63dc1732309ac253c774d8ae4b | Merged |
+| feat/session-bookmarks | origin | d4cc345078cb5b338a25e1f816bf9d562e6149b2 | Merged |
+| fix/dialog-datetime-alignment | origin | 161e8a37064c68310849a183b9320aed36fb08e1 | Merged |
+| feat/keybindable-commands | origin | 00b2cc217739edd14348a1420d8246a324376801 | Merged |
+| feat/configurable-snapshot-lifespan | origin | 9982b407e7bb53a10d844dece68a8e258bb1e380 | Merged |
+| feat/configurable-new-plan-mode | origin | 5d8248fd7f57c08984aa34ff58d93fbdac880b4c | Merged |
 
 ## Merge Log
 
@@ -69,3 +91,96 @@ This document records all branches merged into the integration branch `integrati
 - Merged successfully at commit 8e458b946498b0a70f4a2206a29f275b3f864432
 - Modified files: packages/opencode/src/config/config.ts, packages/opencode/src/session/compaction.ts
 
+### feat/configurable-message-limit-wip
+- Merged successfully at commit 446c1b41b2a8069bb870d9565ee7e0298b8ee8b1
+- Modified files: packages/opencode/src/cli/cmd/tui/component/dialog-session-list.tsx, packages/opencode/src/cli/cmd/tui/context/sync.tsx, packages/opencode/src/config/config.ts, packages/opencode/src/session/index.ts, packages/opencode/test/config/config.test.ts, packages/sdk/js/src/gen/types.gen.ts, packages/sdk/js/src/v2/gen/types.gen.ts
+
+### feat/experimental-dont-cache-markdown
+- Merged successfully at commit c038650d88d92a7725edfe845112858ee1ba0dfd
+- Modified files: packages/opencode/src/command/index.ts, packages/opencode/src/config/config.ts, packages/sdk/js/src/v2/gen/types.gen.ts
+
+### feat/interjections
+- Merged successfully at commit e1d9f3b98b75734a7d287270418ca63ea56e0117
+- Modified files: packages/opencode/src/cli/cmd/tui/routes/session/index.tsx, packages/opencode/src/session/processor.ts, packages/sdk/js/src/gen/types.gen.ts, packages/sdk/js/src/v2/gen/sdk.gen.ts, packages/sdk/js/src/v2/gen/types.gen.ts
+
+### feat/jsonc-user-themes
+- Merged successfully at commit 054490f739df2290717a27346c8dfd6054652438
+- Modified files: packages/opencode/src/cli/cmd/tui/context/theme.tsx, packages/opencode/src/config/config.ts, packages/opencode/test/config/theme.test.ts
+
+### feat/permission-indicator-in-sidebar
+- Merged successfully at commit 754ea596562133ca6671e22eaea0b23ed794f957
+- Modified files: packages/opencode/src/cli/cmd/tui/routes/session/sidebar.tsx
+
+### feat/permission-spinner
+- Merged successfully at commit d59cd0e6384956dfc9d7e91ca322470846d75d84
+- Modified files: packages/opencode/src/cli/cmd/tui/component/prompt/index.tsx, packages/opencode/src/cli/cmd/tui/routes/session/permission.tsx, packages/opencode/src/cli/cmd/tui/ui/spinner.ts
+- Fixed: duplicate import of useKV
+
+### feat/persist-sidebar-group-folding-states
+- Merged successfully at commit ba7cdb0cc9d2d789f4044b2ac35fc58a51f56408
+- Modified files: packages/opencode/src/cli/cmd/tui/context/kv.tsx, packages/opencode/src/cli/cmd/tui/routes/session/sidebar.tsx
+
+### feat/persistant-sidebar-overlay-behaviour
+- Merged successfully at commit 8493859e5e8d44ceddec4de0f7cde4ff74155664
+- Modified files: packages/opencode/src/cli/cmd/tui/app.tsx, packages/opencode/src/cli/cmd/tui/routes/session/index.tsx, packages/opencode/src/cli/cmd/tui/routes/session/sidebar.tsx, packages/opencode/src/config/config.ts
+
+### feat/shell-advice
+- Merged successfully at commit 3d65ccb7054439210957ae45c458d3b24cc5cac8
+- Modified files: packages/opencode/src/shell/shell.ts, packages/opencode/src/tool/bash.ts, packages/opencode/src/tool/bash.txt, packages/opencode/test/tool/bash.test.ts
+
+### feat/elapsed-timer
+- Merged successfully at commit dfafd1c4c331e5d6b801e68fff80ae20b7ab72ba
+- Modified files: packages/opencode/src/cli/cmd/tui/component/prompt/index.tsx, packages/opencode/src/cli/cmd/tui/routes/session/index.tsx
+- Conflict resolved: kept both TPS calculation and elapsed time display
+
+### feat/opencode-expand
+- Merged successfully at commit 2135ccd89601a5228cc3de8cc2942eb8acba10ce
+- Modified files: expand-test.md, packages/opencode/src/cli/cmd/expand.ts, packages/opencode/src/config/expand.ts, packages/opencode/src/index.ts, packages/opencode/src/tool/bash.ts, packages/opencode/test/config/expand.test.ts
+
+### feat/sidebar-no-auto-setting
+- Merged successfully at commit 729dbdcc84859afda0fcf873d7ea633860d7d51b
+- Modified files: packages/opencode/src/cli/cmd/tui/routes/session/index.tsx, packages/opencode/src/config/config.ts, packages/opencode/test/config/config.test.ts, packages/sdk/js/src/v2/gen/types.gen.ts
+- Conflicts resolved: combined session_list_limit, messages_limit, and no_sidebar_auto settings
+
+### feat/set-session-title
+- Merged successfully at commit 9f95c4faff181314aafae655fc3cbe5b84e4f53b
+- Modified files: packages/opencode/src/session/index.ts, packages/opencode/src/session/prompt.ts, packages/opencode/src/tool/registry.ts, packages/opencode/src/tool/set-current-session-title.ts, packages/opencode/src/tool/set-current-session-title.txt, packages/opencode/test/tool/set-current-session-title.test.ts
+
+### feat/get-session-title
+- Merged successfully at commit 483c4bb46363026c0db168cae1efba83100f4373
+- Modified files: packages/opencode/src/tool/registry.ts, packages/opencode/src/tool/session-title.ts, packages/opencode/src/tool/session-title.txt
+
+### feat/session-timeline-repeat
+- Merged successfully at commit 4b323a93f9047575c1f3ded3f2d7a6a19b50d5a1
+- Modified files: packages/opencode/src/cli/cmd/tui/routes/session/dialog-timeline.tsx
+
+### feat/automatic-list-continuation
+- Merged successfully at commit 195f4b7edef2c0b41ac9b1e25406df87f677a4b3
+- Modified files: packages/opencode/src/cli/cmd/tui/component/list-continuation.ts, packages/opencode/src/cli/cmd/tui/component/prompt/index.tsx, packages/opencode/src/config/config.ts, packages/opencode/test/cli/tui/list-continuation.test.ts
+
+### feat/continue-command
+- Merged successfully at commit bf09bde4b40dda63dc1732309ac253c774d8ae4b
+- Modified files: packages/opencode/src/cli/cmd/tui/routes/session/index.tsx, packages/opencode/src/config/config.ts, packages/opencode/src/provider/provider.ts, packages/opencode/src/server/routes/session.ts, packages/sdk/js/openapi.json, packages/sdk/js/src/v2/gen/sdk.gen.ts, packages/sdk/js/src/v2/gen/types.gen.ts
+
+### feat/session-bookmarks
+- Merged successfully at commit d4cc345078cb5b338a25e1f816bf9d562e6149b2
+- Modified files: packages/opencode/src/cli/cmd/tui/app.tsx, packages/opencode/src/cli/cmd/tui/component/dialog-session-list.tsx, packages/opencode/src/cli/cmd/tui/context/kv.tsx, packages/opencode/src/server/routes/session.ts, packages/opencode/src/session/index.ts, packages/opencode/src/tool/registry.ts, packages/sdk/js/src/v2/gen/sdk.gen.ts, packages/sdk/js/src/v2/gen/types.gen.ts
+- Conflicts resolved: combined both imports in registry.ts, combined session_list_limit with bookmarks in dialog-session-list.tsx
+- Fixed: removed duplicate update function in session/index.ts
+
+### fix/dialog-datetime-alignment
+- Merged successfully at commit 161e8a37064c68310849a183b9320aed36fb08e1
+- Modified files: packages/sdk/js/openapi.json
+
+### feat/keybindable-commands
+- Merged successfully at commit 00b2cc217739edd14348a1420d8246a324376801
+- Modified files: packages/opencode/src/cli/cmd/tui/app.tsx, packages/opencode/src/config/config.ts, packages/sdk/js/src/v2/gen/types.gen.ts
+
+### feat/configurable-snapshot-lifespan
+- Merged successfully at commit 9982b407e7bb53a10d844dece68a8e258bb1e380
+- Modified files: packages/opencode/src/config/config.ts, packages/sdk/js/src/v2/gen/types.gen.ts
+
+### feat/configurable-new-plan-mode
+- Merged successfully at commit 5d8248fd7f57c08984aa34ff58d93fbdac880b4c
+- Modified files: packages/opencode/src/config/config.ts, packages/opencode/src/session/prompt.ts, packages/opencode/src/tool/registry.ts
+- Conflicts resolved: combined plan_mode changes in config.ts
