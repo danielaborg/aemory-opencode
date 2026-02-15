@@ -947,6 +947,17 @@ export function Prompt(props: PromptProps) {
                   if (action) {
                     if (action.type === "continue") {
                       input.insertText(action.insertText)
+                      if (action.renumber) {
+                        // Adjust offsets since insertText shifted subsequent content
+                        const offset = action.insertText.length
+                        const adjustedStart = action.renumber.start + offset
+                        const adjustedEnd = action.renumber.end + offset
+                        const before = input.plainText.slice(0, adjustedStart)
+                        const after = input.plainText.slice(adjustedEnd)
+                        input.setText(before + action.renumber.newText + after)
+                        // Cursor should be after the inserted new item
+                        input.cursorOffset = adjustedStart - 1
+                      }
                     } else if (action.type === "clear") {
                       const before = input.plainText.slice(0, action.deleteRange.start)
                       const after = input.plainText.slice(action.deleteRange.end)
