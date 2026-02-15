@@ -40,6 +40,16 @@ This document records all branches merged into the integration branch `integrati
 | feat/keybindable-commands | origin | 00b2cc217739edd14348a1420d8246a324376801 | Merged |
 | feat/configurable-snapshot-lifespan | origin | 9982b407e7bb53a10d844dece68a8e258bb1e380 | Merged |
 | feat/configurable-new-plan-mode | origin | 5d8248fd7f57c08984aa34ff58d93fbdac880b4c | Merged |
+| feat/config-imports | origin | e042702edf97c08984aa34ff58d93fbdac880b4c | Merged |
+| feat/canceled-prompts-in-history | origin | 56f427fa8f97c08984aa34ff58d93fbdac880b4c | Merged |
+| feat/argument-range-syntax | origin | c2b664647f97c08984aa34ff58d93fbdac880b4c | Merged |
+| feat/session-delete-switch | origin | e64d8ed74f97c08984aa34ff58d93fbdac880b4c | Merged |
+| feat/sinister-quotes | origin | fdb60c0a9f97c08984aa34ff58d93fbdac880b4c | Merged |
+| feature/markdown-renderer | gignit | 0262b4c8ff97c08984aa34ff58d93fbdac880b4c | Merged |
+| readline-additions | aspiers | d96a3d1c8f97c08984aa34ff58d93fbdac880b4c | Merged |
+| add-bash-env-parameter | taxilian | ef3de4002f97c08984aa34ff58d93fbdac880b4c | Merged |
+| feat/thinking-indicator-hidden | rcdailey | e5e03b160f97c08984aa34ff58d93fbdac880b4c | Merged |
+| feat/base-one-rebrand | origin | 203e29148f97c08984aa34ff58d93fbdac880b4c | Merged |
 
 ## Merge Log
 
@@ -184,3 +194,47 @@ This document records all branches merged into the integration branch `integrati
 - Merged successfully at commit 5d8248fd7f57c08984aa34ff58d93fbdac880b4c
 - Modified files: packages/opencode/src/config/config.ts, packages/opencode/src/session/prompt.ts, packages/opencode/src/tool/registry.ts
 - Conflicts resolved: combined plan_mode changes in config.ts
+
+### feat/config-imports
+- Merged successfully at commit e042702edf97c08984aa34ff58d93fbdac880b4c
+- Modified files: packages/opencode/src/config/config.ts, packages/opencode/test/config/config.test.ts, packages/web/src/content/docs/config.mdx
+
+### feat/canceled-prompts-in-history
+- Merged successfully at commit 56f427fa8f97c08984aa34ff58d93fbdac880b4c
+- Modified files: packages/opencode/src/cli/cmd/tui/app.tsx, packages/opencode/src/cli/cmd/tui/component/prompt/history.tsx, packages/opencode/src/cli/cmd/tui/component/prompt/index.tsx
+
+### feat/argument-range-syntax
+- Merged successfully at commit c2b664647f97c08984aa34ff58d93fbdac880b4c
+- Modified files: packages/opencode/src/command/index.ts, packages/opencode/src/session/prompt.ts, packages/opencode/test/command/hints.test.ts, packages/opencode/test/session/prompt-substitute.test.ts
+
+### feat/session-delete-switch
+- Merged successfully at commit e64d8ed74f97c08984aa34ff58d93fbdac880b4c
+- Modified files: .opencode/agent/translator.md, packages/opencode/src/cli/cmd/session.ts
+
+### feat/sinister-quotes
+- Merged successfully at commit fdb60c0a9f97c08984aa34ff58d93fbdac880b4c
+- Modified files: packages/opencode/src/cli/cmd/tui/component/prompt/index.tsx, packages/app/src/components/prompt-input.tsx
+- Conflicts resolved: combined sinister quotes with list continuation in prompt/index.tsx
+
+### feature/markdown-renderer (gignit)
+- Merged successfully at commit 0262b4c8ff97c08984aa34ff58d93fbdac880b4c
+- Modified files: packages/opencode/src/cli/cmd/run.ts, packages/opencode/src/cli/cmd/tui/app.tsx, packages/opencode/src/cli/cmd/tui/routes/session/index.tsx, packages/opencode/src/config/config.ts, packages/sdk/js/src/v2/gen/types.gen.ts
+- Conflicts resolved: combined markdown toggle with clear prompt history toggle in app.tsx, combined imports in session/index.tsx
+
+### readline-additions (aspiers)
+- Merged successfully at commit d96a3d1c8f97c08984aa34ff58d93fbdac880b4c
+- Modified files: packages/opencode/src/cli/cmd/tui/component/prompt/index.tsx, packages/opencode/src/config/config.ts, packages/opencode/test/tui/text-transform.test.ts, packages/sdk/js/src/v2/gen/types.gen.ts, packages/web/src/content/docs/keybinds.mdx
+
+### add-bash-env-parameter (taxilian)
+- Merged successfully at commit ef3de4002f97c08984aa34ff58d93fbdac880b4c
+- Modified files: packages/opencode/src/tool/bash.ts, packages/opencode/src/tool/bash.txt, packages/opencode/test/tool/bash.test.ts
+- Conflicts resolved: combined shellEnv.env with params.env in bash.ts
+
+### feat/thinking-indicator-hidden (rcdailey)
+- Merged successfully at commit e5e03b160f97c08984aa34ff58d93fbdac880b4c
+- Modified files: packages/opencode/src/cli/cmd/tui/routes/session/index.tsx
+
+### feat/base-one-rebrand
+- Merged successfully at commit 203e29148f97c08984aa34ff58d93fbdac880b4c
+- Modified files: packages/opencode/src/cli/cmd/tui/app.tsx, packages/opencode/src/cli/cmd/tui/routes/session/sidebar.tsx, packages/opencode/src/config/config.ts, packages/opencode/src/flag/flag.ts, packages/opencode/src/index.ts
+- Conflicts resolved: combined BASEONE rebrand with HEAD flags (DISABLE_FILETIME_CHECK, MODELS_URL, MODELS_PATH) in flag.ts
