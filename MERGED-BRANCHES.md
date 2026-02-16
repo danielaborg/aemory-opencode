@@ -21,6 +21,13 @@ Base: dev
 | feat/opeoginni--display-message-tps | origin | 7102b1d1f8ea2a615d16f4e73cba7a2e3b18d7e7 | Merged (with fix) |
 | feat/kv-diff-style-clean | origin | 0b8cd62aa394ecb79d02dab92d411181b960f8ea | Merged |
 | feat/global-compaction-threshold | origin | 9d6e9634ab8cf78698954e6081034d8f6355a8e3 | Merged |
+| feat/configurable-message-and-session-limit | origin | d7cf0863c536f9394cd7ce14f7590a3568aea0d8 | Merged |
+| feat/experimental-dont-cache-markdown | origin | 684d5427928b05be02a6fc33d0ca41db3ed0e269 | Merged |
+| feat/interjections | origin | 28f910654aa30563a80228cc3ee45e2e440668f5 | Merged |
+| feat/jsonc-user-themes | origin | 3d59ee6c8142bcdbb0934aabace2984f66a937e2 | Merged |
+| feat/permission-indicator-in-sidebar | origin | f3a5b93d961b0db7482783d69dde47fd1be8c516 | Merged |
+| feat/permission-spinner | origin | d9779b564fff2218e6facc0d4c4f2b0302245bee | Merged (with fix) |
+| feat/persist-sidebar-group-folding-states | origin | 5bb26aa8ae0ff9ef8e6f6b6f44b3a8f457b03c0f | Merged |
 
 ## Merge Log
 
@@ -38,3 +45,4 @@ Base: dev
 12. **feat/opeoginni--display-message-tps** (7102b1d1f8ea2a615d16f4e73cba7a2e3b18d7e7) - Display message TPS in UI (Fixed type error: changed `setShowTps((prev) => !prev)` to `setShowTps(!showTps())`)
 13. **feat/kv-diff-style-clean** (0b8cd62aa394ecb79d02dab92d411181b960f8ea) - Clean diff styling using kv signals
 14. **feat/global-compaction-threshold** (9d6e9634ab8cf78698954e6081034d8f6355a8e3) - Added global compaction threshold configuration
+15. **feat/configurable-message-and-session-limit** (d7cf0863c536f9394cd7ce14f7590a3568aea0d8) - Configurable message and session list limits

@@ -52,7 +52,15 @@ const parser = lazy(async () => {
 
 // TODO: we may wanna rename this tool so it works better on other shells
 export const BashTool = Tool.define("bash", async () => {
-  const shell = Shell.acceptable()
+  const shell = (() => {
+    const s = process.env.SHELL
+    if (s) return s
+    if (process.platform === "darwin") return "/bin/zsh"
+    if (process.platform === "win32") return process.env.COMSPEC || true
+    const bash = Bun.which("bash")
+    if (bash) return bash
+    return true
+  })()
   log.info("bash tool using shell", { shell })
 
   return {
@@ -160,7 +168,6 @@ export const BashTool = Tool.define("bash", async () => {
         cwd,
         env: {
           ...process.env,
-          ...shellEnv.env,
           ...params.env,
         },
         stdio: ["ignore", "pipe", "pipe"],

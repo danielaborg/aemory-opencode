@@ -58,6 +58,7 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
   })
 
   let input: InputRenderable
+  let ignoreNextEffect = false
 
   const filtered = createMemo(() => {
     if (props.skipFilter) return props.options.filter((x) => x.disabled !== true)
@@ -122,18 +123,21 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
   const selected = createMemo(() => flat()[store.selected])
 
   createEffect(
-    on([() => store.filter, () => props.current], ([filter, current]) => {
-      setTimeout(() => {
-        if (filter.length > 0) {
-          moveTo(0, true)
-        } else if (current) {
+    on(
+      () => props.current,
+      (current) => {
+      if (ignoreNextEffect) {
+        ignoreNextEffect = false
+        return
+      }
+        if (current) {
           const currentIndex = flat().findIndex((opt) => isDeepEqual(opt.value, current))
           if (currentIndex >= 0) {
-            moveTo(currentIndex, true)
+            setStore("selected", currentIndex)
           }
         }
-      }, 0)
-    }),
+      },
+    ),
   )
 
   function move(direction: number) {
