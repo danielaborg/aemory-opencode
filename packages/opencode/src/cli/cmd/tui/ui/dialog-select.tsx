@@ -133,7 +133,7 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
         if (current) {
           const currentIndex = flat().findIndex((opt) => isDeepEqual(opt.value, current))
           if (currentIndex >= 0) {
-            setStore("selected", currentIndex)
+            moveTo(currentIndex, true)
           }
         }
       },
