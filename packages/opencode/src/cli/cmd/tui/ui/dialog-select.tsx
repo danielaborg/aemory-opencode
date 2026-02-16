@@ -126,10 +126,10 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
     on(
       () => props.current,
       (current) => {
-      if (ignoreNextEffect) {
-        ignoreNextEffect = false
-        return
-      }
+        if (ignoreNextEffect) {
+          ignoreNextEffect = false
+          return
+        }
         if (current) {
           const currentIndex = flat().findIndex((opt) => isDeepEqual(opt.value, current))
           if (currentIndex >= 0) {
@@ -150,9 +150,15 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
 
   function moveTo(next: number, center = false) {
     setStore("selected", next)
+    ignoreNextEffect = true
     const option = selected()
+    const scrollY = scroll?.y
     if (option) props.onMove?.(option)
     if (!scroll) return
+    // Restore scroll position after re-render
+    if (scrollY !== undefined && scroll) {
+      setTimeout(() => scroll?.scrollTo(scrollY), 0)
+    }
     const target = scroll.getChildren().find((child) => {
       return child.id === JSON.stringify(selected()?.value)
     })
