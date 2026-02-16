@@ -59,6 +59,7 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
 
   let input: InputRenderable
   let ignoreNextEffect = false
+  let pendingScrollTo: number | undefined
 
   const filtered = createMemo(() => {
     if (props.skipFilter) return props.options.filter((x) => x.disabled !== true)
@@ -133,7 +134,8 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
         if (current) {
           const currentIndex = flat().findIndex((opt) => isDeepEqual(opt.value, current))
           if (currentIndex >= 0) {
-            moveTo(currentIndex, true)
+            pendingScrollTo = currentIndex
+            setStore("selected", currentIndex)
           }
         }
       },
@@ -272,7 +274,14 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
           paddingLeft={1}
           paddingRight={1}
           scrollbarOptions={{ visible: false }}
-          ref={(r: ScrollBoxRenderable) => (scroll = r)}
+          ref={(r: ScrollBoxRenderable) => {
+            scroll = r
+            if (pendingScrollTo !== undefined) {
+              const idx = pendingScrollTo
+              pendingScrollTo = undefined
+              queueMicrotask(() => moveTo(idx, true))
+            }
+          }}
           maxHeight={height()}
         >
           <For each={grouped()}>
