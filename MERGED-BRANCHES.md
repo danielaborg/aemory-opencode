@@ -18,6 +18,7 @@ Base: dev
 | fix/bad-plugin-errors | origin | 2deaaf0a749f9a1da104ee24c247d8a340d5b151 | Merged |
 | fix/config-package-json-pollution | origin | 4204b8209026a222e8bd37b2ef46e5fde57a488b | Merged |
 | feat/edit-tool-description | origin | 99175944b8c4cf99fd364b65d82ec5ec86ebbbda | Merged |
+| feat/opeoginni--display-message-tps | origin | 7102b1d1f8ea2a615d16f4e73cba7a2e3b18d7e7 | Merged (with fix) |
 
 ## Merge Log
 
@@ -32,3 +33,4 @@ Base: dev
 9. **fix/bad-plugin-errors** (2deaaf0a749f9a1da104ee24c247d8a340d5b151) - Improved plugin error handling
 10. **fix/config-package-json-pollution** (4204b8209026a222e8bd37b2ef46e5fde57a488b) - Prevented package.json pollution with non-SemVer versions
 11. **feat/edit-tool-description** (99175944b8c4cf99fd364b65d82ec5ec86ebbbda) - Enhanced edit tool description
+12. **feat/opeoginni--display-message-tps** (7102b1d1f8ea2a615d16f4e73cba7a2e3b18d7e7) - Display message TPS in UI (Fixed type error: changed `setShowTps((prev) => !prev)` to `setShowTps(!showTps())`)
