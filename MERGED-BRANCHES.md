@@ -7,8 +7,8 @@ Base: dev
 
 | Branch | Remote | Commit Hash | Status |
 |--------|--------|-------------|--------|
-| (branches will be added as they are merged) | | | |
+| refactor/shared-substitute | origin | ca077d6b9694f811367da252a3c77f9c67bd0cf8 | Merged |
 
 ## Merge Log
 
-(merge entries will be added here as branches are merged)
+1. **refactor/shared-substitute** (ca077d6b9694f811367da252a3c77f9c67bd0cf8) - Extracted shared substitute function to config/substitute.ts
