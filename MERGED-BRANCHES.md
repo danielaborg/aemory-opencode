@@ -11,6 +11,7 @@ Base: dev
 | fix/remove-dot-true | origin | f9a2827956ff787d79b16e76c83ab1a4cc710b4a | Merged |
 | fix/rfc2119-question-tool | origin | f7cf6ec2496949ecef146e0cdabc7b458854cbdf | Merged |
 | fix/restore-footer | origin | 12c5b639db5944d6a6859ecb4d9cb9e3cd14c916 | Merged |
+| fix/persist-sidebar | origin | 0aaf4913f2d2b07f1d0f4147edb6dd34230ed456 | Merged (with fix) |
 
 ## Merge Log
 
@@ -18,3 +19,4 @@ Base: dev
 2. **fix/remove-dot-true** (f9a2827956ff787d79b16e76c83ab1a4cc710b4a) - Removed unnecessary dot/true references
 3. **fix/rfc2119-question-tool** (f7cf6ec2496949ecef146e0cdabc7b458854cbdf) - Added RFC 2119 keywords to question tool
 4. **fix/restore-footer** (12c5b639db5944d6a6859ecb4d9cb9e3cd14c916) - Restored footer display in TUI
+5. **fix/persist-sidebar** (0aaf4913f2d2b07f1d0f4147edb6dd34230ed456) - Fixed type error: kv.signal setter doesn't accept callbacks, changed `setShowHeader((prev) => !prev)` to `setShowHeader(!showHeader())`
