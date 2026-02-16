@@ -16,6 +16,7 @@ Base: dev
 | fix/modal-menus-filtered-order | origin | 4803df467cfa7a246eb812709557a261aebb4f20 | Merged |
 | fix/config-content-file-write | origin | b8d265b2ea50f865f2deeb2eae3ecbdeb8d113b7 | Merged |
 | fix/bad-plugin-errors | origin | 2deaaf0a749f9a1da104ee24c247d8a340d5b151 | Merged |
+| fix/config-package-json-pollution | origin | 4204b8209026a222e8bd37b2ef46e5fde57a488b | Merged |
 
 ## Merge Log
 
@@ -28,3 +29,4 @@ Base: dev
 7. **fix/modal-menus-filtered-order** (4803df467cfa7a246eb812709557a261aebb4f20) - Fixed modal menus filtered order
 8. **fix/config-content-file-write** (b8d265b2ea50f865f2deeb2eae3ecbdeb8d113b7) - Fixed config content file write
 9. **fix/bad-plugin-errors** (2deaaf0a749f9a1da104ee24c247d8a340d5b151) - Improved plugin error handling
+10. **fix/config-package-json-pollution** (4204b8209026a222e8bd37b2ef46e5fde57a488b) - Prevented package.json pollution with non-SemVer versions
