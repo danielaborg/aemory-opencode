@@ -19,6 +19,7 @@ Base: dev
 | fix/config-package-json-pollution | origin | 4204b8209026a222e8bd37b2ef46e5fde57a488b | Merged |
 | feat/edit-tool-description | origin | 99175944b8c4cf99fd364b65d82ec5ec86ebbbda | Merged |
 | feat/opeoginni--display-message-tps | origin | 7102b1d1f8ea2a615d16f4e73cba7a2e3b18d7e7 | Merged (with fix) |
+| feat/kv-diff-style-clean | origin | 0b8cd62aa394ecb79d02dab92d411181b960f8ea | Merged |
 
 ## Merge Log
 
@@ -34,3 +35,4 @@ Base: dev
 10. **fix/config-package-json-pollution** (4204b8209026a222e8bd37b2ef46e5fde57a488b) - Prevented package.json pollution with non-SemVer versions
 11. **feat/edit-tool-description** (99175944b8c4cf99fd364b65d82ec5ec86ebbbda) - Enhanced edit tool description
 12. **feat/opeoginni--display-message-tps** (7102b1d1f8ea2a615d16f4e73cba7a2e3b18d7e7) - Display message TPS in UI (Fixed type error: changed `setShowTps((prev) => !prev)` to `setShowTps(!showTps())`)
+13. **feat/kv-diff-style-clean** (0b8cd62aa394ecb79d02dab92d411181b960f8ea) - Clean diff styling using kv signals
