@@ -134,8 +134,12 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
         if (current) {
           const currentIndex = flat().findIndex((opt) => isDeepEqual(opt.value, current))
           if (currentIndex >= 0) {
-            pendingScrollTo = currentIndex
-            setStore("selected", currentIndex)
+            if (scroll) {
+              moveTo(currentIndex, true)
+            } else {
+              pendingScrollTo = currentIndex
+              setStore("selected", currentIndex)
+            }
           }
         }
       },
