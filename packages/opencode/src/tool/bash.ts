@@ -7,18 +7,15 @@ import { Log } from "../util/log"
 import { Instance } from "../project/instance"
 import { lazy } from "@/util/lazy"
 import { Language } from "web-tree-sitter"
-import { basename } from "path"
 
 import { $ } from "bun"
 import { Filesystem } from "@/util/filesystem"
 import { fileURLToPath } from "url"
 import { Flag } from "@/flag/flag.ts"
 import { Shell } from "@/shell/shell"
-import { iife } from "@/util/iife"
 
 import { BashArity } from "@/permission/arity"
 import { Truncate } from "./truncation"
-import { Plugin } from "@/plugin"
 
 const MAX_METADATA_LENGTH = 30_000
 const DEFAULT_TIMEOUT = Flag.OPENCODE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS || 2 * 60 * 1000
@@ -55,56 +52,11 @@ const parser = lazy(async () => {
 
 // TODO: we may wanna rename this tool so it works better on other shells
 export const BashTool = Tool.define("bash", async () => {
-  const shell = (() => {
-    const s = process.env.SHELL
-    if (s) return s
-
-    if (process.platform === "darwin") {
-      return "/bin/zsh"
-    }
-
-    if (process.platform === "win32") {
-      return process.env.COMSPEC || true
-    }
-
-    const bash = Bun.which("bash")
-    if (bash) return bash
-
-    return true
-  })()
-
-  const shellName = (() => {
-    if (typeof shell === "boolean") {
-      // When shell is true (fallback), assume appropriate default for platform
-      return process.platform === "win32" ? "cmd" : "bash"
-    }
-    if (typeof shell === "string") {
-      let name = basename(shell)
-      // Handle Windows paths (both forward and back slashes)
-      if (shell.includes("\\") || shell.includes("/")) {
-        // Extract the last part after both types of separators
-        const parts = shell.split(/[\\/]/)
-        name = parts[parts.length - 1]
-      }
-      // Handle Windows executables
-      if (name.toLowerCase().endsWith(".exe")) {
-        return name.slice(0, -4)
-      }
-      return name
-    }
-    return "bash"
-  })()
-
-  log.info("bash tool using shell", { shell, shellName })
-
-  const description = `**Shell**: You are executing commands in \`${shellName}\`. Ensure your command syntax is compatible with this shell.
-
-${DESCRIPTION.replace(/\$\{shellName\} command/g, `${shellName} command`)
-  .replace(/\$\{shellName\} commands/g, `${shellName} commands`)
-  .replaceAll("${directory}", Instance.directory)}`
+  const shell = Shell.acceptable()
+  log.info("bash tool using shell", { shell })
 
   return {
-    description: description
+    description: DESCRIPTION.replaceAll("${directory}", Instance.directory)
       .replaceAll("${maxLines}", String(Truncate.MAX_LINES))
       .replaceAll("${maxBytes}", String(Truncate.MAX_BYTES)),
     parameters: z.object({
@@ -121,6 +73,7 @@ ${DESCRIPTION.replace(/\$\{shellName\} command/g, `${shellName} command`)
         .describe(
           "Clear, concise description of what this command does in 5-10 words. Examples:\nInput: ls\nOutput: Lists files in current directory\n\nInput: git status\nOutput: Shows working tree status\n\nInput: npm install\nOutput: Installs package dependencies\n\nInput: mkdir foo\nOutput: Creates directory 'foo'",
         ),
+      env: z.record(z.string(), z.string()).optional().describe("Environment variables to set for the command"),
     }),
     async execute(params, ctx) {
       const cwd = params.workdir || Instance.directory
@@ -139,10 +92,6 @@ ${DESCRIPTION.replace(/\$\{shellName\} command/g, `${shellName} command`)
 
       for (const node of tree.rootNode.descendantsOfType("command")) {
         if (!node) continue
-
-        // Get full command text including redirects if present
-        let commandText = node.parent?.type === "redirected_statement" ? node.parent.text : node.text
-
         const command = []
         for (let i = 0; i < node.childCount; i++) {
           const child = node.child(i)
@@ -163,15 +112,12 @@ ${DESCRIPTION.replace(/\$\{shellName\} command/g, `${shellName} command`)
         if (["cd", "rm", "cp", "mv", "mkdir", "touch", "chmod", "chown", "cat"].includes(command[0])) {
           for (const arg of command.slice(1)) {
             if (arg.startsWith("-") || (command[0] === "chmod" && arg.startsWith("+"))) continue
-            const resolved = await Promise.race([
-              $`realpath ${arg}`
-                .cwd(cwd)
-                .quiet()
-                .nothrow()
-                .text()
-                .then((x) => x.trim()),
-              new Promise<string>((resolve) => setTimeout(() => resolve(""), 3000))
-            ])
+            const resolved = await $`realpath ${arg}`
+              .cwd(cwd)
+              .quiet()
+              .nothrow()
+              .text()
+              .then((x) => x.trim())
             log.info("resolved path", { arg, resolved })
             if (resolved) {
               // Git Bash on Windows returns Unix-style paths like /c/Users/...
@@ -179,27 +125,23 @@ ${DESCRIPTION.replace(/\$\{shellName\} command/g, `${shellName} command`)
                 process.platform === "win32" && resolved.match(/^\/[a-z]\//)
                   ? resolved.replace(/^\/([a-z])\//, (_, drive) => `${drive.toUpperCase()}:\\`).replace(/\//g, "\\")
                   : resolved
-              if (!Instance.containsPath(normalized)) {
-                const dir = (await Filesystem.isDir(normalized)) ? normalized : path.dirname(normalized)
-                directories.add(dir)
-              }
+              if (!Instance.containsPath(normalized)) directories.add(normalized)
             }
           }
         }
 
         // cd covered by above check
         if (command.length && command[0] !== "cd") {
-          patterns.add(commandText)
-          always.add(BashArity.prefix(command).join(" ") + " *")
+          patterns.add(command.join(" "))
+          always.add(BashArity.prefix(command).join(" ") + "*")
         }
       }
 
       if (directories.size > 0) {
-        const globs = Array.from(directories).map((dir) => path.join(dir, "*"))
         await ctx.ask({
           permission: "external_directory",
-          patterns: globs,
-          always: globs,
+          patterns: Array.from(directories),
+          always: Array.from(directories).map((x) => path.dirname(x) + "*"),
           metadata: {},
         })
       }
@@ -213,13 +155,13 @@ ${DESCRIPTION.replace(/\$\{shellName\} command/g, `${shellName} command`)
         })
       }
 
-      const shellEnv = await Plugin.trigger("shell.env", { cwd }, { env: {} })
       const proc = spawn(params.command, {
         shell,
         cwd,
         env: {
           ...process.env,
           ...shellEnv.env,
+          ...params.env,
         },
         stdio: ["ignore", "pipe", "pipe"],
         detached: process.platform !== "win32",
