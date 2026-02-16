@@ -345,7 +345,6 @@ export namespace Config {
     for await (const item of COMMAND_GLOB.scan({
       absolute: true,
       followSymlinks: true,
-      dot: true,
       cwd: dir,
     })) {
       const md = await ConfigMarkdown.parse(item).catch(async (err) => {
@@ -385,7 +384,6 @@ export namespace Config {
     for await (const item of AGENT_GLOB.scan({
       absolute: true,
       followSymlinks: true,
-      dot: true,
       cwd: dir,
     })) {
       const md = await ConfigMarkdown.parse(item).catch(async (err) => {
@@ -424,7 +422,6 @@ export namespace Config {
     for await (const item of MODE_GLOB.scan({
       absolute: true,
       followSymlinks: true,
-      dot: true,
       cwd: dir,
     })) {
       const md = await ConfigMarkdown.parse(item).catch(async (err) => {
@@ -462,7 +459,6 @@ export namespace Config {
     for await (const item of PLUGIN_GLOB.scan({
       absolute: true,
       followSymlinks: true,
-      dot: true,
       cwd: dir,
     })) {
       plugins.push(pathToFileURL(item).href)
