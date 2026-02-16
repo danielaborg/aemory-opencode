@@ -177,8 +177,18 @@ export namespace Config {
     }
 
     // Inline config content overrides all non-managed config sources.
+    // Route through load() to enable {env:} and {file:} token substitution.
+    // Use a path within Instance.directory so relative {file:} paths resolve correctly.
+    // The filename "OPENCODE_CONFIG_CONTENT" appears in error messages for clarity.
     if (Flag.OPENCODE_CONFIG_CONTENT) {
-      result = merge(result, JSON.parse(Flag.OPENCODE_CONFIG_CONTENT))
+      // Parse and ensure $schema is present to prevent Bun.write() from creating a file
+      const parsed = JSON.parse(Flag.OPENCODE_CONFIG_CONTENT)
+      if (!parsed.$schema) parsed.$schema = "https://opencode.ai/config.json"
+
+      result = merge(
+        result,
+        await load(JSON.stringify(parsed), path.join(Instance.directory, "OPENCODE_CONFIG_CONTENT")),
+      )
       log.debug("loaded custom config from OPENCODE_CONFIG_CONTENT")
     }
 
