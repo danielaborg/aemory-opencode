@@ -20,6 +20,7 @@ Base: dev
 | feat/edit-tool-description | origin | 99175944b8c4cf99fd364b65d82ec5ec86ebbbda | Merged |
 | feat/opeoginni--display-message-tps | origin | 7102b1d1f8ea2a615d16f4e73cba7a2e3b18d7e7 | Merged (with fix) |
 | feat/kv-diff-style-clean | origin | 0b8cd62aa394ecb79d02dab92d411181b960f8ea | Merged |
+| feat/global-compaction-threshold | origin | 9d6e9634ab8cf78698954e6081034d8f6355a8e3 | Merged |
 
 ## Merge Log
 
@@ -36,3 +37,4 @@ Base: dev
 11. **feat/edit-tool-description** (99175944b8c4cf99fd364b65d82ec5ec86ebbbda) - Enhanced edit tool description
 12. **feat/opeoginni--display-message-tps** (7102b1d1f8ea2a615d16f4e73cba7a2e3b18d7e7) - Display message TPS in UI (Fixed type error: changed `setShowTps((prev) => !prev)` to `setShowTps(!showTps())`)
 13. **feat/kv-diff-style-clean** (0b8cd62aa394ecb79d02dab92d411181b960f8ea) - Clean diff styling using kv signals
+14. **feat/global-compaction-threshold** (9d6e9634ab8cf78698954e6081034d8f6355a8e3) - Added global compaction threshold configuration
