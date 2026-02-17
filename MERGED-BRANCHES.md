@@ -24,7 +24,7 @@ Created: 2026-02-17
 | feat/edit-tool-description | origin | fb1844b03a4607a62b6d6286344562e9d9f06ad0 | ✅ Merged |
 | feat/opeoginni--display-message-tps | origin | 5d9eb8485267afd83cde4c921cf4e5c91853e669 | ✅ Merged |
 | feat/kv-diff-style-clean | origin | 7f38b474992456bbf794b4514fe2168dc4c2515c | ✅ Merged |
-| feat/global-compaction-threshold | origin | | |
+| feat/global-compaction-threshold | origin | ee1fdbb90631eb6bd04e7cf215244dfe8e927d56 | ✅ Merged |
 | feat/configurable-message-and-session-limit | origin | | |
 | feat/experimental-dont-cache-markdown | origin | | |
 | feat/interjections | origin | | |
@@ -75,3 +75,4 @@ Created: 2026-02-17
 15. **feat/edit-tool-description** (fb1844b03a4607a62b6d6286344562e9d9f06ad0) - Merged successfully
 16. **feat/opeoginni--display-message-tps** (5d9eb8485267afd83cde4c921cf4e5c91853e669) - Merged successfully
 17. **feat/kv-diff-style-clean** (7f38b474992456bbf794b4514fe2168dc4c2515c) - Merged successfully
+18. **feat/global-compaction-threshold** (ee1fdbb90631eb6bd04e7cf215244dfe8e927d56) - Merged successfully
