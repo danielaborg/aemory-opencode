@@ -21,7 +21,7 @@ Created: 2026-02-17
 | feat/argument-range-syntax | origin | 6e5f78687089ff04afaba5f6abb22875e329f181 | ✅ Merged |
 | feat/opencode-expand | origin | 71db5e58a22f867d38dea1d9ecfe2fbf4d76c7b1 | ✅ Merged |
 | merged/feat/session-delete-switch | origin | 1cc0e46825d4e92f0ce8d210d2ac4f6b12734aed | ✅ Merged |
-| feat/edit-tool-description | origin | | |
+| feat/edit-tool-description | origin | fb1844b03a4607a62b6d6286344562e9d9f06ad0 | ✅ Merged |
 | feat/opeoginni--display-message-tps | origin | | |
 | feat/kv-diff-style-clean | origin | | |
 | feat/global-compaction-threshold | origin | | |
@@ -72,3 +72,4 @@ Created: 2026-02-17
 12. **feat/argument-range-syntax** (6e5f78687089ff04afaba5f6abb22875e329f181) - Merged successfully (conflict resolved)
 13. **feat/opencode-expand** (71db5e58a22f867d38dea1d9ecfe2fbf4d76c7b1) - Merged successfully
 14. **merged/feat/session-delete-switch** (1cc0e46825d4e92f0ce8d210d2ac4f6b12734aed) - Merged successfully
+15. **feat/edit-tool-description** (fb1844b03a4607a62b6d6286344562e9d9f06ad0) - Merged successfully
