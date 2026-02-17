@@ -27,34 +27,33 @@ Created: 2026-02-17
 | feat/global-compaction-threshold | origin | ee1fdbb90631eb6bd04e7cf215244dfe8e927d56 | ✅ Merged |
 | feat/configurable-message-and-session-limit | origin | a291ef2f857dbf3f9f549bfe8c4fd4238d2bc83d | ✅ Merged |
 | feat/experimental-dont-cache-markdown | origin | 5297d7c7a2dbc39486777fda56695d4186d4bea3 | ✅ Merged |
-| feat/interjections | origin | | |
-| feat/jsonc-user-themes | origin | | |
-| feat/permission-indicator-in-sidebar | origin | | |
-| feat/permission-spinner | origin | | |
-| feat/persist-sidebar-group-folding-states | origin | | |
-| feat/persistant-sidebar-overlay-behaviour | origin | | |
-| feat/shell-advice | origin | | |
-| feat/elapsed-timer | origin | | |
-| feat/sidebar-no-auto-setting | origin | | |
-| feat/set-session-title | origin | | |
-| feat/get-session-title | origin | | |
-| feat/session-timeline-repeat | origin | | |
-| feat/automatic-list-continuation | origin | | |
-| feat/continue-command | origin | | |
-| feat/session-bookmarks | origin | | |
-| fix/dialog-datetime-alignment | origin | | |
-| feat/keybindable-commands | origin | | |
-| feat/configurable-snapshot-lifespan | origin | | |
-| feat/configurable-new-plan-mode | origin | | |
-| feat/config-imports | origin | | |
-| feat/canceled-prompts-in-history | origin | | |
-| feat/no-disabled-lsps-in-sidebar | origin | | |
-| feat/sinister-quotes | origin | | |
-| feature/markdown-renderer | gignit | | |
-| readline-additions | aspiers | | |
-| add-bash-env-parameter | taxilian | | |
-| feat/thinking-indicator-hidden | origin | | |
-| feat/base-one-rebrand | origin | | |
+| feat/interjections | origin | da63c913b6 | ✅ Merged |
+| feat/jsonc-user-themes | origin | 8dd9b7d28b | ✅ Merged |
+| feat/permission-indicator-in-sidebar | origin | c2387d67fc | ✅ Merged |
+| feat/permission-spinner | origin | c170d706d7 | ✅ Merged |
+| feat/persist-sidebar-group-folding-states | origin | 8a1cdedece | ✅ Merged |
+| feat/persistant-sidebar-overlay-behaviour | origin | 60ffd5ae5c | ✅ Merged |
+| feat/shell-advice | origin | 6f01fa283d | ✅ Merged |
+| feat/elapsed-timer | origin | ba2e673f6f | ✅ Merged |
+| feat/sidebar-no-auto-setting | origin | 2e61fe69ea | ✅ Merged |
+| feat/set-session-title | origin | d56a5025c6 | ✅ Merged |
+| feat/get-session-title | origin | 34cf8ac4fa | ✅ Merged |
+| feat/session-timeline-repeat | origin | 9623d4db1e | ✅ Merged |
+| feat/automatic-list-continuation | origin | ea7abcd0b9 | ✅ Merged |
+| feat/continue-command | origin | a60e08aa24 | ✅ Merged |
+| feat/session-bookmarks | origin | a96dfa3bec | ✅ Merged |
+| fix/dialog-datetime-alignment | origin | 4600a465ad | ✅ Merged |
+| feat/keybindable-commands | origin | 0bcb2955db | ✅ Merged |
+| feat/configurable-snapshot-lifespan | origin | b3fb37c0c7 | ✅ Merged |
+| feat/configurable-new-plan-mode | origin | a87b1bf241 | ✅ Merged |
+| feat/config-imports | origin | 8995367801 | ✅ Merged |
+| feat/canceled-prompts-in-history | origin | 6fd198c987 | ✅ Merged |
+| feat/no-disabled-lsps-in-sidebar | origin | f65417dac1 | ✅ Merged |
+| feat/sinister-quotes | origin | 7a5bb60e76 | ✅ Merged |
+| feature/markdown-renderer | gignit | 7a2f5e004a | ✅ Merged |
+| readline-additions | aspiers | 9232f3d05f | ✅ Merged |
+| add-bash-env-parameter | taxilian | 9232f3d05f | ✅ Merged |
+| feat/base-one-rebrand | origin | ebd990bc47 | ✅ Merged |
 
 ## Merge Log
 
@@ -78,3 +77,30 @@ Created: 2026-02-17
 18. **feat/global-compaction-threshold** (ee1fdbb90631eb6bd04e7cf215244dfe8e927d56) - Merged successfully
 19. **feat/configurable-message-and-session-limit** (a291ef2f857dbf3f9f549bfe8c4fd4238d2bc83d) - Merged successfully (conflict resolved)
 20. **feat/experimental-dont-cache-markdown** (5297d7c7a2dbc39486777fda56695d4186d4bea3) - Merged successfully
+21. **feat/interjections** (da63c913b6) - Merged successfully (conflict resolved)
+22. **feat/jsonc-user-themes** (8dd9b7d28b) - Merged successfully
+23. **feat/permission-indicator-in-sidebar** (c2387d67fc) - Merged successfully
+24. **feat/permission-spinner** (c170d706d7) - Merged successfully
+25. **feat/persist-sidebar-group-folding-states** (8a1cdedece) - Merged successfully
+26. **feat/persistant-sidebar-overlay-behaviour** (60ffd5ae5c) - Merged successfully
+27. **feat/shell-advice** (6f01fa283d) - Merged successfully
+28. **feat/elapsed-timer** (ba2e673f6f) - Merged successfully (conflict resolved)
+29. **feat/sidebar-no-auto-setting** (2e61fe69ea) - Merged successfully (conflict resolved)
+30. **feat/set-session-title** (d56a5025c6) - Merged successfully
+31. **feat/get-session-title** (34cf8ac4fa) - Merged successfully
+32. **feat/session-timeline-repeat** (9623d4db1e) - Merged successfully
+33. **feat/automatic-list-continuation** (ea7abcd0b9) - Merged successfully
+34. **feat/continue-command** (a60e08aa24) - Merged successfully
+35. **feat/session-bookmarks** (a96dfa3bec) - Merged successfully (conflict resolved)
+36. **fix/dialog-datetime-alignment** (4600a465ad) - Merged successfully
+37. **feat/keybindable-commands** (0bcb2955db) - Merged successfully
+38. **feat/configurable-snapshot-lifespan** (b3fb37c0c7) - Merged successfully
+39. **feat/configurable-new-plan-mode** (a87b1bf241) - Merged successfully (conflict resolved)
+40. **feat/config-imports** (8995367801) - Merged successfully
+41. **feat/canceled-prompts-in-history** (6fd198c987) - Merged successfully
+42. **feat/no-disabled-lsps-in-sidebar** (f65417dac1) - Merged successfully (conflict resolved)
+43. **feat/sinister-quotes** (7a5bb60e76) - Merged successfully (conflict resolved)
+44. **feature/markdown-renderer** (7a2f5e004a) - Merged from gignit (conflict resolved)
+45. **readline-additions** (9232f3d05f) - Merged from aspiers
+46. **add-bash-env-parameter** (9232f3d05f) - Merged from taxilian (conflict resolved)
+47. **feat/base-one-rebrand** (ebd990bc47) - Merged successfully (conflict resolved)
