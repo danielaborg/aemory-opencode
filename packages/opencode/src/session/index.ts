@@ -97,9 +97,9 @@ export namespace Session {
       permission: info.permission,
       time_created: info.time.created,
       time_updated: info.time.updated,
-      time_compacting: info.time.compacting,
-      time_archived: info.time.archived,
-      time_pinned: info.time.pinned,
+      time_compacting: info.time.compacting ?? null,
+      time_archived: info.time.archived ?? null,
+      time_pinned: info.time.pinned ?? null,
     }
   }
 
