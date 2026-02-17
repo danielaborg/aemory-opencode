@@ -22,7 +22,7 @@ Created: 2026-02-17
 | feat/opencode-expand | origin | 71db5e58a22f867d38dea1d9ecfe2fbf4d76c7b1 | ✅ Merged |
 | merged/feat/session-delete-switch | origin | 1cc0e46825d4e92f0ce8d210d2ac4f6b12734aed | ✅ Merged |
 | feat/edit-tool-description | origin | fb1844b03a4607a62b6d6286344562e9d9f06ad0 | ✅ Merged |
-| feat/opeoginni--display-message-tps | origin | | |
+| feat/opeoginni--display-message-tps | origin | 5d9eb8485267afd83cde4c921cf4e5c91853e669 | ✅ Merged |
 | feat/kv-diff-style-clean | origin | | |
 | feat/global-compaction-threshold | origin | | |
 | feat/configurable-message-and-session-limit | origin | | |
@@ -73,3 +73,4 @@ Created: 2026-02-17
 13. **feat/opencode-expand** (71db5e58a22f867d38dea1d9ecfe2fbf4d76c7b1) - Merged successfully
 14. **merged/feat/session-delete-switch** (1cc0e46825d4e92f0ce8d210d2ac4f6b12734aed) - Merged successfully
 15. **feat/edit-tool-description** (fb1844b03a4607a62b6d6286344562e9d9f06ad0) - Merged successfully
+16. **feat/opeoginni--display-message-tps** (5d9eb8485267afd83cde4c921cf4e5c91853e669) - Merged successfully
