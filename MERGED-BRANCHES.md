@@ -16,7 +16,7 @@ Created: 2026-02-17
 | fix/config-content-file-write | origin | 2cf6b0dda3bf76c82ea0017f0f9b5b966423ac26 | ✅ Merged |
 | fix/bad-plugin-errors | origin | f1393c53a1757d1151247df24c940921a4f33093 | ✅ Merged |
 | fix/config-package-json-pollution | origin | 237a3520c9c9d5342dd01a07622f484dd57a218b | ✅ Merged |
-| fix/move-selection-with-deletion-marked-take-1 | origin | 9700a9cd4755bbac94bd11d663c41ffda709fbf2 | ✅ Merged |
+| fix/move-selection-with-deletion-marked-take-1 | origin | 9700a9cd4755bbac94bd11d663c41ffda709fbf2 | ❌ Reverted (caused flickering) |
 | refactor/shared-substitute | origin | 08624da8bead38660c83d4c4af9953dc95ab3532 | ✅ Merged |
 | feat/argument-range-syntax | origin | 6e5f78687089ff04afaba5f6abb22875e329f181 | ✅ Merged |
 | feat/opencode-expand | origin | 71db5e58a22f867d38dea1d9ecfe2fbf4d76c7b1 | ✅ Merged |
@@ -66,7 +66,7 @@ Created: 2026-02-17
 7. **fix/config-content-file-write** (2cf6b0dda3bf76c82ea0017f0f9b5b966423ac26) - Merged successfully
 8. **fix/bad-plugin-errors** (f1393c53a1757d1151247df24c940921a4f33093) - Merged successfully
 9. **fix/config-package-json-pollution** (237a3520c9c9d5342dd01a07622f484dd57a218b) - Merged successfully
-10. **fix/move-selection-with-deletion-marked-take-1** (9700a9cd4755bbac94bd11d663c41ffda709fbf2) - Merged successfully
+10. **fix/move-selection-with-deletion-marked-take-1** (9700a9cd4755bbac94bd11d663c41ffda709fbf2) - Reverted (caused selection flickering)
 11. **refactor/shared-substitute** (08624da8bead38660c83d4c4af9953dc95ab3532) - Merged successfully
 12. **feat/argument-range-syntax** (6e5f78687089ff04afaba5f6abb22875e329f181) - Merged successfully (conflict resolved)
 13. **feat/opencode-expand** (71db5e58a22f867d38dea1d9ecfe2fbf4d76c7b1) - Merged successfully
@@ -104,3 +104,8 @@ Created: 2026-02-17
 45. **readline-additions** (9232f3d05f) - Merged from aspiers
 46. **add-bash-env-parameter** (9232f3d05f) - Merged from taxilian (conflict resolved)
 47. **feat/base-one-rebrand** (ebd990bc47) - Merged successfully (conflict resolved)
+
+## Reverts Applied
+
+1. **Revert "refactor: remove viewport centering fix from bookmark branch"** (aa7dd0b7e3) - Attempted to fix selection flickering by restoring ignoreNextEffect logic
+2. **Revert "Merge fix/move-selection-with-deletion-marked-take-1"** (89a8d349d8) - Removed entire branch due to selection flickering issues
