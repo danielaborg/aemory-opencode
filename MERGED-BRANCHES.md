@@ -14,7 +14,7 @@ Created: 2026-02-17
 | fix/autocompletion-filtered-order | origin | 3b2835e0e2617a0c2133d3b7fa3b6d56d4ed8b51 | ✅ Merged |
 | fix/modal-menus-filtered-order | origin | c18c203b1e68ae9716c2f5fb2d1e7f5e2e40837c | ✅ Merged |
 | fix/config-content-file-write | origin | 2cf6b0dda3bf76c82ea0017f0f9b5b966423ac26 | ✅ Merged |
-| fix/bad-plugin-errors | origin | | |
+| fix/bad-plugin-errors | origin | f1393c53a1757d1151247df24c940921a4f33093 | ✅ Merged |
 | fix/config-package-json-pollution | origin | | |
 | fix/move-selection-with-deletion-marked-take-1 | origin | | |
 | refactor/shared-substitute | origin | | |
@@ -65,3 +65,4 @@ Created: 2026-02-17
 5. **fix/autocompletion-filtered-order** (3b2835e0e2617a0c2133d3b7fa3b6d56d4ed8b51) - Merged successfully
 6. **fix/modal-menus-filtered-order** (c18c203b1e68ae9716c2f5fb2d1e7f5e2e40837c) - Merged successfully
 7. **fix/config-content-file-write** (2cf6b0dda3bf76c82ea0017f0f9b5b966423ac26) - Merged successfully
+8. **fix/bad-plugin-errors** (f1393c53a1757d1151247df24c940921a4f33093) - Merged successfully
