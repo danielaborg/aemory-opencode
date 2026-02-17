@@ -54,7 +54,56 @@ export type PromptRef = {
   submit(): void
 }
 
-const PLACEHOLDERS = ["Fix a TODO in the codebase", "What is the tech stack of this project?", "Fix broken tests"]
+const PLACEHOLDERS = [
+  "If you can read this, you are too close",
+  "This space intentionally left blank",
+  "Your prompt here (not literally)",
+  "Awaiting instructions...",
+  "The void stares back",
+  "THERE IS NO PROMPT",
+  "There is no prompt—only Zuul",
+  "Console yourself",
+  "Type your deepest desires",
+  "Be careful what you ask for",
+  "I've seen things you people wouldn't believe",
+  "We'll do it live!",
+  "It's not a bug—it's a feature",
+  "PEBKAC error",
+  "ID-10-T error",
+  "Have you tried turning it off and on again?",
+  "sudo make me a sandwich",
+  "Press any key to continue (any key, really)",
+  "Hello world, again",
+  "In case of emergency, break glass",
+  "Your wish is my command",
+  "One does not simply write a prompt",
+  "It's a feature, not a bug",
+  "These aren't the prompts you're looking for",
+  "With great power comes great responsibility",
+  "Danger, Will Robinson!",
+  "Resistance is futile",
+  "All your base are belong to us",
+  "It's over 9000!",
+  "The cake is a lie",
+  "Do a barrel roll!",
+  "Take off every 'ZIG'!!",
+  "For great justice",
+  "You have died of dysentery",
+  "Wololo",
+  "Hadouken!",
+  "Finish him!",
+  "Hey! Listen!",
+  "It's dangerous to go alone! Take this.",
+  "Waka waka waka",
+  "It's-a me, Mario!",
+  "Do a barrel roll!",
+  "Praise the sun!",
+  "Would you kindly?",
+  "A naked singularity approaches",
+  "Entropy: It's not just a good idea, it's the law",
+  "Your causality is leaking",
+  "There is no merge conflict—only war",
+]
 const SHELL_PLACEHOLDERS = ["ls -la", "git status", "pwd"]
 
 export function Prompt(props: PromptProps) {
@@ -114,6 +163,18 @@ export function Prompt(props: PromptProps) {
   createEffect(() => {
     if (props.disabled) input.cursorColor = theme.backgroundElement
     if (!props.disabled) input.cursorColor = theme.text
+  })
+
+  // Resize textarea when placeholder changes (e.g., when switching sessions or when placeholder index changes)
+  createEffect(() => {
+    const placeholderText = props.sessionID ? undefined : PLACEHOLDERS[store.placeholder]
+    // Track both the placeholder text and sessionID changes
+    if (input) {
+      setTimeout(() => {
+        input.getLayoutNode().markDirty()
+        renderer.requestRender()
+      }, 0)
+    }
   })
 
   const lastUserMessage = createMemo(() => {
@@ -860,7 +921,11 @@ export function Prompt(props: PromptProps) {
             flexGrow={1}
           >
             <textarea
-              placeholder={placeholderText()}
+// **CRITICAL MERGE WARNING**: Keep this EXACT format (NO "Ask anything" prefix, NO quotes):
+              //   CORRECT: `${PLACEHOLDERS[store.placeholder]}`
+              //   WRONG:   `Ask anything... "${PLACEHOLDERS[store.placeholder]}"`
+              // The sinister-quotes feature intentionally removes the prefix. A test validates this.
+              placeholder={props.sessionID ? undefined : `${PLACEHOLDERS[store.placeholder]}`}
               textColor={keybind.leader ? theme.textMuted : theme.text}
               focusedTextColor={keybind.leader ? theme.textMuted : theme.text}
               minHeight={1}
