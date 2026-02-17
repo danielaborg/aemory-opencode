@@ -3,6 +3,7 @@
   // "enterprise": {
   //   "url": "https://enterprise.dev.opencode.ai",
   // },
+  "theme": "my-matrix",
   "provider": {
     "opencode": {
       "options": {},
