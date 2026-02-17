@@ -5,7 +5,7 @@ import os from "os"
 import z from "zod"
 import { Filesystem } from "../util/filesystem"
 import { ModelsDev } from "../provider/models"
-import { mergeDeep, pipe, unique } from "remeda"
+import { mergeDeep, unique } from "remeda"
 import { Global } from "../global"
 import fs from "fs/promises"
 import { lazy } from "../util/lazy"
@@ -102,15 +102,16 @@ export namespace Config {
     // Global user config overrides remote config.
     result = merge(result, await global())
 
-    // Custom config path overrides global config.
-    if (Flag.OPENCODE_CONFIG) {
-      result = merge(result, await loadFile(Flag.OPENCODE_CONFIG))
-      log.debug("loaded custom config", { path: Flag.OPENCODE_CONFIG })
+    // Override with custom config if provided
+    if (Flag.BASEONE_CONFIG) {
+      result = merge(result, await loadFile(Flag.BASEONE_CONFIG))
+      log.debug("loaded custom config", { path: Flag.BASEONE_CONFIG })
     }
 
     // Project config overrides global and remote config.
     if (!Flag.OPENCODE_DISABLE_PROJECT_CONFIG) {
-      for (const file of ["opencode.jsonc", "opencode.json"]) {
+      // Try new config file names first, fall back to legacy names
+      for (const file of ["opencode.jsonc", "opencode.json", "base-one.jsonc", "base-one.json"]) {
         const found = await Filesystem.findUp(file, Instance.directory, Instance.worktree)
         for (const resolved of found.toReversed()) {
           result = merge(result, await loadFile(resolved))
@@ -124,11 +125,12 @@ export namespace Config {
 
     const directories = [
       Global.Path.config,
-      // Only scan project .opencode/ directories when project discovery is enabled
+      // Only scan project directories when project discovery is enabled
       ...(!Flag.OPENCODE_DISABLE_PROJECT_CONFIG
         ? await Array.fromAsync(
+            // Search for .opencode first, then fall back to .baseone
             Filesystem.up({
-              targets: [".opencode"],
+              targets: [".opencode", ".baseone"],
               start: Instance.directory,
               stop: Instance.worktree,
             }),
@@ -137,24 +139,24 @@ export namespace Config {
       // Always scan ~/.opencode/ (user home directory)
       ...(await Array.fromAsync(
         Filesystem.up({
-          targets: [".opencode"],
+          targets: [".opencode", ".baseone"],
           start: Global.Path.home,
           stop: Global.Path.home,
         }),
       )),
     ]
 
-    // .opencode directory config overrides (project and global) config sources.
-    if (Flag.OPENCODE_CONFIG_DIR) {
-      directories.push(Flag.OPENCODE_CONFIG_DIR)
-      log.debug("loading config from OPENCODE_CONFIG_DIR", { path: Flag.OPENCODE_CONFIG_DIR })
+    if (Flag.BASEONE_CONFIG_DIR) {
+      directories.push(Flag.BASEONE_CONFIG_DIR)
+      log.debug("loading config from BASEONE_CONFIG_DIR", { path: Flag.BASEONE_CONFIG_DIR })
     }
 
     const deps = []
 
     for (const dir of unique(directories)) {
-      if (dir.endsWith(".opencode") || dir === Flag.OPENCODE_CONFIG_DIR) {
-        for (const file of ["opencode.jsonc", "opencode.json"]) {
+      if (dir.endsWith(".opencode") || dir.endsWith(".baseone") || dir === Flag.BASEONE_CONFIG_DIR) {
+        // Try new config file names first, fall back to legacy
+      for (const file of ["opencode.jsonc", "opencode.json", "baseone.jsonc", "baseone.json"]) {
           log.debug(`loading config from ${path.join(dir, file)}`)
           result = merge(result, await loadFile(path.join(dir, file)))
           // to satisfy the type checker
@@ -213,8 +215,8 @@ export namespace Config {
       })
     }
 
-    if (Flag.OPENCODE_PERMISSION) {
-      result.permission = mergeDeep(result.permission ?? {}, JSON.parse(Flag.OPENCODE_PERMISSION))
+    if (Flag.BASEONE_PERMISSION) {
+      result.permission = mergeDeep(result.permission ?? {}, JSON.parse(Flag.BASEONE_PERMISSION))
     }
 
     // Backwards compatibility: legacy top-level `tools` config
@@ -370,9 +372,16 @@ export namespace Config {
       })
       if (!md) continue
 
-      const patterns = ["/.opencode/command/", "/.opencode/commands/", "/command/", "/commands/"]
-      const file = rel(item, patterns) ?? path.basename(item)
-      const name = trim(file)
+      const name = (() => {
+        const patterns = ["/.opencode/command/", "/.opencode/commands/", "/.baseone/command/", "/.baseone/commands/", "/command/", "/commands/"]
+        const pattern = patterns.find((p) => item.includes(p))
+
+        if (pattern) {
+          const index = item.indexOf(pattern)
+          return item.slice(index + pattern.length, -3)
+        }
+        return path.basename(item, ".md")
+      })()
 
       const config = {
         name,
@@ -409,9 +418,28 @@ export namespace Config {
       })
       if (!md) continue
 
-      const patterns = ["/.opencode/agent/", "/.opencode/agents/", "/agent/", "/agents/"]
-      const file = rel(item, patterns) ?? path.basename(item)
-      const agentName = trim(file)
+      // Extract relative path from agent folder for nested agents
+      let agentName = path.basename(item, ".md")
+      const agentFolderPath = item.includes("/.opencode/agent/")
+        ? item.split("/.opencode/agent/")[1]
+        : item.includes("/.opencode/agents/")
+          ? item.split("/.opencode/agents/")[1]
+          : item.includes("/.baseone/agent/")
+            ? item.split("/.baseone/agent/")[1]
+            : item.includes("/.baseone/agents/")
+              ? item.split("/.baseone/agents/")[1]
+              : item.includes("/agent/")
+                ? item.split("/agent/")[1]
+                : item.includes("/agents/")
+                  ? item.split("/agents/")[1]
+                  : agentName + ".md"
+
+      // If agent is in a subfolder, include folder path in name
+      if (agentFolderPath.includes("/")) {
+        const relativePath = agentFolderPath.replace(".md", "")
+        const pathParts = relativePath.split("/")
+        agentName = pathParts.slice(0, -1).join("/") + "/" + pathParts[pathParts.length - 1]
+      }
 
       const config = {
         name: agentName,
@@ -1232,12 +1260,13 @@ export namespace Config {
   export type Info = z.output<typeof Info>
 
   export const global = lazy(async () => {
-    let result: Info = pipe(
-      {},
-      mergeDeep(await loadFile(path.join(Global.Path.config, "config.json"))),
-      mergeDeep(await loadFile(path.join(Global.Path.config, "opencode.json"))),
-      mergeDeep(await loadFile(path.join(Global.Path.config, "opencode.jsonc"))),
-    )
+    // Load config files with new names first, falling back to legacy names
+    let result: Info = {}
+    result = mergeDeep(result, await loadFile(path.join(Global.Path.config, "config.json")))
+    result = mergeDeep(result, await loadFile(path.join(Global.Path.config, "opencode.json")))
+    result = mergeDeep(result, await loadFile(path.join(Global.Path.config, "opencode.jsonc")))
+    result = mergeDeep(result, await loadFile(path.join(Global.Path.config, "baseone.json")))
+    result = mergeDeep(result, await loadFile(path.join(Global.Path.config, "baseone.jsonc")))
 
     const legacy = path.join(Global.Path.config, "config")
     if (existsSync(legacy)) {
