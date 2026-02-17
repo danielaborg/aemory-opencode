@@ -11,6 +11,8 @@ import {
   Switch,
   useContext,
   Index,
+  onCleanup,
+  type Component,
 } from "solid-js"
 import { Dynamic } from "solid-js/web"
 import path from "path"
@@ -1383,13 +1385,13 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
     if (!final()) return 0
     if (!props.message.time.completed) return 0
     if (!ctx.showTps()) return 0
-  
+
     const assistantMessages : AssistantMessage[] = messages().filter((msg) => msg.role === "assistant" && msg.id !== props.message.id) as AssistantMessage[]
 
     const allParts = assistantMessages.flatMap((msg) => getParts(msg.id))
 
     const INVALID_REASONING_TEXTS = ["[REDACTED]", "", null, undefined] as const
-  
+
     // Filter for actual streaming parts (reasoning + text), exclude tool/step markers
     const streamingParts = allParts.filter((part): part is TextPart | ReasoningPart => {
       // Only text and reasoning parts have streaming time data
@@ -1408,22 +1410,22 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
 
       return false
     })
-  
+
     if (streamingParts.length === 0) return 0
-  
+
     // Sum individual part durations (excludes tool execution time between parts)
     let totalStreamingTimeMs = 0
     let hasValidReasoning = false
-  
+
     for (const part of streamingParts) {
       totalStreamingTimeMs += part.time!.end! - part.time!.start!
       if (part.type === "reasoning") {
         hasValidReasoning = true
       }
     }
-  
+
     if (totalStreamingTimeMs === 0) return 0
-  
+
     const totals = assistantMessages.reduce(
       (acc, m) => {
         acc.output += m.tokens.output
@@ -1434,14 +1436,66 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
     )
 
     const totalTokens = totals.reasoning + totals.output
-  
+
     if (totalTokens === 0) return 0
-  
+
     // Calculate tokens per second
     const totalStreamingTimeSec = totalStreamingTimeMs / 1000
     const tokensPerSecond = totalTokens / totalStreamingTimeSec
-  
+
     return Number(tokensPerSecond.toFixed(2))
+  })
+
+  // Elapsed time for in-progress messages
+  const [elapsedTime, setElapsedTime] = createSignal(0)
+
+  createEffect(() => {
+    // Only run timer for the last in-progress message (not final/completed)
+    // This prevents multiple timers from running for older messages
+    if (!props.last || final()) {
+      setElapsedTime(0)
+      return
+    }
+
+    // Access parts directly from the store for proper reactivity tracking
+    // Using props.parts doesn't trigger updates when individual parts change
+    const parts = sync.data.part[props.message.id] ?? []
+
+    // Find the start time of the last active part (current action)
+    let startTime: number | undefined
+
+    // Check parts in reverse order to find the most recent one with timing
+    for (let i = parts.length - 1; i >= 0; i--) {
+      const part = parts[i]
+
+      if (part.type === "tool") {
+        // Running tool has time.start
+        if (part.state.status === "running" && part.state.time?.start) {
+          startTime = part.state.time.start
+          break
+        }
+      } else if (part.type === "text" || part.type === "reasoning") {
+        // Text/reasoning parts have time.start if in progress (no end time)
+        if (part.time?.start && !part.time?.end) {
+          startTime = part.time.start
+          break
+        }
+      }
+    }
+
+    // No running part found - don't show elapsed time
+    if (!startTime) {
+      setElapsedTime(0)
+      return
+    }
+
+    const interval = setInterval(() => {
+      setElapsedTime(Date.now() - startTime!)
+    }, 1000)
+
+    onCleanup(() => {
+      clearInterval(interval)
+    })
   })
 
   return (
@@ -1496,6 +1550,9 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
               </Show>
               <Show when={ctx.showTps() && TPS()}>
                 <span style={{ fg: theme.textMuted }}> · {TPS()} tps</span>
+              </Show>
+              <Show when={!final() && elapsedTime()}>
+                <span style={{ fg: theme.textMuted }}> · running {Locale.duration(elapsedTime())}</span>
               </Show>
               <Show when={props.message.error?.name === "MessageAbortedError"}>
                 <span style={{ fg: theme.textMuted }}> · interrupted</span>
