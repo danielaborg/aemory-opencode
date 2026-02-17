@@ -8,7 +8,7 @@ Created: 2026-02-17
 | Branch | Source | Commit Hash | Status |
 |--------|--------|-------------|--------|
 | fix/remove-dot-true | origin | 52701f9321932bc809c4260c25d7d2121b03259a | ✅ Merged |
-| fix/2119-question-tool | origin | | |
+| fix/rfc2119-question-tool | origin | 0567d86bbac2678656f9a0bd37b02574ec7bdde9 | ✅ Merged |
 | fix/restore-footer | origin | | |
 | fix/persist-sidebar | origin | | |
 | fix/autocompletion-filtered-order | origin | | |
@@ -59,3 +59,4 @@ Created: 2026-02-17
 ## Merge Log
 
 1. **fix/remove-dot-true** (52701f9321932bc809c4260c25d7d2121b03259a) - Merged successfully
+2. **fix/rfc2119-question-tool** (0567d86bbac2678656f9a0bd37b02574ec7bdde9) - Merged successfully
