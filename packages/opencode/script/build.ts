@@ -180,18 +180,18 @@ for (const item of targets) {
       windows: {},
     },
     entrypoints: ["./src/index.ts", parserWorker, workerPath],
-     define: {
+      define: {
       BASEONE_VERSION: `'${Script.version}'`,
       BASEONE_MIGRATIONS: JSON.stringify(migrations),
       OTUI_TREE_SITTER_WORKER_PATH: bunfsRoot + workerRelativePath,
       BASEONE_WORKER_PATH: workerPath,
-      BASEONE_CHANNEL: `'${Script.channel}'`,
+      BASEONE_CHANNEL: `'local'`,
       BASEONE_LIBC: item.os === "linux" ? `'${item.abi ?? "glibc"}'` : "",
       // Legacy compatibility
       OPENCODE_VERSION: `'${Script.version}'`,
       OPENCODE_MIGRATIONS: JSON.stringify(migrations),
       OPENCODE_WORKER_PATH: workerPath,
-      OPENCODE_CHANNEL: `'${Script.channel}'`,
+      OPENCODE_CHANNEL: `'local'`,
       OPENCODE_LIBC: item.os === "linux" ? `'${item.abi ?? "glibc"}'` : "",
     },
   })
