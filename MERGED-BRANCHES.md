@@ -20,7 +20,7 @@ Created: 2026-02-17
 | refactor/shared-substitute | origin | 08624da8bead38660c83d4c4af9953dc95ab3532 | ✅ Merged |
 | feat/argument-range-syntax | origin | 6e5f78687089ff04afaba5f6abb22875e329f181 | ✅ Merged |
 | feat/opencode-expand | origin | 71db5e58a22f867d38dea1d9ecfe2fbf4d76c7b1 | ✅ Merged |
-| merged/feat/session-delete-switch | origin | | |
+| merged/feat/session-delete-switch | origin | 1cc0e46825d4e92f0ce8d210d2ac4f6b12734aed | ✅ Merged |
 | feat/edit-tool-description | origin | | |
 | feat/opeoginni--display-message-tps | origin | | |
 | feat/kv-diff-style-clean | origin | | |
@@ -71,3 +71,4 @@ Created: 2026-02-17
 11. **refactor/shared-substitute** (08624da8bead38660c83d4c4af9953dc95ab3532) - Merged successfully
 12. **feat/argument-range-syntax** (6e5f78687089ff04afaba5f6abb22875e329f181) - Merged successfully (conflict resolved)
 13. **feat/opencode-expand** (71db5e58a22f867d38dea1d9ecfe2fbf4d76c7b1) - Merged successfully
+14. **merged/feat/session-delete-switch** (1cc0e46825d4e92f0ce8d210d2ac4f6b12734aed) - Merged successfully
