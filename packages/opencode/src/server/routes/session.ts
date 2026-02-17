@@ -268,6 +268,7 @@ export const SessionRoutes = lazy(() =>
           time: z
             .object({
               archived: z.number().optional(),
+              pinned: z.number().nullable().optional(),
             })
             .optional(),
         }),
@@ -282,6 +283,15 @@ export const SessionRoutes = lazy(() =>
         }
         if (updates.time?.archived !== undefined) {
           session = await Session.setArchived({ sessionID, time: updates.time.archived })
+        }
+        if (updates.time?.pinned !== undefined) {
+          session = await Session.update(
+            sessionID,
+            (draft) => {
+              draft.time.pinned = updates.time!.pinned ?? undefined
+            },
+            { touch: false }
+          )
         }
 
         return c.json(session)
