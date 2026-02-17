@@ -141,6 +141,7 @@ function AssistantMessageItem(props: {
   responsePartId: string | undefined
   hideResponsePart: boolean
   hideReasoning: boolean
+  anchorId?: string
   hidden?: () => readonly { messageID: string; callID: string }[]
 }) {
   const data = useData()
@@ -180,7 +181,7 @@ function AssistantMessageItem(props: {
     })
   })
 
-  return <Message message={props.message} parts={filteredParts()} />
+  return <Message message={props.message} parts={filteredParts()} id={props.anchorId} />
 }
 
 export function SessionTurn(
@@ -748,6 +749,7 @@ export function SessionTurn(
                               responsePartId={responsePartId()}
                               hideResponsePart={hideResponsePart()}
                               hideReasoning={!working()}
+                              anchorId={`message-${assistantMessage.id}`}
                               hidden={hidden}
                             />
                           )}

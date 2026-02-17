@@ -63,6 +63,7 @@ import { DialogConfirm } from "@tui/ui/dialog-confirm"
 import { DialogPrompt } from "@tui/ui/dialog-prompt"
 import { DialogTimeline } from "./dialog-timeline"
 import { DialogForkFromTimeline } from "./dialog-fork-from-timeline"
+import { DialogInspect } from "./dialog-inspect"
 import { DialogSessionRename } from "../../component/dialog-session-rename"
 import { Sidebar } from "./sidebar"
 import { Flag } from "@/flag/flag"
@@ -1183,6 +1184,11 @@ export function Session() {
                         last={lastAssistant()?.id === message.id}
                         message={message as AssistantMessage}
                         parts={sync.data.part[message.id] ?? []}
+                        next={
+                          messages()
+                            .slice(index() + 1)
+                            .find((x) => x.role === "assistant") as AssistantMessage | undefined
+                        }
                       />
                     </Match>
                   </Switch>
@@ -1378,12 +1384,14 @@ function UserMessage(props: {
   )
 }
 
-function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; last: boolean }) {
+function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; last: boolean; next?: AssistantMessage }) {
   const local = useLocal()
   const { theme } = useTheme()
   const sync = useSync()
   const ctx = use()
   const messages = createMemo(() => sync.data.message[props.message.sessionID] ?? [])
+  const dialog = useDialog()
+  const [hover, setHover] = createSignal(false)
 
   function getParts(messageID: string) {
     return sync.data.part[messageID] ?? []
@@ -1519,34 +1527,85 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
   })
 
   return (
-    <>
+    <box id={props.message.id} flexDirection="column">
       <For each={props.parts}>
-        {(part, index) => {
-          const component = createMemo(() => PART_MAPPING[part.type as keyof typeof PART_MAPPING])
-          return (
-            <Show when={component()}>
-              <Dynamic
-                last={index() === props.parts.length - 1}
-                component={component()}
-                part={part as any}
-                message={props.message}
-              />
+      {(part, index) => {
+        const component = createMemo(() => PART_MAPPING[part.type as keyof typeof PART_MAPPING])
+        return (
+          <Show when={component()}>
+            <Dynamic
+              last={index() === props.parts.length - 1}
+              component={component()}
+              part={part as any}
+              message={props.message}
+            />
+          </Show>
+        )
+      }}
+    </For>
+    <box flexDirection="row" gap={1} justifyContent="flex-end">
+      <text>
+        <Show when={props.message.tokens}>
+          <span style={{ fg: theme.textMuted }}>
+            {" "}
+            {(props.message.tokens.input + (props.message.tokens.cache?.read ?? 0)).toLocaleString()} token
+            {props.next?.tokens
+              ? ` (+${(
+                  props.next.tokens.input +
+                  (props.next.tokens.cache?.read ?? 0) -
+                  (props.message.tokens.input + (props.message.tokens.cache?.read ?? 0))
+                ).toLocaleString()})`
+              : ""}
+          </span>
+        </Show>
+      </text>
+      <box
+        onMouseOver={() => setHover(true)}
+        onMouseOut={() => setHover(false)}
+        onMouseUp={() => dialog.replace(() => <DialogInspect message={props.message} parts={props.parts} />)}
+        backgroundColor={hover() ? theme.backgroundElement : undefined}
+      >
+        <text fg={theme.accent}>[?]</text>
+      </box>
+    </box>
+
+    <Show when={props.message.error && props.message.error.name !== "MessageAbortedError"}>
+      <box
+        border={["left"]}
+        paddingTop={1}
+        paddingBottom={1}
+        paddingLeft={2}
+        marginTop={1}
+        backgroundColor={theme.backgroundPanel}
+        customBorderChars={SplitBorder.customBorderChars}
+        borderColor={theme.error}
+      >
+        <text fg={theme.textMuted}>{props.message.error?.data.message}</text>
+      </box>
+    </Show>
+    <Switch>
+      <Match when={props.last || final() || props.message.error?.name === "MessageAbortedError"}>
+        <box paddingLeft={3}>
+          <text marginTop={1}>
+            <span
+              style={{
+                fg:
+                  props.message.error?.name === "MessageAbortedError"
+                    ? theme.textMuted
+                    : local.agent.color(props.message.agent),
+              }}
+            >
+              ▣{" "}
+            </span>{" "}
+            <span style={{ fg: theme.text }}>{Locale.titlecase(props.message.mode)}</span>
+            <span style={{ fg: theme.textMuted }}> · {props.message.modelID}</span>
+            <Show when={duration()}>
+              <span style={{ fg: theme.textMuted }}> · {Locale.duration(duration())}</span>
             </Show>
-          )
-        }}
-      </For>
-      <Show when={props.message.error && props.message.error.name !== "MessageAbortedError"}>
-        <box
-          border={["left"]}
-          paddingTop={1}
-          paddingBottom={1}
-          paddingLeft={2}
-          marginTop={1}
-          backgroundColor={theme.backgroundPanel}
-          customBorderChars={SplitBorder.customBorderChars}
-          borderColor={theme.error}
-        >
-          <text fg={theme.textMuted}>{props.message.error?.data.message}</text>
+            <Show when={props.message.error?.name === "MessageAbortedError"}>
+              <span style={{ fg: theme.textMuted }}> · interrupted</span>
+            </Show>
+          </text>
         </box>
       </Show>
       <Switch>
@@ -1582,6 +1641,7 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
         </Match>
       </Switch>
     </>
+    </box>
   )
 }
 

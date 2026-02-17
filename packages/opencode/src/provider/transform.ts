@@ -2,6 +2,7 @@ import type { ModelMessage } from "ai"
 import { mergeDeep, unique } from "remeda"
 import type { JSONSchema7 } from "@ai-sdk/provider"
 import type { JSONSchema } from "zod/v4/core"
+import path from "path"
 import type { Provider } from "./provider"
 import type { ModelsDev } from "./models"
 import { iife } from "@/util/iife"
@@ -49,6 +50,35 @@ export namespace ProviderTransform {
     model: Provider.Model,
     options: Record<string, unknown>,
   ): ModelMessage[] {
+    // Strip openai itemId metadata following what codex does
+    if (model.api.npm === "@ai-sdk/openai" || options.store === false) {
+      msgs = msgs.map((msg) => {
+        if (msg.providerOptions) {
+          for (const options of Object.values(msg.providerOptions)) {
+            if (options && typeof options === "object") {
+              delete options["itemId"]
+              delete options["reasoningEncryptedContent"]
+            }
+          }
+        }
+        if (!Array.isArray(msg.content)) {
+          return msg
+        }
+        const content = msg.content.map((part) => {
+          if (part.providerOptions) {
+            for (const options of Object.values(part.providerOptions)) {
+              if (options && typeof options === "object") {
+                delete options["itemId"]
+                delete options["reasoningEncryptedContent"]
+              }
+            }
+          }
+          return part
+        })
+        return { ...msg, content } as typeof msg
+      })
+    }
+
     // Anthropic rejects messages with empty content - filter out empty string messages
     // and remove empty text/reasoning parts from array content
     if (model.api.npm === "@ai-sdk/anthropic") {
@@ -171,7 +201,34 @@ export namespace ProviderTransform {
     return msgs
   }
 
-  function applyCaching(msgs: ModelMessage[], model: Provider.Model): ModelMessage[] {
+  async function applyCaching(msgs: ModelMessage[], model: Provider.Model, sessionID?: string): Promise<ModelMessage[]> {
+    // Skip caching if session cache was invalidated (e.g., message deletion)
+    if (sessionID) {
+      const { Global } = await import("@/global")
+      const { Session } = await import("../session")
+      const session = await Session.get(sessionID).catch(() => null)
+      if (session) {
+        const sessionPath = path.join(
+          Global.Path.data,
+          "storage",
+          "session",
+          `project_${session.projectID}`,
+          `${sessionID}.json`
+        )
+        try {
+          const sessionData = await Bun.file(sessionPath).json()
+          if (sessionData.cacheInvalidated) {
+            // Clear flag and return without cache control markers
+            delete sessionData.cacheInvalidated
+            await Bun.write(sessionPath, JSON.stringify(sessionData, null, 2))
+            return msgs
+          }
+        } catch {
+          // File doesn't exist or can't be read, continue with caching
+        }
+      }
+    }
+
     const system = msgs.filter((msg) => msg.role === "system").slice(0, 2)
     const final = msgs.filter((msg) => msg.role !== "system").slice(-2)
 
@@ -249,7 +306,12 @@ export namespace ProviderTransform {
     })
   }
 
-  export function message(msgs: ModelMessage[], model: Provider.Model, options: Record<string, unknown>) {
+  export async function message(
+    msgs: ModelMessage[],
+    model: Provider.Model,
+    options: Record<string, unknown> = {},
+    sessionID?: string,
+  ) {
     msgs = unsupportedParts(msgs, model)
     msgs = normalizeMessages(msgs, model, options)
     if (
@@ -261,7 +323,7 @@ export namespace ProviderTransform {
         model.api.npm === "@ai-sdk/anthropic") &&
       model.api.npm !== "@ai-sdk/gateway"
     ) {
-      msgs = applyCaching(msgs, model)
+      msgs = await applyCaching(msgs, model, sessionID)
     }
 
     // Remap providerOptions keys from stored providerID to expected SDK key

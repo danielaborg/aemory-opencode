@@ -39,13 +39,15 @@ export interface DialogSelectOption<T = any> {
   disabled?: boolean
   bg?: RGBA
   gutter?: JSX.Element
-  onSelect?: (ctx: DialogContext) => void
+  titleColor?: RGBA
+  footerColor?: RGBA
+  onSelect?: (ctx: DialogContext, trigger?: "prompt") => void
 }
 
 export type DialogSelectRef<T> = {
   filter: string
   filtered: DialogSelectOption<T>[]
-  scrollToValue: (value: T) => void
+  moveToValue: (value: T) => void
 }
 
 export function DialogSelect<T>(props: DialogSelectProps<T>) {
@@ -211,10 +213,10 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
     get filtered() {
       return filtered()
     },
-    scrollToValue(value: T) {
+    moveToValue(value: T) {
       const index = flat().findIndex((opt) => isDeepEqual(opt.value, value))
       if (index >= 0) {
-        moveTo(index)
+        moveTo(index, true)
       }
     },
   }
@@ -319,6 +321,8 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
                           active={active()}
                           current={current()}
                           gutter={option.gutter}
+                          titleColor={option.titleColor}
+                          footerColor={option.footerColor}
                         />
                       </box>
                     )
@@ -354,6 +358,8 @@ function Option(props: {
   current?: boolean
   footer?: JSX.Element | string
   gutter?: JSX.Element
+  titleColor?: RGBA
+  footerColor?: RGBA
   onMouseOver?: () => void
 }) {
   const { theme } = useTheme()
@@ -373,20 +379,20 @@ function Option(props: {
       </Show>
       <text
         flexGrow={1}
-        fg={props.active ? fg : props.current ? theme.primary : theme.text}
+        fg={props.active ? fg : props.current ? theme.primary : (props.titleColor ?? theme.text)}
         attributes={props.active ? TextAttributes.BOLD : undefined}
         overflow="hidden"
         wrapMode="none"
         paddingLeft={3}
       >
-        {Locale.truncate(props.title, 61)}
+        {Locale.truncate(props.title, 60)}
         <Show when={props.description}>
           <span style={{ fg: props.active ? fg : theme.textMuted }}> {props.description}</span>
         </Show>
       </text>
       <Show when={props.footer}>
         <box flexShrink={0}>
-          <text fg={props.active ? fg : theme.textMuted}>{props.footer}</text>
+          <text fg={props.active ? fg : (props.footerColor ?? theme.textMuted)}>{props.footer}</text>
         </box>
       </Show>
     </>
