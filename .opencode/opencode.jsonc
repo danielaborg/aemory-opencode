@@ -1,5 +1,8 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "tui": {
+    "theme": "my-matrix",
+  },
   "provider": {
     "opencode": {
       "options": {},
