@@ -19,7 +19,7 @@ Created: 2026-02-17
 | fix/move-selection-with-deletion-marked-take-1 | origin | 9700a9cd4755bbac94bd11d663c41ffda709fbf2 | ✅ Merged |
 | refactor/shared-substitute | origin | 08624da8bead38660c83d4c4af9953dc95ab3532 | ✅ Merged |
 | feat/argument-range-syntax | origin | 6e5f78687089ff04afaba5f6abb22875e329f181 | ✅ Merged |
-| feat/opencode-expand | origin | | |
+| feat/opencode-expand | origin | 71db5e58a22f867d38dea1d9ecfe2fbf4d76c7b1 | ✅ Merged |
 | merged/feat/session-delete-switch | origin | | |
 | feat/edit-tool-description | origin | | |
 | feat/opeoginni--display-message-tps | origin | | |
@@ -70,3 +70,4 @@ Created: 2026-02-17
 10. **fix/move-selection-with-deletion-marked-take-1** (9700a9cd4755bbac94bd11d663c41ffda709fbf2) - Merged successfully
 11. **refactor/shared-substitute** (08624da8bead38660c83d4c4af9953dc95ab3532) - Merged successfully
 12. **feat/argument-range-syntax** (6e5f78687089ff04afaba5f6abb22875e329f181) - Merged successfully (conflict resolved)
+13. **feat/opencode-expand** (71db5e58a22f867d38dea1d9ecfe2fbf4d76c7b1) - Merged successfully
