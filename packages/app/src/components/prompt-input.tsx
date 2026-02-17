@@ -36,6 +36,7 @@ import { SessionContextUsage } from "@/components/session-context-usage"
 import { usePermission } from "@/context/permission"
 import { useLanguage } from "@/context/language"
 import { usePlatform } from "@/context/platform"
+import { SINISTER_PLACEHOLDERS as PLACEHOLDERS } from "@opencode-ai/ui/constants/placeholders"
 import { createTextFragment, getCursorPosition, setCursorPosition, setRangeEdge } from "./prompt-input/editor-dom"
 import { createPromptAttachments, ACCEPTED_FILE_TYPES } from "./prompt-input/attachments"
 import {
@@ -52,6 +53,15 @@ import { PromptDragOverlay } from "./prompt-input/drag-overlay"
 import { promptPlaceholder } from "./prompt-input/placeholder"
 import { ImagePreview } from "@opencode-ai/ui/image-preview"
 
+const ACCEPTED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/gif", "image/webp"]
+
+type PendingPrompt = {
+  abort: AbortController
+  cleanup: VoidFunction
+}
+
+const pending = new Map<string, PendingPrompt>()
+
 interface PromptInputProps {
   class?: string
   ref?: (el: HTMLDivElement) => void
@@ -60,33 +70,7 @@ interface PromptInputProps {
   onSubmit?: () => void
 }
 
-const EXAMPLES = [
-  "prompt.example.1",
-  "prompt.example.2",
-  "prompt.example.3",
-  "prompt.example.4",
-  "prompt.example.5",
-  "prompt.example.6",
-  "prompt.example.7",
-  "prompt.example.8",
-  "prompt.example.9",
-  "prompt.example.10",
-  "prompt.example.11",
-  "prompt.example.12",
-  "prompt.example.13",
-  "prompt.example.14",
-  "prompt.example.15",
-  "prompt.example.16",
-  "prompt.example.17",
-  "prompt.example.18",
-  "prompt.example.19",
-  "prompt.example.20",
-  "prompt.example.21",
-  "prompt.example.22",
-  "prompt.example.23",
-  "prompt.example.24",
-  "prompt.example.25",
-] as const
+
 
 export const PromptInput: Component<PromptInputProps> = (props) => {
   const sdk = useSDK()
@@ -218,7 +202,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
     popover: null,
     historyIndex: -1,
     savedPrompt: null,
-    placeholder: Math.floor(Math.random() * EXAMPLES.length),
+    placeholder: Math.floor(Math.random() * PLACEHOLDERS.length),
     draggingType: null,
     mode: "normal",
     applyingHistory: false,
@@ -227,7 +211,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
     promptPlaceholder({
       mode: store.mode,
       commentCount: commentCount(),
-      example: language.t(EXAMPLES[store.placeholder]),
+      example: PLACEHOLDERS[store.placeholder],
       t: (key, params) => language.t(key as Parameters<typeof language.t>[0], params as never),
     }),
   )
@@ -326,7 +310,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
     params.id
     if (params.id) return
     const interval = setInterval(() => {
-      setStore("placeholder", (prev) => (prev + 1) % EXAMPLES.length)
+      setStore("placeholder", (prev) => (prev + 1) % PLACEHOLDERS.length)
     }, 6500)
     onCleanup(() => clearInterval(interval))
   })
@@ -998,7 +982,11 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
             }}
             role="textbox"
             aria-multiline="true"
-            aria-label={placeholder()}
+            aria-label={
+              store.mode === "shell"
+                ? language.t("prompt.placeholder.shell")
+                : PLACEHOLDERS[store.placeholder]
+            }
             contenteditable="true"
             autocapitalize="off"
             autocorrect="off"
@@ -1018,7 +1006,9 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
           />
           <Show when={!prompt.dirty()}>
             <div class="absolute top-0 inset-x-0 p-3 pr-12 text-14-regular text-text-weak pointer-events-none whitespace-nowrap truncate">
-              {placeholder()}
+              {store.mode === "shell"
+                ? language.t("prompt.placeholder.shell")
+                : `${PLACEHOLDERS[store.placeholder]}`}
             </div>
           </Show>
         </div>
