@@ -26,7 +26,7 @@ Created: 2026-02-17
 | feat/kv-diff-style-clean | origin | 7f38b474992456bbf794b4514fe2168dc4c2515c | ✅ Merged |
 | feat/global-compaction-threshold | origin | ee1fdbb90631eb6bd04e7cf215244dfe8e927d56 | ✅ Merged |
 | feat/configurable-message-and-session-limit | origin | a291ef2f857dbf3f9f549bfe8c4fd4238d2bc83d | ✅ Merged |
-| feat/experimental-dont-cache-markdown | origin | | |
+| feat/experimental-dont-cache-markdown | origin | 5297d7c7a2dbc39486777fda56695d4186d4bea3 | ✅ Merged |
 | feat/interjections | origin | | |
 | feat/jsonc-user-themes | origin | | |
 | feat/permission-indicator-in-sidebar | origin | | |
@@ -77,3 +77,4 @@ Created: 2026-02-17
 17. **feat/kv-diff-style-clean** (7f38b474992456bbf794b4514fe2168dc4c2515c) - Merged successfully
 18. **feat/global-compaction-threshold** (ee1fdbb90631eb6bd04e7cf215244dfe8e927d56) - Merged successfully
 19. **feat/configurable-message-and-session-limit** (a291ef2f857dbf3f9f549bfe8c4fd4238d2bc83d) - Merged successfully (conflict resolved)
+20. **feat/experimental-dont-cache-markdown** (5297d7c7a2dbc39486777fda56695d4186d4bea3) - Merged successfully
