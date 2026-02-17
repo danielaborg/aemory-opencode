@@ -13,6 +13,53 @@ import { NamedError } from "@opencode-ai/util/error"
 import { CopilotAuthPlugin } from "./copilot"
 import { gitlabAuthPlugin as GitlabAuthPlugin } from "@gitlab/opencode-gitlab-auth"
 
+interface BuildMessage {
+  message: string
+  position?: {
+    file?: string
+    line?: number
+    column?: number
+    lineText?: string
+  }
+}
+
+interface ResolveMessage {
+  name: string
+  message: string
+  code: string
+  specifier: string
+  referrer?: string
+}
+
+function isResolveMessage(e: unknown): e is ResolveMessage {
+  return (
+    typeof e === "object" &&
+    e !== null &&
+    "name" in e &&
+    (e as { name: string }).name === "ResolveMessage" &&
+    "specifier" in e
+  )
+}
+
+function formatPluginBuildError(e: unknown, plugin: string): string {
+  if (isResolveMessage(e)) {
+    const path = e.specifier.replace("file://", "")
+    return `File not found: ${path}`
+  }
+  if (e instanceof AggregateError && e.errors?.length) {
+    const buildError = e.errors.find((err): err is BuildMessage => err && typeof err === "object" && "message" in err)
+    if (buildError) {
+      const pos = buildError.position
+      const file = pos?.file ? pos.file.replace(plugin, "").replace(/^\/+/, "") : undefined
+      const line = pos?.line
+      const details = file ? `${file}:${line ?? "?"}` : line ? `line ${line}` : undefined
+      return details ? `${buildError.message} (${details})` : buildError.message
+    }
+  }
+  if (e instanceof Error) return e.message
+  return String(e)
+}
+
 export namespace Plugin {
   const log = Log.create({ service: "plugin" })
 
@@ -20,6 +67,24 @@ export namespace Plugin {
 
   // Built-in plugins that are directly imported (not installed from npm)
   const INTERNAL_PLUGINS: PluginInstance[] = [CodexAuthPlugin, CopilotAuthPlugin, GitlabAuthPlugin]
+
+  const startupErrors: string[] = []
+
+  function recordError(message: string) {
+    startupErrors.push(message)
+    log.error("plugin error", { message })
+    Bus.publish(Session.Event.Error, {
+      error: new NamedError.Unknown({ message }).toObject(),
+    })
+  }
+
+  export function getStartupErrors(): string[] {
+    return [...startupErrors]
+  }
+
+  export function clearStartupErrors() {
+    startupErrors.length = 0
+  }
 
   const state = Instance.state(async () => {
     const client = createOpencodeClient({
@@ -64,25 +129,21 @@ export namespace Plugin {
           if (!builtin) throw err
 
           const message = err instanceof Error ? err.message : String(err)
-          log.error("failed to install builtin plugin", {
-            pkg,
-            version,
-            error: message,
-          })
-          Bus.publish(Session.Event.Error, {
-            error: new NamedError.Unknown({
-              message: `Failed to install built-in plugin ${pkg}@${version}: ${message}`,
-            }).toObject(),
-          })
+          recordError(`Failed to install built-in plugin ${pkg}@${version}: ${message}`)
 
           return ""
         })
         if (!plugin) continue
       }
-      const mod = await import(plugin)
-      // Prevent duplicate initialization when plugins export the same function
-      // as both a named export and default export (e.g., `export const X` and `export default X`).
-      // Object.entries(mod) would return both entries pointing to the same function reference.
+      let mod: Record<string, PluginInstance>
+      try {
+        mod = await import(plugin)
+      } catch (e) {
+        const name = Config.getPluginName(plugin)
+        const message = formatPluginBuildError(e, plugin)
+        recordError(`Failed to load plugin "${name}": ${message}`)
+        continue
+      }
       const seen = new Set<PluginInstance>()
       for (const [_name, fn] of Object.entries<PluginInstance>(mod)) {
         if (seen.has(fn)) continue
