@@ -165,7 +165,7 @@ export function DialogSessionList() {
               sessionID: option.value,
               time: { pinned: isPinned ? null : Date.now() },
             })
-            setTimeout(() => selectRef()?.scrollToValue(option.value), 0)
+            setTimeout(() => selectRef()?.moveToValue(option.value), 0)
           },
         },
       ]}
