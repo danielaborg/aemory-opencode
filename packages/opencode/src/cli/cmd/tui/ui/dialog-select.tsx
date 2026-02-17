@@ -240,7 +240,7 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
     scrollToValue(value: T) {
       const index = flat().findIndex((opt) => isDeepEqual(opt.value, value))
       if (index >= 0) {
-        moveTo(index)
+        moveTo(index, true)
       }
     },
   }
