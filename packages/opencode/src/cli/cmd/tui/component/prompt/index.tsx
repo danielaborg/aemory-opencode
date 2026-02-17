@@ -33,6 +33,7 @@ import { useKV } from "../../context/kv"
 import { useTextareaKeybindings } from "../textarea-keybindings"
 import { useListContinuation } from "../list-continuation"
 import { DialogSkill } from "../dialog-skill"
+import { SINISTER_PLACEHOLDERS } from "@opencode-ai/ui/constants/placeholders"
 
 export type PromptProps = {
   sessionID?: string
@@ -54,56 +55,8 @@ export type PromptRef = {
   submit(): void
 }
 
-const PLACEHOLDERS = [
-  "If you can read this, you are too close",
-  "This space intentionally left blank",
-  "Your prompt here (not literally)",
-  "Awaiting instructions...",
-  "The void stares back",
-  "THERE IS NO PROMPT",
-  "There is no prompt—only Zuul",
-  "Console yourself",
-  "Type your deepest desires",
-  "Be careful what you ask for",
-  "I've seen things you people wouldn't believe",
-  "We'll do it live!",
-  "It's not a bug—it's a feature",
-  "PEBKAC error",
-  "ID-10-T error",
-  "Have you tried turning it off and on again?",
-  "sudo make me a sandwich",
-  "Press any key to continue (any key, really)",
-  "Hello world, again",
-  "In case of emergency, break glass",
-  "Your wish is my command",
-  "One does not simply write a prompt",
-  "It's a feature, not a bug",
-  "These aren't the prompts you're looking for",
-  "With great power comes great responsibility",
-  "Danger, Will Robinson!",
-  "Resistance is futile",
-  "All your base are belong to us",
-  "It's over 9000!",
-  "The cake is a lie",
-  "Do a barrel roll!",
-  "Take off every 'ZIG'!!",
-  "For great justice",
-  "You have died of dysentery",
-  "Wololo",
-  "Hadouken!",
-  "Finish him!",
-  "Hey! Listen!",
-  "It's dangerous to go alone! Take this.",
-  "Waka waka waka",
-  "It's-a me, Mario!",
-  "Do a barrel roll!",
-  "Praise the sun!",
-  "Would you kindly?",
-  "A naked singularity approaches",
-  "Entropy: It's not just a good idea, it's the law",
-  "Your causality is leaking",
-  "There is no merge conflict—only war",
-]
+// Placeholders imported from @opencode-ai/ui/constants/placeholders
+// Use SINISTER_PLACEHOLDERS from the shared module
 const SHELL_PLACEHOLDERS = ["ls -la", "git status", "pwd"]
 
 function getWordBoundariesForTransformation(text: string, cursorOffset: number): { start: number; end: number } | null {
@@ -215,7 +168,7 @@ export function Prompt(props: PromptProps) {
 
   // Resize textarea when placeholder changes (e.g., when switching sessions or when placeholder index changes)
   createEffect(() => {
-    const placeholderText = props.sessionID ? undefined : PLACEHOLDERS[store.placeholder]
+    const placeholderText = props.sessionID ? undefined : SINISTER_PLACEHOLDERS[store.placeholder]
     // Track both the placeholder text and sessionID changes
     if (input) {
       setTimeout(() => {
@@ -240,7 +193,7 @@ export function Prompt(props: PromptProps) {
     placeholder: number
     killBuffer: string
   }>({
-    placeholder: Math.floor(Math.random() * PLACEHOLDERS.length),
+    placeholder: Math.floor(Math.random() * SINISTER_PLACEHOLDERS.length),
     prompt: {
       input: "",
       parts: [],
@@ -255,7 +208,7 @@ export function Prompt(props: PromptProps) {
     on(
       () => props.sessionID,
       () => {
-        setStore("placeholder", Math.floor(Math.random() * PLACEHOLDERS.length))
+        setStore("placeholder", Math.floor(Math.random() * SINISTER_PLACEHOLDERS.length))
       },
       { defer: true },
     ),
@@ -876,7 +829,7 @@ export function Prompt(props: PromptProps) {
       const example = SHELL_PLACEHOLDERS[store.placeholder % SHELL_PLACEHOLDERS.length]
       return `Run a command... "${example}"`
     }
-    return `Ask anything... "${PLACEHOLDERS[store.placeholder % PLACEHOLDERS.length]}"`
+    return `Ask anything... "${SINISTER_PLACEHOLDERS[store.placeholder % SINISTER_PLACEHOLDERS.length]}"`
   })
 
   const spinnerDef = createMemo(() => {
@@ -972,10 +925,10 @@ export function Prompt(props: PromptProps) {
           >
             <textarea
 // **CRITICAL MERGE WARNING**: Keep this EXACT format (NO "Ask anything" prefix, NO quotes):
-              //   CORRECT: `${PLACEHOLDERS[store.placeholder]}`
-              //   WRONG:   `Ask anything... "${PLACEHOLDERS[store.placeholder]}"`
+              //   CORRECT: `${SINISTER_PLACEHOLDERS[store.placeholder]}`
+              //   WRONG:   `Ask anything... "${SINISTER_PLACEHOLDERS[store.placeholder]}"`
               // The sinister-quotes feature intentionally removes the prefix. A test validates this.
-              placeholder={props.sessionID ? undefined : `${PLACEHOLDERS[store.placeholder]}`}
+              placeholder={props.sessionID ? undefined : `${SINISTER_PLACEHOLDERS[store.placeholder]}`}
               textColor={keybind.leader ? theme.textMuted : theme.text}
               focusedTextColor={keybind.leader ? theme.textMuted : theme.text}
               minHeight={1}
