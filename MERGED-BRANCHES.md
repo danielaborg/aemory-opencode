@@ -11,7 +11,7 @@ Created: 2026-02-17
 | fix/rfc2119-question-tool | origin | 0567d86bbac2678656f9a0bd37b02574ec7bdde9 | ✅ Merged |
 | fix/restore-footer | origin | 6e71f4dc10b5ee4e3e6a2330a499d6f486435a65 | ✅ Merged |
 | fix/persist-sidebar | origin | 1ea70c85bca0c08811787716d9d08e7bee783cc1 | ✅ Merged |
-| fix/autocompletion-filtered-order | origin | | |
+| fix/autocompletion-filtered-order | origin | 3b2835e0e2617a0c2133d3b7fa3b6d56d4ed8b51 | ✅ Merged |
 | fix/modal-menus-filtered-order | origin | | |
 | fix/config-content-file-write | origin | | |
 | fix/bad-plugin-errors | origin | | |
@@ -62,3 +62,4 @@ Created: 2026-02-17
 2. **fix/rfc2119-question-tool** (0567d86bbac2678656f9a0bd37b02574ec7bdde9) - Merged successfully
 3. **fix/restore-footer** (6e71f4dc10b5ee4e3e6a2330a499d6f486435a65) - Merged successfully
 4. **fix/persist-sidebar** (1ea70c85bca0c08811787716d9d08e7bee783cc1) - Merged successfully
+5. **fix/autocompletion-filtered-order** (3b2835e0e2617a0c2133d3b7fa3b6d56d4ed8b51) - Merged successfully
