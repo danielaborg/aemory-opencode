@@ -18,7 +18,7 @@ Created: 2026-02-17
 | fix/config-package-json-pollution | origin | 237a3520c9c9d5342dd01a07622f484dd57a218b | ✅ Merged |
 | fix/move-selection-with-deletion-marked-take-1 | origin | 9700a9cd4755bbac94bd11d663c41ffda709fbf2 | ✅ Merged |
 | refactor/shared-substitute | origin | 08624da8bead38660c83d4c4af9953dc95ab3532 | ✅ Merged |
-| feat/argument-range-syntax | origin | | |
+| feat/argument-range-syntax | origin | 6e5f78687089ff04afaba5f6abb22875e329f181 | ✅ Merged |
 | feat/opencode-expand | origin | | |
 | merged/feat/session-delete-switch | origin | | |
 | feat/edit-tool-description | origin | | |
@@ -69,3 +69,4 @@ Created: 2026-02-17
 9. **fix/config-package-json-pollution** (237a3520c9c9d5342dd01a07622f484dd57a218b) - Merged successfully
 10. **fix/move-selection-with-deletion-marked-take-1** (9700a9cd4755bbac94bd11d663c41ffda709fbf2) - Merged successfully
 11. **refactor/shared-substitute** (08624da8bead38660c83d4c4af9953dc95ab3532) - Merged successfully
+12. **feat/argument-range-syntax** (6e5f78687089ff04afaba5f6abb22875e329f181) - Merged successfully (conflict resolved)
