@@ -54,7 +54,7 @@ export type PromptRef = {
   submit(): void
 }
 
-const PLACEHOLDERS = ["Fix a TODO in the codebase", "What is the tech stack of this project?", "Fix broken tests"]
+import { SINISTER_PLACEHOLDERS as PLACEHOLDERS } from "@opencode-ai/ui/constants/placeholders"
 const SHELL_PLACEHOLDERS = ["ls -la", "git status", "pwd"]
 
 export function Prompt(props: PromptProps) {
@@ -116,6 +116,17 @@ export function Prompt(props: PromptProps) {
     if (!props.disabled) input.cursorColor = theme.text
   })
 
+  // Resize textarea when placeholder changes (e.g., when switching sessions or when placeholder index changes)
+  createEffect(() => {
+    const placeholderText = props.sessionID ? undefined : PLACEHOLDERS[store.placeholder]
+    // Track both the placeholder text and sessionID changes
+    if (input) {
+      setTimeout(() => {
+        input.getLayoutNode().markDirty()
+        renderer.requestRender()
+      }, 0)
+    }
+  })
   const lastUserMessage = createMemo(() => {
     if (!props.sessionID) return undefined
     const messages = sync.data.message[props.sessionID]
@@ -860,7 +871,7 @@ export function Prompt(props: PromptProps) {
             flexGrow={1}
           >
             <textarea
-              placeholder={placeholderText()}
+              placeholder={props.sessionID ? undefined : `${PLACEHOLDERS[store.placeholder]}`}
               textColor={keybind.leader ? theme.textMuted : theme.text}
               focusedTextColor={keybind.leader ? theme.textMuted : theme.text}
               minHeight={1}
