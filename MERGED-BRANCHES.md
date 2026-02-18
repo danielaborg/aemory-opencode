@@ -15,7 +15,7 @@ This document tracks the branches merged into the integration branch `integratio
 | fix/config-content-file-write | origin | 2cf6b0dda3bf76c82ea0017f0f9b5b966423ac26 | Merged |
 | fix/bad-plugin-errors | origin | f1393c53a1757d1151247df24c940921a4f33093 | Merged |
 | fix/config-package-json-pollution | origin | 237a3520c9c9d5342dd01a07622f484dd57a218b | Merged |
-| refactor/shared-substitute | origin | | Pending |
+| refactor/shared-substitute | origin | 08624da8bead38660c83d4c4af9953dc95ab3532 | Merged |
 | feat/argument-range-syntax | origin | | Pending |
 | feat/opencode-expand | origin | | Pending |
 | merged/feat/session-delete-switch | origin | | Pending |
@@ -91,4 +91,8 @@ This document tracks the branches merged into the integration branch `integratio
 ### 9. fix/config-package-json-pollution (237a3520c9c9d5342dd01a07622f484dd57a218b)
 - Status: Merged successfully
 - Changes: Fixed package.json pollution with non-SemVer versions
+
+### 10. refactor/shared-substitute (08624da8bead38660c83d4c4af9953dc95ab3532)
+- Status: Merged successfully
+- Changes: Extracted shared substitute function to config/substitute.ts
 
