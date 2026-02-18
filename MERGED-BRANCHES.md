@@ -9,7 +9,7 @@ This document tracks the branches merged into the integration branch `integratio
 | fix/remove-dot-true | origin | 52701f9321932bc809c4260c25d7d2121b03259a | Merged |
 | fix/rfc2119-question-tool | origin | 0567d86bbac2678656f9a0bd37b02574ec7bdde9 | Merged |
 | fix/restore-footer | origin | 6e71f4dc10b5ee4e3e6a2330a499d6f486435a65 | Merged |
-| fix/persist-sidebar | origin | | Pending |
+| fix/persist-sidebar | origin | 1ea70c85bca0c08811787716d9d08e7bee783cc1 | Merged |
 | fix/autocompletion-filtered-order | origin | | Pending |
 | fix/modal-menus-filtered-order | origin | | Pending |
 | fix/config-content-file-write | origin | | Pending |
@@ -67,4 +67,8 @@ This document tracks the branches merged into the integration branch `integratio
 ### 3. fix/restore-footer (6e71f4dc10b5ee4e3e6a2330a499d6f486435a65)
 - Status: Merged successfully
 - Changes: Restored footer in session route
+
+### 4. fix/persist-sidebar (1ea70c85bca0c08811787716d9d08e7bee783cc1)
+- Status: Merged successfully
+- Changes: Fixed sidebar persistence in kv and session route
 
