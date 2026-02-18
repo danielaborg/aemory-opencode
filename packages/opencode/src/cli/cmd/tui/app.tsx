@@ -571,7 +571,7 @@ function App() {
     },
     {
       title: kv.get("agent_timestamps", "hide") === "show" ? "Hide agent timestamps" : "Show agent timestamps",
-      value: "session.toggle.agent_timestamps",
+      value: "session.toggle.agent_timestamps_global",
       category: "System",
       slash: {
         name: "agent-timestamps",
