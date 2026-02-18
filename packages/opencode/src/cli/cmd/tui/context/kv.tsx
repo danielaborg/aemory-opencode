@@ -32,10 +32,10 @@ export const { use: useKV, provider: KVProvider } = createSimpleContext({
         if (store[name] === undefined) setStore(name, defaultValue)
         return [
           function () {
-            return result.get(name)
+            return result.get(name, defaultValue)
           },
-          function setter(next: Setter<T>) {
-            result.set(name, next)
+          function setter(value: T) {
+            result.set(name, value)
           },
         ] as const
       },
