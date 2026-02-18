@@ -53,6 +53,9 @@ This document tracks the branches merged into the integration branch `integratio
 | add-bash-env-parameter | taxilian | 17823dbeb5 | Merged |
 | feat/thinking-indicator-hidden | origin | b3e87c8d52 | Merged |
 | feat/base-one-rebrand | origin | fd04217b1a | Merged |
+| feat/agent-timestamps | origin | c3b86f3a92 | Merged |
+| feat/rewind-modal-option | origin | d47e85e3c8 | Merged |
+| feat/command-palette-consistecy | origin | f1657ae62d | Merged |
 
 ## Merge Log
 
