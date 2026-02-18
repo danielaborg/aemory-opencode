@@ -47,12 +47,12 @@ This document tracks the branches merged into the integration branch `integratio
 | feat/config-imports | origin | df2b7fd231 | Merged |
 | feat/canceled-prompts-in-history | origin | 03ee524809 | Merged |
 | feat/no-disabled-lsps-in-sidebar | origin | d69d79e270 | Merged |
-| feat/sinister-quotes | origin | | Pending |
-| feature/markdown-renderer | gignit | | Pending |
-| readline-additions | aspiers | | Pending |
-| add-bash-env-parameter | taxilian | | Pending |
-| feat/thinking-indicator-hidden | origin | | Pending |
-| feat/base-one-rebrand | origin | | Pending |
+| feat/sinister-quotes | origin | 07e0864582 | Merged |
+| feature/markdown-renderer | gignit | ebc991cc59 | Merged |
+| readline-additions | aspiers | c0788a7629 | Merged |
+| add-bash-env-parameter | taxilian | 17823dbeb5 | Merged |
+| feat/thinking-indicator-hidden | origin | b3e87c8d52 | Merged |
+| feat/base-one-rebrand | origin | fd04217b1a | Merged |
 
 ## Merge Log
 
