@@ -7,7 +7,7 @@ This document tracks the branches merged into the integration branch `integratio
 | Branch | Source Remote | Commit Hash | Status |
 |--------|---------------|-------------|--------|
 | fix/remove-dot-true | origin | 52701f9321932bc809c4260c25d7d2121b03259a | Merged |
-| fix/rfc2119-question-tool | origin | | Pending |
+| fix/rfc2119-question-tool | origin | 0567d86bbac2678656f9a0bd37b02574ec7bdde9 | Merged |
 | fix/restore-footer | origin | | Pending |
 | fix/persist-sidebar | origin | | Pending |
 | fix/autocompletion-filtered-order | origin | | Pending |
@@ -59,4 +59,8 @@ This document tracks the branches merged into the integration branch `integratio
 ### 1. fix/remove-dot-true (52701f9321932bc809c4260c25d7d2121b03259a)
 - Status: Merged successfully
 - Changes: Removed `.true` references from config, skill, and registry files
+
+### 2. fix/rfc2119-question-tool (0567d86bbac2678656f9a0bd37b02574ec7bdde9)
+- Status: Merged successfully
+- Changes: Updated RFC 2119 keywords in question tool description
 
