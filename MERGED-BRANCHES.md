@@ -35,18 +35,18 @@ This document tracks the branches merged into the integration branch `integratio
 | feat/elapsed-timer | origin | 3c08a95ce381528d3ab2e34b059d6a40283acfa8 | Merged |
 | feat/sidebar-no-auto-setting | origin | f047d1da42825f41fbe36a0fc909d95d794b8619 | Merged |
 | feat/set-session-title | origin | 6512363b2cc08f9e69a07c45ae721739abc0a1ee | Merged |
-| feat/get-session-title | origin | | Pending |
-| feat/session-timeline-repeat | origin | | Pending |
-| feat/automatic-list-continuation | origin | | Pending |
-| feat/continue-command | origin | | Pending |
-| feat/session-bookmarks | origin | | Pending |
-| fix/dialog-datetime-alignment | origin | | Pending |
-| feat/keybindable-commands | origin | | Pending |
-| feat/configurable-snapshot-lifespan | origin | | Pending |
-| feat/configurable-new-plan-mode | origin | | Pending |
-| feat/config-imports | origin | | Pending |
-| feat/canceled-prompts-in-history | origin | | Pending |
-| feat/no-disabled-lsps-in-sidebar | origin | | Pending |
+| feat/get-session-title | origin | 32ddc7fcb2 | Merged |
+| feat/session-timeline-repeat | origin | de704c434c | Merged |
+| feat/automatic-list-continuation | origin | 3574f182f1 | Merged |
+| feat/continue-command | origin | 8ea7eaca00 | Merged |
+| feat/session-bookmarks | origin | c94bf27f37 | Merged |
+| fix/dialog-datetime-alignment | origin | 764365e37b | Merged |
+| feat/keybindable-commands | origin | f175d1fe05 | Merged |
+| feat/configurable-snapshot-lifespan | origin | b4f508b3e8 | Merged |
+| feat/configurable-new-plan-mode | origin | 681b273429 | Merged |
+| feat/config-imports | origin | df2b7fd231 | Merged |
+| feat/canceled-prompts-in-history | origin | 03ee524809 | Merged |
+| feat/no-disabled-lsps-in-sidebar | origin | d69d79e270 | Merged |
 | feat/sinister-quotes | origin | | Pending |
 | feature/markdown-renderer | gignit | | Pending |
 | readline-additions | aspiers | | Pending |
