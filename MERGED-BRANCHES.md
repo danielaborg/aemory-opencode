@@ -10,7 +10,7 @@ This document tracks the branches merged into the integration branch `integratio
 | fix/rfc2119-question-tool | origin | 0567d86bbac2678656f9a0bd37b02574ec7bdde9 | Merged |
 | fix/restore-footer | origin | 6e71f4dc10b5ee4e3e6a2330a499d6f486435a65 | Merged |
 | fix/persist-sidebar | origin | 1ea70c85bca0c08811787716d9d08e7bee783cc1 | Merged |
-| fix/autocompletion-filtered-order | origin | | Pending |
+| fix/autocompletion-filtered-order | origin | 3b2835e0e2617a0c2133d3b7fa3b6d56d4ed8b51 | Merged |
 | fix/modal-menus-filtered-order | origin | | Pending |
 | fix/config-content-file-write | origin | | Pending |
 | fix/bad-plugin-errors | origin | | Pending |
@@ -71,4 +71,8 @@ This document tracks the branches merged into the integration branch `integratio
 ### 4. fix/persist-sidebar (1ea70c85bca0c08811787716d9d08e7bee783cc1)
 - Status: Merged successfully
 - Changes: Fixed sidebar persistence in kv and session route
+
+### 5. fix/autocompletion-filtered-order (3b2835e0e2617a0c2133d3b7fa3b6d56d4ed8b51)
+- Status: Merged successfully
+- Changes: Fixed filtered order in autocompletion, prompt-input, and use-filtered-list
 
