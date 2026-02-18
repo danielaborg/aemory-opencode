@@ -950,6 +950,10 @@ export namespace Config {
       .optional()
       .default(100)
       .describe("Maximum number of message parts to load per session when sync, or 'none' to load all messages"),
+    no_sidebar_auto: z
+      .boolean()
+      .optional()
+      .describe("When true, 'auto' sidebar mode always shows the sidebar regardless of window width"),
   })
   export type TUI = z.infer<typeof TUI>
 
