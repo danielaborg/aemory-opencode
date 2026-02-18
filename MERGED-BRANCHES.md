@@ -57,6 +57,7 @@ This document tracks the branches merged into the integration branch `integratio
 | feat/rewind-modal-option | origin | d47e85e3c8 | Merged |
 | feat/command-palette-consistecy | origin | f1657ae62d | Merged |
 | feat/session-grouping-take-1 | origin | f176ce32ae | Merged |
+| feat/alphabetize-command-palette-groups | origin | ed276b389f | Merged |
 
 ## Merge Log
 
