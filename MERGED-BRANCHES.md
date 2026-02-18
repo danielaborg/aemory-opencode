@@ -58,7 +58,7 @@ This document tracks the branches merged into the integration branch `integratio
 | feat/command-palette-consistecy | origin | f1657ae62d | Merged |
 | feat/session-grouping-take-1 | origin | f176ce32ae | Merged |
 | feat/alphabetize-command-palette-groups | origin | 581a434420 | Merged |
-| feat/taller-dialogs | origin | c265dea63b | Merged |
+| feat/taller-dialogs | origin | 1734bd5dba | Merged |
 
 ## Merge Log
 
