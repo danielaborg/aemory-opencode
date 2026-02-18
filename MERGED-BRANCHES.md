@@ -12,7 +12,7 @@ This document tracks the branches merged into the integration branch `integratio
 | fix/persist-sidebar | origin | 1ea70c85bca0c08811787716d9d08e7bee783cc1 | Merged |
 | fix/autocompletion-filtered-order | origin | 3b2835e0e2617a0c2133d3b7fa3b6d56d4ed8b51 | Merged |
 | fix/modal-menus-filtered-order | origin | c18c203b1e68ae9716c2f5fb2d1e7f5e2e40837c | Merged |
-| fix/config-content-file-write | origin | | Pending |
+| fix/config-content-file-write | origin | 2cf6b0dda3bf76c82ea0017f0f9b5b966423ac26 | Merged |
 | fix/bad-plugin-errors | origin | | Pending |
 | fix/config-package-json-pollution | origin | | Pending |
 | refactor/shared-substitute | origin | | Pending |
@@ -79,4 +79,8 @@ This document tracks the branches merged into the integration branch `integratio
 ### 6. fix/modal-menus-filtered-order (c18c203b1e68ae9716c2f5fb2d1e7f5e2e40837c)
 - Status: Merged successfully
 - Changes: Fixed filtered order in modal menus
+
+### 7. fix/config-content-file-write (2cf6b0dda3bf76c82ea0017f0f9b5b966423ac26)
+- Status: Merged successfully
+- Changes: Fixed config content file write functionality
 
