@@ -703,7 +703,6 @@ export function Session() {
         dialog.clear()
       },
     },
-
     {
       title: "Page up",
       value: "session.page.up",

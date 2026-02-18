@@ -688,6 +688,20 @@ function App() {
       },
     },
     {
+      title: kv.get("timestamps", "hide") === "show" ? "Hide timestamps" : "Show timestamps",
+      value: "app.toggle.timestamps",
+      category: "System",
+      slash: {
+        name: "timestamps",
+        aliases: ["toggle-timestamps"],
+      },
+      onSelect: (dialog) => {
+        const current = kv.get("timestamps", "hide")
+        kv.set("timestamps", current === "show" ? "hide" : "show")
+        dialog.clear()
+      },
+    },
+    {
       title: kv.get("markdown_all_messages", false)
         ? "Render markdown: agent messages only"
         : "Render markdown: all messages",
@@ -695,6 +709,39 @@ function App() {
       category: "System",
       onSelect: (dialog) => {
         kv.set("markdown_all_messages", !kv.get("markdown_all_messages", false))
+        dialog.clear()
+      },
+    },
+    {
+      title: kv.get("thinking_visibility", true) ? "Hide thinking" : "Show thinking",
+      value: "app.toggle.thinking",
+      keybind: "display_thinking",
+      category: "System",
+      slash: {
+        name: "thinking",
+        aliases: ["toggle-thinking"],
+      },
+      onSelect: (dialog) => {
+        kv.set("thinking_visibility", !kv.get("thinking_visibility", true))
+        dialog.clear()
+      },
+    },
+    {
+      title: kv.get("tool_details_visibility", true) ? "Hide tool details" : "Show tool details",
+      value: "app.toggle.tooldetails",
+      keybind: "tool_details",
+      category: "System",
+      onSelect: (dialog) => {
+        kv.set("tool_details_visibility", !kv.get("tool_details_visibility", true))
+        dialog.clear()
+      },
+    },
+    {
+      title: kv.get("header_visible", true) ? "Hide header" : "Show header",
+      value: "app.toggle.header",
+      category: "System",
+      onSelect: (dialog) => {
+        kv.set("header_visible", !kv.get("header_visible", true))
         dialog.clear()
       },
     },
