@@ -3,7 +3,6 @@ function truthy(key: string) {
   return value === "true" || value === "1"
 }
 
-<<<<<<< HEAD
 export namespace Flag {
   export const OPENCODE_AUTO_SHARE = truthy("OPENCODE_AUTO_SHARE")
   export const OPENCODE_GIT_BASH_PATH = process.env["OPENCODE_GIT_BASH_PATH"]
