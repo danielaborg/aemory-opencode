@@ -1797,6 +1797,8 @@ export class Session extends HeyApiClient {
 
   /**
    * Continue interrupted conversation
+   *
+   * Continue a conversation that was interrupted, reverting incomplete assistant messages and resuming processing.
    */
   public continue<ThrowOnError extends boolean = false>(
     parameters: {

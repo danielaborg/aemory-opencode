@@ -1150,6 +1150,10 @@ export type KeybindsConfig = {
    */
   tool_details?: string
   /**
+   * Toggle sidebar overlay mode
+   */
+  sidebar_overlay_toggle?: string
+  /**
    * List available models
    */
   model_list?: string
@@ -1706,7 +1710,6 @@ export type Config = {
      */
     diff_style?: "auto" | "stacked"
     /**
-    /**
      * Maximum number of sessions to display in session list, or 'none' to show all sessions
      */
     session_list_limit?: number | "none"
@@ -1906,6 +1909,10 @@ export type Config = {
      * Continue the agent loop when a tool call is denied
      */
     continue_loop_on_deny?: boolean
+    /**
+     * Percentage of usable context space at which to trigger compaction (10-100)
+     */
+    context_compaction_threshold?: number
     /**
      * Timeout in milliseconds for model context protocol (MCP) requests
      */
@@ -3876,6 +3883,9 @@ export type SessionUnrevertResponse = SessionUnrevertResponses[keyof SessionUnre
 export type SessionContinueData = {
   body?: never
   path: {
+    /**
+     * Session ID
+     */
     sessionID: string
   }
   query?: {
