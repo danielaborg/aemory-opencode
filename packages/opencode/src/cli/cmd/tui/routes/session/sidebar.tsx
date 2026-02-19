@@ -17,6 +17,15 @@ export function Sidebar(props: { sessionID: string }) {
   const kv = useKV()
   const session = createMemo(() => sync.session.get(props.sessionID)!)
   const diff = createMemo(() => sync.data.session_diff[props.sessionID] ?? [])
+  const totalDiff = createMemo(() =>
+    diff().reduce(
+      (acc, item) => ({
+        additions: acc.additions + (item.additions ?? 0),
+        deletions: acc.deletions + (item.deletions ?? 0),
+      }),
+      { additions: 0, deletions: 0 },
+    ),
+  )
   const todo = createMemo(() => sync.data.todo[props.sessionID] ?? [])
   const messages = createMemo(() => sync.data.message[props.sessionID] ?? [])
   const permissions = createMemo(() => sync.data.permission[props.sessionID] ?? [])
@@ -255,6 +264,12 @@ export function Sidebar(props: { sessionID: string }) {
                   </Show>
                   <text fg={theme.text}>
                     <b>Modified Files</b>
+                    <Show when={totalDiff().additions > 0 || totalDiff().deletions > 0}>
+                      <text fg={theme.textMuted}> </text>
+                      <text fg={theme.diffAdded}>+{totalDiff().additions}</text>
+                      <text fg={theme.textMuted}> </text>
+                      <text fg={theme.diffRemoved}>-{totalDiff().deletions}</text>
+                    </Show>
                   </text>
                 </box>
                 <Show when={diff().length <= 2 || expanded.diff}>
