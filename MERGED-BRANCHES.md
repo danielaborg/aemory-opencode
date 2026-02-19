@@ -24,7 +24,7 @@ This document lists all branches merged into the integration branch `integration
 |---|-------------|-------------|
 | 1 | refactor/shared-substitute | d0f8a1a57 |
 
-## Feature Branches (39)
+## Feature Branches (42)
 
 | # | Branch Name | Commit Hash |
 |---|-------------|-------------|
@@ -67,13 +67,16 @@ This document lists all branches merged into the integration branch `integration
 | 37 | feat/opeoginni--display-message-tps | beb1537c7 |
 | 38 | feat/thinking-indicator-hidden | b75bbec07 |
 | 39 | feat/base-one-rebrand | 0e585bc6c |
+| 40 | feature/markdown-renderer (from gignit remote) | 43d1ff0a8 |
+| 41 | readline-additions (from aspiers remote) | b05890bd5 |
+| 42 | add-bash-env-parameter (from taxilian remote) | ce9bf1c28 |
 
 ## Summary
 
-- **Total Branches Merged:** 51
+- **Total Branches Merged:** 54
 - **Fix Branches:** 11
 - **Refactor Branches:** 1
-- **Feature Branches:** 39
+- **Feature Branches:** 42
 - **Integration Branch:** `integration/2026-02-18-20-35`
 
 ## Notes
