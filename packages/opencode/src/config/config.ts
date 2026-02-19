@@ -103,9 +103,9 @@ export namespace Config {
     result = merge(result, await global())
 
     // Override with custom config if provided
-    if (Flag.BASEONE_CONFIG) {
-      result = merge(result, await loadFile(Flag.BASEONE_CONFIG))
-      log.debug("loaded custom config", { path: Flag.BASEONE_CONFIG })
+    if (Flag.OPENCODE_CONFIG) {
+      result = merge(result, await loadFile(Flag.OPENCODE_CONFIG))
+      log.debug("loaded custom config", { path: Flag.OPENCODE_CONFIG })
     }
 
     // Project config overrides global and remote config.
@@ -146,15 +146,15 @@ export namespace Config {
       )),
     ]
 
-    if (Flag.BASEONE_CONFIG_DIR) {
-      directories.push(Flag.BASEONE_CONFIG_DIR)
-      log.debug("loading config from BASEONE_CONFIG_DIR", { path: Flag.BASEONE_CONFIG_DIR })
+    if (Flag.OPENCODE_CONFIG_DIR) {
+      directories.push(Flag.OPENCODE_CONFIG_DIR)
+      log.debug("loading config from OPENCODE_CONFIG_DIR", { path: Flag.OPENCODE_CONFIG_DIR })
     }
 
     const deps = []
 
     for (const dir of unique(directories)) {
-      if (dir.endsWith(".opencode") || dir.endsWith(".baseone") || dir === Flag.BASEONE_CONFIG_DIR) {
+      if (dir.endsWith(".opencode") || dir.endsWith(".baseone") || dir === Flag.OPENCODE_CONFIG_DIR) {
         // Try new config file names first, fall back to legacy
       for (const file of ["opencode.jsonc", "opencode.json", "baseone.jsonc", "baseone.json"]) {
           log.debug(`loading config from ${path.join(dir, file)}`)
@@ -215,8 +215,8 @@ export namespace Config {
       })
     }
 
-    if (Flag.BASEONE_PERMISSION) {
-      result.permission = mergeDeep(result.permission ?? {}, JSON.parse(Flag.BASEONE_PERMISSION))
+    if (Flag.OPENCODE_PERMISSION) {
+      result.permission = mergeDeep(result.permission ?? {}, JSON.parse(Flag.OPENCODE_PERMISSION))
     }
 
     // Backwards compatibility: legacy top-level `tools` config

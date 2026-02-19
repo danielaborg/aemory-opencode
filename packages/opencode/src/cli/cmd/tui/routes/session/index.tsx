@@ -636,7 +636,7 @@ export function Session() {
         name: "agent-timestamps",
       },
       onSelect: (dialog) => {
-        setAgentTimestamps((prev) => (prev === "show" ? "hide" : "show"))
+        setAgentTimestamps(agentTimestamps() === "show" ? "hide" : "show")
         dialog.clear()
       },
     },
@@ -646,7 +646,7 @@ export function Session() {
       keybind: "scrollbar_toggle",
       category: "Session",
       onSelect: (dialog) => {
-        setShowScrollbar((prev) => !prev)
+        setShowScrollbar(!showScrollbar())
         dialog.clear()
       },
     },
@@ -656,7 +656,7 @@ export function Session() {
       keybind: "tps_toggle",
       category: "System",
       onSelect: (dialog) => {
-        setShowTps((prev) => !prev)
+        setShowTps(!showTps())
         dialog.clear()
       },
     },
