@@ -1115,6 +1115,7 @@ export class Session extends HeyApiClient {
       title?: string
       time?: {
         archived?: number
+        pinned?: number | null
       }
     },
     options?: Options<never, ThrowOnError>,
