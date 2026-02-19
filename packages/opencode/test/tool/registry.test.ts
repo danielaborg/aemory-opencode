@@ -126,7 +126,7 @@ describe("tool.registry", () => {
       config: {
         experimental: {
           plan_mode: true,
-        },
+        } as any,
       },
     })
 
