@@ -180,11 +180,16 @@ export function tui(input: {
         targetFps: 60,
         gatherStats: false,
         exitOnCtrlC: false,
+        useMouse: !Flag.OPENCODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT,
         useKittyKeyboard: {},
         autoFocus: false,
         openConsoleOnError: false,
         consoleOptions: {
-          keyBindings: [{ name: "y", ctrl: true, action: "copy-selection" }],
+          keyBindings: [
+            { name: "y", ctrl: true, action: "copy-selection" },
+            { name: "c", ctrl: true, action: "copy-selection" },
+            { name: "c", meta: true, action: "copy-selection" },
+          ],
           onCopySelection: (text) => {
             Clipboard.copy(text).catch((error) => {
               console.error(`Failed to copy console selection to clipboard: ${error}`)
@@ -911,7 +916,16 @@ function ErrorComponent(props: {
 
   useKeyboard((evt) => {
     if (evt.ctrl && evt.name === "c") {
-      handleExit()
+      if (process.platform === "darwin") {
+        handleExit()
+        return
+      }
+      if (Flag.OPENCODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT) {
+        return
+      }
+      if (!renderer.getSelection()?.getSelectedText()) {
+        handleExit()
+      }
     }
   })
   const [copied, setCopied] = createSignal(false)
