@@ -34,6 +34,7 @@ import { spawn } from "child_process"
 import { Command } from "../command"
 import { $, fileURLToPath, pathToFileURL } from "bun"
 import { ConfigMarkdown } from "../config/markdown"
+import { substituteArguments } from "../config/substitute"
 import { SessionSummary } from "./summary"
 import { NamedError } from "@opencode-ai/util/error"
 import { fn } from "@/util/fn"
@@ -1758,7 +1759,6 @@ NOTE: At any point in time through this workflow you should feel free to ask the
       templateCommand,
       args,
     )
-
     const usesArgumentsPlaceholder = templateCommand.includes("$ARGUMENTS")
     let template = withArgs.replaceAll("$ARGUMENTS", input.arguments)
 

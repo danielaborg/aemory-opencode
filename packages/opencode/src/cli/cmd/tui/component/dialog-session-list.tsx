@@ -2,7 +2,7 @@ import { useDialog } from "@tui/ui/dialog"
 import { DialogSelect } from "@tui/ui/dialog-select"
 import { useRoute } from "@tui/context/route"
 import { useSync } from "@tui/context/sync"
-import { createMemo, createSignal, createResource, onMount, Show, createEffect } from "solid-js"
+import { createMemo, createSignal, createResource, onMount, Show } from "solid-js"
 import { Locale } from "@/util/locale"
 import { useKeybind } from "../context/keybind"
 import { useTheme } from "../context/theme"
@@ -34,38 +34,88 @@ export function DialogSessionList() {
 
   const sessions = createMemo(() => searchResults() ?? sync.data.session)
 
+  function parseSessionTitle(title: string): { group?: string; displayTitle: string } {
+    const pipeIndex = title.indexOf("|")
+    if (pipeIndex === -1) {
+      return { displayTitle: title }
+    }
+
+    const group = title.slice(0, pipeIndex).trim()
+    const displayTitle = title.slice(pipeIndex + 1).trim()
+
+    if (!group) {
+      return { displayTitle }
+    }
+
+    return { group, displayTitle }
+  }
+
   const options = createMemo(() => {
-    if (!sync.ready) return []
     const today = new Date().toDateString()
-    const sessionsListLimit = (sync.data.config.tui as any)?.session_list_limit
-    const limit = sessionsListLimit === "none" ? undefined : sessionsListLimit || 150
+    const allSessions = sessions().filter((x) => x.parentID === undefined)
 
-    return sessions()
-      .filter((x) => x.parentID === undefined)
-      .toSorted((a, b) => b.time.updated - a.time.updated)
-      .map((x) => {
-        const date = new Date(x.time.updated)
-        let category = date.toDateString()
-        if (category === today) {
-          category = "Today"
-        }
-        const isDeleting = toDelete() === x.id
-        const status = sync.data.session_status?.[x.id]
-        const isWorking = status?.type === "busy"
-        return {
-          title: isDeleting ? `Press ${keybind.print("session_delete")} again to confirm` : x.title,
-          bg: isDeleting ? theme.error : undefined,
-          value: x.id,
-          category,
-          footer: Locale.time(x.time.updated),
-          gutter: isWorking ? <Spinner /> : undefined,
-        }
-      })
-      .slice(0, limit)
-  })
+    // Separate into grouped and ungrouped
+    const grouped: typeof allSessions = []
+    const ungrouped: typeof allSessions = []
 
-  createEffect(() => {
-    console.log("session count", sync.data.session.length)
+    for (const session of allSessions) {
+      const parsed = parseSessionTitle(session.title)
+      if (parsed.group) {
+        grouped.push(session)
+      } else {
+        ungrouped.push(session)
+      }
+    }
+
+    // Sort grouped by group name ASC, then updated DESC
+    grouped.sort((a, b) => {
+      const aParsed = parseSessionTitle(a.title)
+      const bParsed = parseSessionTitle(b.title)
+      const groupCompare = (aParsed.group ?? "").localeCompare(bParsed.group ?? "")
+      if (groupCompare !== 0) return groupCompare
+      return b.time.updated - a.time.updated
+    })
+
+    // Sort ungrouped by updated DESC
+    ungrouped.sort((a, b) => b.time.updated - a.time.updated)
+
+    // Map grouped sessions
+    const groupedOptions = grouped.map((session) => {
+      const parsed = parseSessionTitle(session.title)
+      const isDeleting = toDelete() === session.id
+      const status = sync.data.session_status?.[session.id]
+      const isWorking = status?.type === "busy"
+      return {
+        title: isDeleting ? `Press ${keybind.print("session_delete")} again to confirm` : parsed.displayTitle,
+        bg: isDeleting ? theme.error : undefined,
+        value: session.id,
+        category: parsed.group,
+        footer: Locale.shortDateTime(session.time.updated),
+        gutter: isWorking ? <Spinner /> : undefined,
+      }
+    })
+
+    // Map ungrouped sessions
+    const ungroupedOptions = ungrouped.map((session) => {
+      const date = new Date(session.time.updated)
+      let category = date.toDateString()
+      if (category === today) {
+        category = "Today"
+      }
+      const isDeleting = toDelete() === session.id
+      const status = sync.data.session_status?.[session.id]
+      const isWorking = status?.type === "busy"
+      return {
+        title: isDeleting ? `Press ${keybind.print("session_delete")} again to confirm` : session.title,
+        bg: isDeleting ? theme.error : undefined,
+        value: session.id,
+        category,
+        footer: Locale.time(session.time.updated),
+        gutter: isWorking ? <Spinner /> : undefined,
+      }
+    })
+
+    return [...groupedOptions, ...ungroupedOptions]
   })
 
   onMount(() => {
