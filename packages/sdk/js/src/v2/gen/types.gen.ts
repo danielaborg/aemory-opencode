@@ -1373,6 +1373,10 @@ export type KeybindsConfig = {
    */
   tips_toggle?: string
   /**
+   * Toggle message TPS visibility
+   */
+  tps_toggle?: string
+  /**
    * Toggle thinking blocks visibility
    */
   display_thinking?: string

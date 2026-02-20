@@ -971,6 +971,22 @@ export type KeybindsConfig = {
    * Toggle terminal title
    */
   terminal_title_toggle?: string
+  /**
+   * Continue interrupted conversation
+   */
+  session_continue?: string
+  /**
+   * Toggle tips on home screen
+   */
+  tips_toggle?: string
+  /**
+   * Toggle message TPS visibility
+   */
+  tps_toggle?: string
+  /**
+   * Toggle thinking blocks visibility
+   */
+  display_thinking?: string
 }
 
 export type AgentConfig = {
