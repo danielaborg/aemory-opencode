@@ -27,6 +27,7 @@ import { LspTool } from "./lsp"
 import { Truncate } from "./truncation"
 import { PlanExitTool, PlanEnterTool } from "./plan"
 import { ApplyPatchTool } from "./apply_patch"
+import { GetCurrentSessionTitleTool } from "./session-title"
 import { Glob } from "../util/glob"
 
 export namespace ToolRegistry {
@@ -115,6 +116,7 @@ export namespace ToolRegistry {
       CodeSearchTool,
       SkillTool,
       ApplyPatchTool,
+      GetCurrentSessionTitleTool,
       ...(Flag.OPENCODE_EXPERIMENTAL_LSP_TOOL ? [LspTool] : []),
       ...(config.experimental?.batch_tool === true ? [BatchTool] : []),
       ...((await Config.experimentalPlanMode()) && Flag.OPENCODE_CLIENT === "cli" ? [PlanExitTool, PlanEnterTool] : []),
