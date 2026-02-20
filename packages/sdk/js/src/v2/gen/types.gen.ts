@@ -1380,6 +1380,7 @@ export type KeybindsConfig = {
    * Toggle thinking blocks visibility
    */
   display_thinking?: string
+  [key: string]: string | undefined
 }
 
 /**
