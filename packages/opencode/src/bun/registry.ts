@@ -40,9 +40,14 @@ export namespace PackageRegistry {
       return false
     }
 
-    const isRange = /[\s^~*xX<>|=]/.test(cachedVersion)
-    if (isRange) return !semver.satisfies(latestVersion, cachedVersion)
+    try {
+      const isRange = /[\s^~*xX<>|=]/.test(cachedVersion)
+      if (isRange) return !semver.satisfies(latestVersion, cachedVersion)
 
-    return semver.order(cachedVersion, latestVersion) === -1
+      return semver.order(cachedVersion, latestVersion) === -1
+    } catch {
+      log.warn("SemVer validation failed", { pkg, cachedVersion, latestVersion })
+      return false
+    }
   }
 }
