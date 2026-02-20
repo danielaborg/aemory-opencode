@@ -24,6 +24,7 @@ This document tracks all branches merged into the integration branch `integratio
 | 16 | feat/global-compaction-threshold | 2e69233f5b |
 | 17 | feat/configurable-message-and-session-limit | 0d7539370e |
 | 18 | feat/experimental-dont-cache-markdown | fbe0789424 |
+| 19 | feat/interjections | e12b283a5b |
 
 ## Remaining Branches (in order)
 
