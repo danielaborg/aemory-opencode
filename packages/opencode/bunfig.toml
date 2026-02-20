@@ -1,5 +1,9 @@
 preload = ["@opentui/solid/preload"]
 
+[define]
+OPENCODE_VERSION = '"2026-02-20-03-44"'
+OPENCODE_CHANNEL = '"integration"'
+
 [test]
 preload = ["./test/preload.ts"]
 # timeout is not actually parsed from bunfig.toml (see src/bunfig.zig in oven-sh/bun)
