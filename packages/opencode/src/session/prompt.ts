@@ -33,7 +33,7 @@ import { spawn } from "child_process"
 import { Command } from "../command"
 import { $, fileURLToPath, pathToFileURL } from "bun"
 import { ConfigMarkdown } from "../config/markdown"
-import { substituteArguments } from "../config/substitute"
+import { substituteArguments as _substituteArguments } from "../config/substitute"
 import { SessionSummary } from "./summary"
 import { NamedError } from "@opencode-ai/util/error"
 import { fn } from "@/util/fn"
@@ -62,6 +62,8 @@ const STRUCTURED_OUTPUT_SYSTEM_PROMPT = `IMPORTANT: The user has requested struc
 
 export namespace SessionPrompt {
   const log = Log.create({ service: "session.prompt" })
+
+  export const substituteArguments = _substituteArguments
 
   const state = Instance.state(
     () => {
@@ -1755,7 +1757,7 @@ NOTE: At any point in time through this workflow you should feel free to ask the
     const usesArgumentsPlaceholder = templateCommand.includes("$ARGUMENTS")
     let template = withArgs.replaceAll("$ARGUMENTS", input.arguments)
 
-    // If command doesn't explicitly handle arguments (no $N or $ARGUMENTS placeholders)
+    // If command doesn't explicitly handle arguments (no $N, ${...}, or $ARGUMENTS placeholders)
     // but user provided arguments, append them to the template
     if (!hasPlaceholders && !usesArgumentsPlaceholder && input.arguments.trim()) {
       template = template + "\n\n" + input.arguments
