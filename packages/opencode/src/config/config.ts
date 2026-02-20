@@ -19,6 +19,7 @@ import {
   parse as parseJsonc,
   printParseErrorCode,
 } from "jsonc-parser"
+import type { ThemeJson } from "../cli/cmd/tui/context/theme"
 import { Instance } from "../project/instance"
 import { LSPServer } from "../lsp/server"
 import { BunProc } from "@/bun"
@@ -1259,48 +1260,54 @@ export namespace Config {
     return load(text, { path: filepath })
   }
 
-  async function load(text: string, options: { path: string } | { dir: string; source: string }) {
+  async function load(
+    text: string,
+    options: { path: string; enableConfigSubstitutions?: boolean } | { dir: string; source: string; enableConfigSubstitutions?: boolean },
+  ) {
     const original = text
     const configDir = "path" in options ? path.dirname(options.path) : options.dir
     const source = "path" in options ? options.path : options.source
     const isFile = "path" in options
+    const enableConfigSubstitutions = options.enableConfigSubstitutions ?? true
 
     text = text.replace(/\{env:([^}]+)\}/g, (_, varName) => {
       return process.env[varName] || ""
     })
 
-    const fileMatches = text.match(/\{file:[^}]+\}/g)
-    if (fileMatches) {
-      const lines = text.split("\n")
+    if (enableConfigSubstitutions) {
+      const fileMatches = text.match(/\{file:[^}]+\}/g)
+      if (fileMatches) {
+        const lines = text.split("\n")
 
-      for (const match of fileMatches) {
-        const lineIndex = lines.findIndex((line) => line.includes(match))
-        if (lineIndex !== -1 && lines[lineIndex].trim().startsWith("//")) {
-          continue
+        for (const match of fileMatches) {
+          const lineIndex = lines.findIndex((line) => line.includes(match))
+          if (lineIndex !== -1 && lines[lineIndex].trim().startsWith("//")) {
+            continue
+          }
+          let filePath = match.replace(/^\{file:/, "").replace(/\}$/, "")
+          if (filePath.startsWith("~/")) {
+            filePath = path.join(os.homedir(), filePath.slice(2))
+          }
+          const resolvedPath = path.isAbsolute(filePath) ? filePath : path.resolve(configDir, filePath)
+          const fileContent = (
+            await Bun.file(resolvedPath)
+              .text()
+              .catch((error) => {
+                const errMsg = `bad file reference: "${match}"`
+                if (error.code === "ENOENT") {
+                  throw new InvalidError(
+                    {
+                      path: source,
+                      message: errMsg + ` ${resolvedPath} does not exist`,
+                    },
+                    { cause: error },
+                  )
+                }
+                throw new InvalidError({ path: source, message: errMsg }, { cause: error })
+              })
+          ).trim()
+          text = text.replace(match, () => JSON.stringify(fileContent).slice(1, -1))
         }
-        let filePath = match.replace(/^\{file:/, "").replace(/\}$/, "")
-        if (filePath.startsWith("~/")) {
-          filePath = path.join(os.homedir(), filePath.slice(2))
-        }
-        const resolvedPath = path.isAbsolute(filePath) ? filePath : path.resolve(configDir, filePath)
-        const fileContent = (
-          await Bun.file(resolvedPath)
-            .text()
-            .catch((error) => {
-              const errMsg = `bad file reference: "${match}"`
-              if (error.code === "ENOENT") {
-                throw new InvalidError(
-                  {
-                    path: source,
-                    message: errMsg + ` ${resolvedPath} does not exist`,
-                  },
-                  { cause: error },
-                )
-              }
-              throw new InvalidError({ path: source, message: errMsg }, { cause: error })
-            })
-        ).trim()
-        text = text.replace(match, () => JSON.stringify(fileContent).slice(1, -1))
       }
     }
 
@@ -1352,6 +1359,8 @@ export namespace Config {
       issues: parsed.error.issues,
     })
   }
+
+  // Error types
   export const JsonError = NamedError.create(
     "ConfigJsonError",
     z.object({
@@ -1380,6 +1389,48 @@ export namespace Config {
 
   export async function get() {
     return state().then((x) => x.config)
+  }
+
+  export async function loadThemeFile(filepath: string): Promise<ThemeJson> {
+    log.info("loading theme", { path: filepath })
+    let text = await Bun.file(filepath)
+      .text()
+      .catch((err) => {
+        if (err.code === "ENOENT") return
+        throw new JsonError({ path: filepath }, { cause: err })
+      })
+    if (!text) {
+      throw new Error("Empty theme file")
+    }
+
+    // Parse JSONC directly without special features for themes
+    const errors: JsoncParseError[] = []
+    const data = parseJsonc(text, errors, { allowTrailingComma: true })
+
+    if (errors.length) {
+      const lines = text.split("\n")
+      const errorDetails = errors
+        .map((e) => {
+          const beforeOffset = text.substring(0, e.offset).split("\n")
+          const line = beforeOffset.length
+          const column = beforeOffset[beforeOffset.length - 1].length + 1
+          const problemLine = lines[line - 1]
+
+          const error = `${printParseErrorCode(e.error)} at line ${line}, column ${column}`
+          if (!problemLine) return error
+
+          return `${error}\n   Line ${line}: ${problemLine}\n${"".padStart(column + 9)}^`
+        })
+        .join("\n")
+
+      throw new JsonError({
+        path: filepath,
+        message: `\n--- JSONC Input ---\n${text}\n--- Errors ---\n${errorDetails}\n--- End ---`,
+      })
+    }
+
+    // Return data as ThemeJson (basic validation)
+    return data as ThemeJson
   }
 
   export async function getGlobal() {
