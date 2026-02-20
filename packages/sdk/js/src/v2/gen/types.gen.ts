@@ -1700,15 +1700,19 @@ export type Config = {
      * Control diff rendering style: 'auto' adapts to terminal width, 'stacked' always shows single column
      */
     diff_style?: "auto" | "stacked"
-    /**
-     * Maximum number of sessions to display in session list, or 'none' to show all sessions
-     */
-    session_list_limit?: number | "none"
-    /**
-     * Maximum number of message parts to load per session when syncing, or 'none' to load all messages
-     */
-    messages_limit?: number | "none"
-  }
+     /**
+      * Maximum number of sessions to display in session list, or 'none' to show all sessions
+      */
+     session_list_limit?: number | "none"
+     /**
+      * Maximum number of message parts to load per session when syncing, or 'none' to load all messages
+      */
+     messages_limit?: number | "none"
+     /**
+      * When true, 'auto' sidebar mode always shows the sidebar regardless of window width
+      */
+     no_sidebar_auto?: boolean
+   }
   server?: ServerConfig
   /**
    * Command configuration, see https://opencode.ai/docs/commands

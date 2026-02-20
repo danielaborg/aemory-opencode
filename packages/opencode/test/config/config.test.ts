@@ -1792,6 +1792,29 @@ describe("deduplicatePlugins", () => {
   })
 })
 
+test("loads tui.no_sidebar_auto config", async () => {
+  await using tmp = await tmpdir({
+    init: async (dir) => {
+      await Bun.write(
+        path.join(dir, "opencode.jsonc"),
+        JSON.stringify({
+          $schema: "https://opencode.ai/config.json",
+          tui: {
+            no_sidebar_auto: true,
+          },
+        }),
+      )
+    },
+  })
+  await Instance.provide({
+    directory: tmp.path,
+    fn: async () => {
+      const config = await Config.get()
+      expect(config.tui?.no_sidebar_auto).toBe(true)
+    },
+  })
+})
+
 describe("OPENCODE_DISABLE_PROJECT_CONFIG", () => {
   test("skips project config files when flag is set", async () => {
     const originalEnv = process.env["OPENCODE_DISABLE_PROJECT_CONFIG"]
@@ -1912,12 +1935,12 @@ describe("OPENCODE_DISABLE_PROJECT_CONFIG", () => {
         directory: tmp.path,
         fn: async () => {
           // The relative instruction should be skipped without error
-          // We're mainly verifying this doesn't throw and the config loads
+          // We're mainly verifying this doesn't throw and config loads
           const config = await Config.get()
           expect(config).toBeDefined()
           // The instruction should have been skipped (warning logged)
           // We can't easily test the warning was logged, but we verify
-          // the relative path didn't cause an error
+          // relative path didn't cause an error
         },
       })
     } finally {
