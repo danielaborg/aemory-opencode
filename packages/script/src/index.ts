@@ -16,7 +16,7 @@ if (!semver.satisfies(process.versions.bun, expectedBunVersionRange)) {
   throw new Error(`This script requires bun@${expectedBunVersionRange}, but you are using bun@${process.versions.bun}`)
 }
 
-const CHANNEL = "local"
+const CHANNEL = "2026-02-20-03-45"
 const IS_PREVIEW = true
 
 const VERSION = "2026-02-20-03-45"
