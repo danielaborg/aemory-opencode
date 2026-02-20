@@ -56,6 +56,7 @@ import { TodoItem } from "../../component/todo-item"
 import { DialogMessage } from "./dialog-message"
 import type { PromptInfo } from "../../component/prompt/history"
 import { DialogConfirm } from "@tui/ui/dialog-confirm"
+import { DialogPrompt } from "@tui/ui/dialog-prompt"
 import { DialogTimeline } from "./dialog-timeline"
 import { DialogForkFromTimeline } from "./dialog-fork-from-timeline"
 import { DialogSessionRename } from "../../component/dialog-session-rename"
@@ -72,7 +73,7 @@ import { Footer } from "./footer.tsx"
 import { usePromptRef } from "../../context/prompt"
 import { useExit } from "../../context/exit"
 import { Filesystem } from "@/util/filesystem"
-import { DialogSubagent } from "./dialog-subagent.tsx"
+import { iife } from "@/util/iife"
 import { Global } from "@/global"
 import { PermissionPrompt } from "./permission"
 import { QuestionPrompt } from "./question"
@@ -99,7 +100,6 @@ const context = createContext<{
   showThinking: () => boolean
   showTimestamps: () => boolean
   showDetails: () => boolean
-  showTps: () => boolean
   showGenericToolOutput: () => boolean
   diffWrapMode: () => "word" | "none"
   sync: ReturnType<typeof useSync>
@@ -144,7 +144,7 @@ export function Session() {
   })
 
   const dimensions = useTerminalDimensions()
-  const [sidebar, setSidebar] = kv.signal<"show" | "hide" | "auto">("sidebar", "auto")
+  const [sidebar, setSidebar] = kv.signal<"auto" | "hide">("sidebar", "auto")
   const [sidebarOpen, setSidebarOpen] = createSignal(false)
   const [conceal, setConceal] = createSignal(true)
   const [showThinking, setShowThinking] = kv.signal("thinking_visibility", true)
@@ -155,14 +155,12 @@ export function Session() {
   const [showHeader, setShowHeader] = kv.signal("header_visible", true)
   const [diffWrapMode] = kv.signal<"word" | "none">("diff_wrap_mode", "word")
   const [animationsEnabled, setAnimationsEnabled] = kv.signal("animations_enabled", true)
-  const [showTps, setShowTps] = kv.signal("tps_visibility", false)
   const [showGenericToolOutput, setShowGenericToolOutput] = kv.signal("generic_tool_output_visibility", false)
 
   const wide = createMemo(() => dimensions().width > 120)
   const sidebarVisible = createMemo(() => {
     if (session()?.parentID) return false
     if (sidebarOpen()) return true
-    if (sidebar() === "show") return true
     if (sidebar() === "auto" && wide()) return true
     return false
   })
@@ -182,18 +180,15 @@ export function Session() {
   })
 
   createEffect(async () => {
-    const sessionID = route.sessionID
-    const ready = sync.ready
-    if (!ready) return
     await sync.session
-      .sync(sessionID)
+      .sync(route.sessionID)
       .then(() => {
         if (scroll) scroll.scrollBy(100_000)
       })
       .catch((e) => {
         console.error(e)
         toast.show({
-          message: `Session not found: ${sessionID}`,
+          message: `Session not found: ${route.sessionID}`,
           variant: "error",
         })
         return navigate({ type: "home" })
@@ -306,6 +301,49 @@ export function Session() {
     if (child) scroll.scrollBy(child.y - scroll.y - 1)
     dialog.clear()
   }
+
+  useKeyboard(async (evt) => {
+    if (dialog.stack.length > 0) return
+
+    const first = permissions()[0]
+    if (first) {
+      if (evt.ctrl || evt.meta) return
+
+      // Handle interject with "i" key - opens prompt for user suggestion
+      if (evt.name === "i") {
+        const interjection = await DialogPrompt.show(dialog, "Interject", {
+          placeholder: "Enter your suggestion...",
+          description: () => (
+            <text fg={theme.textMuted}>
+              Provide a suggestion or correction for the model to consider
+            </text>
+          ),
+        })
+        if (interjection !== null && interjection.trim()) {
+          sdk.client.permission.reply({
+            requestID: first.id,
+            reply: "interject",
+            message: interjection.trim(),
+          })
+        }
+        return
+      }
+
+      const response = iife(() => {
+        if (evt.name === "return") return "once"
+        if (evt.name === "a") return "always"
+        if (evt.name === "d") return "reject"
+        if (evt.name === "escape") return "reject"
+        return
+      })
+      if (response) {
+        sdk.client.permission.reply({
+          requestID: first.id,
+          reply: response,
+        })
+      }
+    }
+  })
 
   function toBottom() {
     setTimeout(() => {
@@ -535,13 +573,11 @@ export function Session() {
       keybind: "sidebar_toggle",
       category: "Session",
       onSelect: (dialog) => {
-        const prev = sidebar()
-        let newValue: "show" | "hide" | "auto"
-        if (prev === "auto") newValue = sidebarVisible() ? "hide" : "show"
-        else if (prev === "show") newValue = "hide"
-        else newValue = "show"
-        setSidebar(newValue)
-        setSidebarOpen(newValue === "show")
+        batch(() => {
+          const isVisible = sidebarVisible()
+          setSidebar(() => (isVisible ? "hide" : "auto"))
+          setSidebarOpen(!isVisible)
+        })
         dialog.clear()
       },
     },
@@ -564,7 +600,7 @@ export function Session() {
         aliases: ["toggle-timestamps"],
       },
       onSelect: (dialog) => {
-        setTimestamps(timestamps() === "show" ? "hide" : "show")
+        setTimestamps((prev) => (prev === "show" ? "hide" : "show"))
         dialog.clear()
       },
     },
@@ -578,7 +614,7 @@ export function Session() {
         aliases: ["toggle-thinking"],
       },
       onSelect: (dialog) => {
-        setShowThinking(!showThinking())
+        setShowThinking((prev) => !prev)
         dialog.clear()
       },
     },
@@ -588,7 +624,7 @@ export function Session() {
       keybind: "tool_details",
       category: "Session",
       onSelect: (dialog) => {
-        setShowDetails(!showDetails())
+        setShowDetails((prev) => !prev)
         dialog.clear()
       },
     },
@@ -598,17 +634,7 @@ export function Session() {
       keybind: "scrollbar_toggle",
       category: "Session",
       onSelect: (dialog) => {
-        setShowScrollbar(!showScrollbar())
-        dialog.clear()
-      },
-    },
-    {
-      title: showTps() ? "Hide message TPS" : "Show message TPS",
-      value: "system.toggle.tps",
-      keybind: "tps_toggle",
-      category: "System",
-      onSelect: (dialog) => {
-        setShowTps((prev) => !prev)
+        setShowScrollbar((prev) => !prev)
         dialog.clear()
       },
     },
@@ -617,7 +643,7 @@ export function Session() {
       value: "session.toggle.header",
       category: "Session",
       onSelect: (dialog) => {
-        setShowHeader(!showHeader())
+        setShowHeader((prev) => !prev)
         dialog.clear()
       },
     },
@@ -1004,7 +1030,6 @@ export function Session() {
         showThinking,
         showTimestamps,
         showDetails,
-        showTps,
         showGenericToolOutput,
         diffWrapMode,
         sync,
@@ -1154,9 +1179,6 @@ export function Session() {
                 sessionID={route.sessionID}
               />
             </box>
-            <Show when={!sidebarVisible()}>
-              <Footer />
-            </Show>
           </Show>
           <Toast />
         </box>
@@ -1296,12 +1318,7 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
   const local = useLocal()
   const { theme } = useTheme()
   const sync = useSync()
-  const ctx = use()
   const messages = createMemo(() => sync.data.message[props.message.sessionID] ?? [])
-
-  function getParts(messageID: string) {
-    return sync.data.part[messageID] ?? []
-  }
 
   const final = createMemo(() => {
     return props.message.finish && !["tool-calls", "unknown"].includes(props.message.finish)
@@ -1313,71 +1330,6 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
     const user = messages().find((x) => x.role === "user" && x.id === props.message.parentID)
     if (!user || !user.time) return 0
     return props.message.time.completed - user.time.created
-  })
-
-  const TPS = createMemo(() => {
-    if (!final()) return 0
-    if (!props.message.time.completed) return 0
-    if (!ctx.showTps()) return 0
-  
-    const assistantMessages : AssistantMessage[] = messages().filter((msg) => msg.role === "assistant" && msg.id !== props.message.id) as AssistantMessage[]
-
-    const allParts = assistantMessages.flatMap((msg) => getParts(msg.id))
-
-    const INVALID_REASONING_TEXTS = ["[REDACTED]", "", null, undefined] as const
-  
-    // Filter for actual streaming parts (reasoning + text), exclude tool/step markers
-    const streamingParts = allParts.filter((part): part is TextPart | ReasoningPart => {
-      // Only text and reasoning parts have streaming time data
-      if (part.type !== "text" && part.type !== "reasoning") return false
-
-      // Skip parts without valid timestamps
-      if (!part.time?.start || !part.time?.end) return false
-
-      // Include text parts with content
-      if (part.type === "text" && (part.text?.trim().length ?? 0) > 0) return true
-
-      // Include reasoning parts with valid (non-empty) text
-      if (part.type === "reasoning" && !INVALID_REASONING_TEXTS.includes(part.text as any)) {
-        return true
-      }
-
-      return false
-    })
-  
-    if (streamingParts.length === 0) return 0
-  
-    // Sum individual part durations (excludes tool execution time between parts)
-    let totalStreamingTimeMs = 0
-    let hasValidReasoning = false
-  
-    for (const part of streamingParts) {
-      totalStreamingTimeMs += part.time!.end! - part.time!.start!
-      if (part.type === "reasoning") {
-        hasValidReasoning = true
-      }
-    }
-  
-    if (totalStreamingTimeMs === 0) return 0
-  
-    const totals = assistantMessages.reduce(
-      (acc, m) => {
-        acc.output += m.tokens.output
-       if (hasValidReasoning) acc.reasoning += m.tokens.reasoning // Only count reasoning tokens if valid reasoning parts exists
-        return acc
-      },
-      { output: 0, reasoning: 0 },
-    )
-
-    const totalTokens = totals.reasoning + totals.output
-  
-    if (totalTokens === 0) return 0
-  
-    // Calculate tokens per second
-    const totalStreamingTimeSec = totalStreamingTimeMs / 1000
-    const tokensPerSecond = totalTokens / totalStreamingTimeSec
-  
-    return Number(tokensPerSecond.toFixed(2))
   })
 
   return (
@@ -1429,9 +1381,6 @@ function AssistantMessage(props: { message: AssistantMessage; parts: Part[]; las
               <span style={{ fg: theme.textMuted }}> · {props.message.modelID}</span>
               <Show when={duration()}>
                 <span style={{ fg: theme.textMuted }}> · {Locale.duration(duration())}</span>
-              </Show>
-              <Show when={ctx.showTps() && TPS()}>
-                <span style={{ fg: theme.textMuted }}> · {TPS()} tps</span>
               </Show>
               <Show when={props.message.error?.name === "MessageAbortedError"}>
                 <span style={{ fg: theme.textMuted }}> · interrupted</span>
@@ -2055,12 +2004,11 @@ function Task(props: ToolProps<typeof TaskTool>) {
 
 function Edit(props: ToolProps<typeof EditTool>) {
   const ctx = use()
-  const kv = useKV()
   const { theme, syntax } = useTheme()
 
   const view = createMemo(() => {
-    const diffStyle = kv.get("diff_style", "auto")
-    if (diffStyle === "unified") return "unified"
+    const diffStyle = ctx.sync.data.config.tui?.diff_style
+    if (diffStyle === "stacked") return "unified"
     // Default to "auto" behavior
     return ctx.width > 120 ? "split" : "unified"
   })
@@ -2125,14 +2073,13 @@ function Edit(props: ToolProps<typeof EditTool>) {
 
 function ApplyPatch(props: ToolProps<typeof ApplyPatchTool>) {
   const ctx = use()
-  const kv = useKV()
   const { theme, syntax } = useTheme()
 
   const files = createMemo(() => props.metadata.files ?? [])
 
   const view = createMemo(() => {
-    const diffStyle = kv.get("diff_style", "auto")
-    if (diffStyle === "unified") return "unified"
+    const diffStyle = ctx.sync.data.config.tui?.diff_style
+    if (diffStyle === "stacked") return "unified"
     return ctx.width > 120 ? "split" : "unified"
   })
 
