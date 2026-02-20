@@ -1194,7 +1194,7 @@ export function Session() {
             <Match when={wide()}>
               <Sidebar sessionID={route.sessionID} overlay={sidebarOverlay()} />
             </Match>
-            <Match when={!wide()}>
+            <Match when={!wide() && sidebarOverlay()}>
               <box
                 position="absolute"
                 top={0}
@@ -1206,6 +1206,9 @@ export function Session() {
               >
                 <Sidebar sessionID={route.sessionID} overlay={true} />
               </box>
+            </Match>
+            <Match when={!wide() && !sidebarOverlay()}>
+              <Sidebar sessionID={route.sessionID} overlay={false} />
             </Match>
           </Switch>
         </Show>
