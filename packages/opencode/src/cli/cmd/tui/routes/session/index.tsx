@@ -163,6 +163,7 @@ export function Session() {
   const [markdownAll, setMarkdownAll] = kv.signal("markdown_all_messages", false)
   const [animationsEnabled, setAnimationsEnabled] = kv.signal("animations_enabled", true)
   const [showGenericToolOutput, setShowGenericToolOutput] = kv.signal("generic_tool_output_visibility", false)
+  const [sidebarOverlay, setSidebarOverlay] = kv.signal("sidebar_overlay", true)
 
   const wide = createMemo(() => dimensions().width > 120)
   const sidebarVisible = createMemo(() => {
@@ -1191,7 +1192,7 @@ export function Session() {
         <Show when={sidebarVisible()}>
           <Switch>
             <Match when={wide()}>
-              <Sidebar sessionID={route.sessionID} />
+              <Sidebar sessionID={route.sessionID} overlay={sidebarOverlay()} />
             </Match>
             <Match when={!wide()}>
               <box
@@ -1203,7 +1204,7 @@ export function Session() {
                 alignItems="flex-end"
                 backgroundColor={RGBA.fromInts(0, 0, 0, 70)}
               >
-                <Sidebar sessionID={route.sessionID} />
+                <Sidebar sessionID={route.sessionID} overlay={true} />
               </box>
             </Match>
           </Switch>
