@@ -59,10 +59,14 @@ export function DialogModel(props: { providerID?: string }) {
     }
 
     const favoriteOptions = toOptions(favorites, "Favorites")
+
+    const limit = sync.data.config.tui?.recent_models_count ?? 10
     const recentOptions = toOptions(
-      recents.filter(
-        (item) => !favorites.some((fav) => fav.providerID === item.providerID && fav.modelID === item.modelID),
-      ),
+      recents
+        .filter(
+          (item) => !favorites.some((fav) => fav.providerID === item.providerID && fav.modelID === item.modelID),
+        )
+        .slice(0, limit),
       "Recent",
     )
 

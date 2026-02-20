@@ -980,6 +980,14 @@ export namespace Config {
       .optional()
       .default(100)
       .describe("Maximum number of message parts to load per session when syncing, or 'none' to load all messages"),
+    recent_models_count: z
+      .number()
+      .int()
+      .min(1)
+      .max(50)
+      .optional()
+      .default(10)
+      .describe("Number of recent models to store and display in model selection"),
   })
   export type TUI = z.infer<typeof TUI>
 

@@ -1708,6 +1708,10 @@ export type Config = {
      * Maximum number of message parts to load per session when syncing, or 'none' to load all messages
      */
     messages_limit?: number | "none"
+    /**
+     * Number of recent models to store and display in model selection
+     */
+    recent_models_count?: number
   }
   server?: ServerConfig
   /**
