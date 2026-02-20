@@ -1358,6 +1358,10 @@ export type KeybindsConfig = {
    */
   input_yank?: string
   /**
+   * Transpose characters in input
+   */
+  input_transpose_characters?: string
+  /**
    * Previous history item
    */
   history_previous?: string
