@@ -62,10 +62,8 @@ export namespace Command {
     REVIEW: "review",
   } as const
 
-  const state = Instance.state(async () => {
-    const cfg = await Config.get()
-
-    const result: Record<string, Info> = {
+  function createBuiltInCommands() {
+    return {
       [Default.INIT]: {
         name: Default.INIT,
         description: "create/update AGENTS.md",
@@ -85,7 +83,12 @@ export namespace Command {
         subtask: true,
         hints: hints(PROMPT_REVIEW),
       },
-    }
+    } as Record<string, Info>
+  }
+
+  const state = Instance.state(async () => {
+    const cfg = await Config.get()
+    const result = createBuiltInCommands()
 
     for (const [name, command] of Object.entries(cfg.command ?? {})) {
       result[name] = {
@@ -146,11 +149,64 @@ export namespace Command {
     return result
   })
 
+  async function loadFreshCommands(): Promise<Record<string, Info>> {
+    const result = createBuiltInCommands()
+    const cfg = await Config.get()
+
+    // Load commands from config file (non-markdown)
+    for (const [name, command] of Object.entries(cfg.command ?? {})) {
+      result[name] = {
+        name,
+        agent: command.agent,
+        model: command.model,
+        description: command.description,
+        template: command.template,
+        subtask: command.subtask,
+        hints: Command.hints(command.template),
+      }
+    }
+
+    // Reload commands from markdown files in each config directory
+    const directories = await Config.directories()
+    for (const dir of directories) {
+      const commands = await Config.reloadCommands(dir)
+      for (const [name, command] of Object.entries(commands)) {
+        result[name] = {
+          name,
+          agent: command.agent,
+          model: command.model,
+          description: command.description,
+          template: command.template,
+          subtask: command.subtask,
+          hints: Command.hints(command.template),
+        }
+      }
+    }
+
+    return result
+  }
+
   export async function get(name: string) {
+    const cfg = await Config.get()
+
+    // If caching is disabled, reload commands fresh from config each time
+    if (cfg.experimental?.cache_command_markdown_files === false) {
+      const fresh = await loadFreshCommands()
+      return fresh[name]
+    }
+
     return state().then((x) => x[name])
   }
 
   export async function list() {
+    const cfg = await Config.get()
+
+    // If caching is disabled, reload commands fresh from config each time
+    if (cfg.experimental?.cache_command_markdown_files === false) {
+      const fresh = await loadFreshCommands()
+      return Object.values(fresh)
+    }
+
     return state().then((x) => Object.values(x))
   }
 }
