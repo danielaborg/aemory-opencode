@@ -40,22 +40,22 @@ test("substituteArguments - ${N} syntax single arg", () => {
   expect(hasPlaceholders).toBe(true)
 })
 
-test("substituteArguments - ${N:M} slice", () => {
-  const { result } = substituteArguments("${1:3}", ["a", "b", "c", "d"])
+test("substituteArguments - ${N..M} slice", () => {
+  const { result } = substituteArguments("${1..3}", ["a", "b", "c", "d"])
   expect(result).toBe("a b c")
 })
 
-test("substituteArguments - ${N:} open-ended slice", () => {
-  const { result } = substituteArguments("${2:}", ["a", "b", "c", "d"])
+test("substituteArguments - ${N..} open-ended slice", () => {
+  const { result } = substituteArguments("${2..}", ["a", "b", "c", "d"])
   expect(result).toBe("b c d")
 })
 
-test("substituteArguments - ${:M} slice from start", () => {
-  const { result } = substituteArguments("${:2}", ["a", "b", "c", "d"])
+test("substituteArguments - ${..M} slice from start", () => {
+  const { result } = substituteArguments("${..2}", ["a", "b", "c", "d"])
   expect(result).toBe("a b")
 })
 
-test("substituteArguments - ${:} all arguments", () => {
-  const { result } = substituteArguments("all: ${:}", ["a", "b", "c"])
+test("substituteArguments - ${..} all arguments", () => {
+  const { result } = substituteArguments("all: ${..}", ["a", "b", "c"])
   expect(result).toBe("all: a b c")
 })
