@@ -40,6 +40,11 @@ export namespace PackageRegistry {
       return false
     }
 
+    // If cached version is not semver (e.g., date-based like "2026-02-20-03-45"), skip comparison
+    if (!/^\d+\.\d+\.\d+/.test(cachedVersion)) {
+      return false
+    }
+
     const isRange = /[\s^~*xX<>|=]/.test(cachedVersion)
     if (isRange) return !semver.satisfies(latestVersion, cachedVersion)
 
