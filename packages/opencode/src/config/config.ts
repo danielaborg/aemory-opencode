@@ -1253,6 +1253,7 @@ export namespace Config {
             .max(100)
             .optional()
             .describe("Percentage of context window at which to trigger compaction (0-100)"),
+          plan_mode: z.boolean().optional().describe("Enable experimental plan mode"),
         })
         .optional(),
     })
@@ -1477,6 +1478,13 @@ export namespace Config {
 
     // Return data as ThemeJson (basic validation)
     return data as ThemeJson
+  }
+
+  export async function experimentalPlanMode() {
+    // Environment variable takes precedence
+    if (Flag.OPENCODE_EXPERIMENTAL_PLAN_MODE) return true
+    const config = await get()
+    return config.experimental?.plan_mode === true
   }
 
   export async function getGlobal() {
