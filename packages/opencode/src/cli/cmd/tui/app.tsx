@@ -210,6 +210,7 @@ function App() {
   const sync = useSync()
   const exit = useExit()
   const promptRef = usePromptRef()
+  const [consoleVisible, setConsoleVisible] = createSignal(false)
 
   useKeyboard((evt) => {
     if (!Flag.OPENCODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT) return
@@ -593,11 +594,12 @@ function App() {
       },
     },
     {
-      title: "Toggle console",
+      title: consoleVisible() ? "Hide console" : "Show console",
       category: "System",
       value: "app.console",
       onSelect: (dialog) => {
         renderer.console.toggle()
+        setConsoleVisible((prev) => !prev)
         dialog.clear()
       },
     },
