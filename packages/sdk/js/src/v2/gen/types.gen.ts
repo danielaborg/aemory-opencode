@@ -1722,6 +1722,10 @@ export type Config = {
      * Number of recent models to store and display in model selection
      */
     recent_models_count?: number
+    /**
+     * When true, 'auto' sidebar mode always shows the sidebar regardless of window width
+     */
+    no_sidebar_auto?: boolean
   }
   server?: ServerConfig
   /**

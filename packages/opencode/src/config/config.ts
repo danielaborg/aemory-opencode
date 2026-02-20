@@ -989,6 +989,10 @@ export namespace Config {
       .optional()
       .default(10)
       .describe("Number of recent models to store and display in model selection"),
+    no_sidebar_auto: z
+      .boolean()
+      .optional()
+      .describe("When true, 'auto' sidebar mode always shows the sidebar regardless of window width"),
   })
   export type TUI = z.infer<typeof TUI>
 
