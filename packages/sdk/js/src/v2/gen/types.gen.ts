@@ -1895,6 +1895,10 @@ export type Config = {
      * Timeout in milliseconds for model context protocol (MCP) requests
      */
     mcp_timeout?: number
+    /**
+     * Percentage of context window at which to trigger compaction (0-100)
+     */
+    context_compaction_threshold?: number
   }
 }
 

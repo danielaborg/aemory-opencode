@@ -1211,6 +1211,13 @@ export namespace Config {
             .positive()
             .optional()
             .describe("Timeout in milliseconds for model context protocol (MCP) requests"),
+          context_compaction_threshold: z
+            .number()
+            .int()
+            .min(0)
+            .max(100)
+            .optional()
+            .describe("Percentage of context window at which to trigger compaction (0-100)"),
         })
         .optional(),
     })
