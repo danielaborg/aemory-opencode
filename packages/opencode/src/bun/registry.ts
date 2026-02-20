@@ -41,8 +41,12 @@ export namespace PackageRegistry {
     }
 
     const isRange = /[\s^~*xX<>|=]/.test(cachedVersion)
-    if (isRange) return !semver.satisfies(latestVersion, cachedVersion)
+    if (isRange) {
+      if (!semver.valid(cachedVersion)) return false
+      return !semver.satisfies(latestVersion, cachedVersion)
+    }
 
+    if (!semver.valid(cachedVersion) || !semver.valid(latestVersion)) return false
     return semver.order(cachedVersion, latestVersion) === -1
   }
 }
