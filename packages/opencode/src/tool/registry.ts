@@ -29,6 +29,7 @@ import { PlanExitTool, PlanEnterTool } from "./plan"
 import { SetCurrentSessionTitleTool } from "./set-current-session-title"
 import { ApplyPatchTool } from "./apply_patch"
 import { GetCurrentSessionTitleTool } from "./session-title"
+import { BookmarkCurrentSessionTool } from "./bookmark"
 import { Glob } from "../util/glob"
 
 export namespace ToolRegistry {
@@ -117,6 +118,7 @@ export namespace ToolRegistry {
       WebSearchTool,
       CodeSearchTool,
       SkillTool,
+      BookmarkCurrentSessionTool,
       ApplyPatchTool,
       GetCurrentSessionTitleTool,
       ...(Flag.OPENCODE_EXPERIMENTAL_LSP_TOOL ? [LspTool] : []),
