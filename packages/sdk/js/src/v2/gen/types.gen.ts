@@ -1361,6 +1361,10 @@ export type KeybindsConfig = {
    */
   session_parent?: string
   /**
+   * Continue interrupted conversation
+   */
+  session_continue?: string
+  /**
    * Suspend terminal
    */
   terminal_suspend?: string
@@ -3912,6 +3916,39 @@ export type SessionUnrevertResponses = {
 }
 
 export type SessionUnrevertResponse = SessionUnrevertResponses[keyof SessionUnrevertResponses]
+
+export type SessionContinueData = {
+  body?: never
+  path: {
+    sessionID: string
+  }
+  query?: {
+    directory?: string
+  }
+  url: "/session/{sessionID}/continue"
+}
+
+export type SessionContinueErrors = {
+  /**
+   * Bad request
+   */
+  400: BadRequestError
+  /**
+   * Not found
+   */
+  404: NotFoundError
+}
+
+export type SessionContinueError = SessionContinueErrors[keyof SessionContinueErrors]
+
+export type SessionContinueResponses = {
+  /**
+   * Conversation continued
+   */
+  200: boolean
+}
+
+export type SessionContinueResponse = SessionContinueResponses[keyof SessionContinueResponses]
 
 export type PermissionRespondData = {
   body?: {
