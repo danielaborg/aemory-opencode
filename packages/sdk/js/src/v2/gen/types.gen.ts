@@ -1150,6 +1150,10 @@ export type KeybindsConfig = {
    */
   tool_details?: string
   /**
+   * Toggle sidebar overlay mode
+   */
+  sidebar_overlay_toggle?: string
+  /**
    * List available models
    */
   model_list?: string
@@ -1373,6 +1377,10 @@ export type KeybindsConfig = {
    * Toggle tips on home screen
    */
   tips_toggle?: string
+  /**
+   * Toggle message TPS visibility
+   */
+  tps_toggle?: string
   /**
    * Toggle thinking blocks visibility
    */
@@ -1703,22 +1711,18 @@ export type Config = {
       enabled: boolean
     }
     /**
-     * Control diff rendering style: 'auto' adapts to terminal width, 'stacked' always shows single column
+     * Maximum number of sessions to display in session list, or 'none' to show all sessions
      */
-    diff_style?: "auto" | "stacked"
-     /**
-      * Maximum number of sessions to display in session list, or 'none' to show all sessions
-      */
-     session_list_limit?: number | "none"
-     /**
-      * Maximum number of message parts to load per session when syncing, or 'none' to load all messages
-      */
-     messages_limit?: number | "none"
-     /**
-      * When true, 'auto' sidebar mode always shows the sidebar regardless of window width
-      */
-     no_sidebar_auto?: boolean
-   }
+    session_list_limit?: number | "none"
+    /**
+     * Maximum number of message parts to load per session when syncing, or 'none' to load all messages
+     */
+    messages_limit?: number | "none"
+    /**
+     * When true, 'auto' sidebar mode always shows the sidebar regardless of window width
+     */
+    no_sidebar_auto?: boolean
+  }
   server?: ServerConfig
   /**
    * Command configuration, see https://opencode.ai/docs/commands
@@ -1907,9 +1911,17 @@ export type Config = {
      */
     continue_loop_on_deny?: boolean
     /**
+     * Percentage of usable context space at which to trigger compaction (10-100)
+     */
+    context_compaction_threshold?: number
+    /**
      * Timeout in milliseconds for model context protocol (MCP) requests
      */
     mcp_timeout?: number
+    /**
+     * Enable experimental plan mode
+     */
+    plan_mode?: boolean
   }
 }
 
@@ -3243,6 +3255,41 @@ export type SessionInitResponses = {
 
 export type SessionInitResponse = SessionInitResponses[keyof SessionInitResponses]
 
+export type SessionRewindData = {
+  body?: {
+    messageID: string
+  }
+  path: {
+    sessionID: string
+  }
+  query?: {
+    directory?: string
+  }
+  url: "/session/{sessionID}/rewind"
+}
+
+export type SessionRewindErrors = {
+  /**
+   * Bad request
+   */
+  400: BadRequestError
+  /**
+   * Not found
+   */
+  404: NotFoundError
+}
+
+export type SessionRewindError = SessionRewindErrors[keyof SessionRewindErrors]
+
+export type SessionRewindResponses = {
+  /**
+   * Rewound session
+   */
+  200: Session
+}
+
+export type SessionRewindResponse = SessionRewindResponses[keyof SessionRewindResponses]
+
 export type SessionForkData = {
   body?: {
     messageID?: string
@@ -3876,6 +3923,9 @@ export type SessionUnrevertResponse = SessionUnrevertResponses[keyof SessionUnre
 export type SessionContinueData = {
   body?: never
   path: {
+    /**
+     * Session ID
+     */
     sessionID: string
   }
   query?: {
