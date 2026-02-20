@@ -1149,6 +1149,10 @@ export type KeybindsConfig = {
    */
   tool_details?: string
   /**
+   * Toggle sidebar overlay mode
+   */
+  sidebar_overlay_toggle?: string
+  /**
    * List available models
    */
   model_list?: string
@@ -1908,6 +1912,10 @@ export type Config = {
      * Percentage of context window at which to trigger compaction (0-100)
      */
     context_compaction_threshold?: number
+    /**
+     * Enable experimental plan mode
+     */
+    plan_mode?: boolean
   }
 }
 
