@@ -25,28 +25,27 @@ This document tracks all branches merged into the integration branch `integratio
 | 17 | feat/configurable-message-and-session-limit | 0d7539370e |
 | 18 | feat/experimental-dont-cache-markdown | fbe0789424 |
 | 19 | feat/interjections | e12b283a5b |
+| 20 | feat/jsonc-user-themes | 1c3db28219 |
+| 21 | feat/permission-indicator-in-sidebar | c000660a42 |
+| 22 | feat/permission-spinner | 58f47b7cc2 |
+| 23 | feat/persist-sidebar-group-folding-states | cfb8d4533b |
+| 24 | feat/persistant-sidebar-overlay-behaviour | 8ad51c5382 |
+| 25 | feat/shell-advice | 82d82b275f |
+| 26 | feat/elapsed-timer | 7cd2923321 |
+| 27 | feat/sidebar-no-auto-setting | 71c6af9d79 |
+| 28 | feat/set-session-title | f4eae4a5cf |
+| 29 | feat/get-session-title | 2fd3edb416 |
+| 30 | feat/session-timeline-repeat | eb757cf7e1 |
+| 31 | feat/automatic-list-continuation | affd0e3265 |
+| 32 | feat/continue-command | f395354b70 |
+| 33 | feat/session-bookmarks | c074ad4739 |
+| 34 | fix/dialog-datetime-alignment | 593372f3de |
+| 35 | feat/keybindable-commands | 1f1b02df7a |
+| 36 | feat/configurable-snapshot-lifespan | b43c420fb0 |
+| 37 | feat/configurable-new-plan-mode | a311c81adc |
 
 ## Remaining Branches (in order)
 
-- feat/interjections
-- feat/jsonc-user-themes
-- feat/permission-indicator-in-sidebar
-- feat/permission-spinner
-- feat/persist-sidebar-group-folding-states
-- feat/persistant-sidebar-overlay-behaviour
-- feat/shell-advice
-- feat/elapsed-timer
-- feat/sidebar-no-auto-setting
-- feat/set-session-title
-- feat/get-session-title
-- feat/session-timeline-repeat
-- feat/automatic-list-continuation
-- feat/continue-command
-- feat/session-bookmarks
-- fix/dialog-datetime-alignment (after session-bookmarks)
-- feat/keybindable-commands
-- feat/configurable-snapshot-lifespan
-- feat/configurable-new-plan-mode
 - feat/config-imports
 - feat/canceled-prompts-in-history
 - feat/command-palette-consistecy
