@@ -357,6 +357,7 @@ export namespace Config {
     for (const item of await Glob.scan("{command,commands}/**/*.md", {
       cwd: dir,
       absolute: true,
+      dot: true,
       symlink: true,
     })) {
       const md = await ConfigMarkdown.parse(item).catch(async (err) => {
@@ -395,6 +396,7 @@ export namespace Config {
     for (const item of await Glob.scan("{agent,agents}/**/*.md", {
       cwd: dir,
       absolute: true,
+      dot: true,
       symlink: true,
     })) {
       const md = await ConfigMarkdown.parse(item).catch(async (err) => {
@@ -432,6 +434,7 @@ export namespace Config {
     for (const item of await Glob.scan("{mode,modes}/*.md", {
       cwd: dir,
       absolute: true,
+      dot: true,
       symlink: true,
     })) {
       const md = await ConfigMarkdown.parse(item).catch(async (err) => {
@@ -468,6 +471,7 @@ export namespace Config {
     for (const item of await Glob.scan("{plugin,plugins}/*.{ts,js}", {
       cwd: dir,
       absolute: true,
+      dot: true,
       symlink: true,
     })) {
       plugins.push(pathToFileURL(item).href)
@@ -916,7 +920,6 @@ export namespace Config {
       terminal_suspend: z.string().optional().default("ctrl+z").describe("Suspend terminal"),
       terminal_title_toggle: z.string().optional().default("none").describe("Toggle terminal title"),
       tips_toggle: z.string().optional().default("<leader>h").describe("Toggle tips on home screen"),
-      tps_toggle: z.string().optional().default("none").describe("Toggle message TPS visibility"),
       display_thinking: z.string().optional().default("none").describe("Toggle thinking blocks visibility"),
     })
     .strict()
@@ -932,7 +935,22 @@ export namespace Config {
       })
       .optional()
       .describe("Scroll acceleration settings"),
+    diff_style: z
+      .enum(["auto", "stacked"])
+      .optional()
+      .describe("Control diff rendering style: 'auto' adapts to terminal width, 'stacked' always shows single column"),
+    session_list_limit: z
+      .union([z.number().min(1), z.literal("none")])
+      .optional()
+      .default(150)
+      .describe("Maximum number of sessions to display in session list, or 'none' to show all sessions"),
+    messages_limit: z
+      .union([z.number().min(1), z.literal("none")])
+      .optional()
+      .default(100)
+      .describe("Maximum number of message parts to load per session when syncing, or 'none' to load all messages"),
   })
+  export type TUI = z.infer<typeof TUI>
 
   export const Server = z
     .object({
@@ -1186,7 +1204,6 @@ export namespace Config {
             .optional()
             .describe("Tools that should only be available to primary agents."),
           continue_loop_on_deny: z.boolean().optional().describe("Continue the agent loop when a tool call is denied"),
-          context_compaction_threshold: z.number().min(10).max(100).optional().describe("Percentage of usable context space at which to trigger compaction (10-100)"),
           mcp_timeout: z
             .number()
             .int()
