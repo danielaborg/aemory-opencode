@@ -1927,7 +1927,7 @@ export class Permission extends HeyApiClient {
       sessionID: string
       permissionID: string
       directory?: string
-      response?: "once" | "always" | "reject"
+      response?: "once" | "always" | "reject" | "interject"
     },
     options?: Options<never, ThrowOnError>,
   ) {
@@ -1965,7 +1965,7 @@ export class Permission extends HeyApiClient {
     parameters: {
       requestID: string
       directory?: string
-      reply?: "once" | "always" | "reject"
+      reply?: "once" | "always" | "reject" | "interject"
       message?: string
     },
     options?: Options<never, ThrowOnError>,

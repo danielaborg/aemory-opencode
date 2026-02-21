@@ -573,7 +573,8 @@ export type EventPermissionReplied = {
   properties: {
     sessionID: string
     requestID: string
-    reply: "once" | "always" | "reject"
+    reply: "once" | "always" | "reject" | "interject"
+    interjection?: string
   }
 }
 
@@ -3947,7 +3948,7 @@ export type SessionUnrevertResponse = SessionUnrevertResponses[keyof SessionUnre
 
 export type PermissionRespondData = {
   body?: {
-    response: "once" | "always" | "reject"
+    response: "once" | "always" | "reject" | "interject"
   }
   path: {
     sessionID: string
@@ -3983,7 +3984,7 @@ export type PermissionRespondResponse = PermissionRespondResponses[keyof Permiss
 
 export type PermissionReplyData = {
   body?: {
-    reply: "once" | "always" | "reject"
+    reply: "once" | "always" | "reject" | "interject"
     message?: string
   }
   path: {
