@@ -665,6 +665,30 @@ export function Session() {
       },
     },
     {
+      title: showThinking() ? "Hide thinking" : "Show thinking",
+      value: "session.toggle.thinking",
+      keybind: "display_thinking",
+      category: "Session",
+      slash: {
+        name: "thinking",
+        aliases: ["toggle-thinking"],
+      },
+      onSelect: (dialog) => {
+        setShowThinking(!showThinking())
+        dialog.clear()
+      },
+    },
+    {
+      title: showDetails() ? "Hide tool details" : "Show tool details",
+      value: "session.toggle.actions",
+      keybind: "tool_details",
+      category: "Session",
+      onSelect: (dialog) => {
+        setShowDetails(!showDetails())
+        dialog.clear()
+      },
+    },
+    {
       title: "Toggle session scrollbar",
       value: "session.toggle.scrollbar",
       keybind: "scrollbar_toggle",
