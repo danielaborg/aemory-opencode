@@ -48,7 +48,7 @@ export namespace Locale {
         month: "short",
         day: "numeric",
       })
-      return `${dateStr} · ${timeStr}`
+      return `${dateStr} ${timeStr}`
     }
   }
 

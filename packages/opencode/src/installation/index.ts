@@ -190,7 +190,7 @@ export namespace Installation {
   }
 
   export const VERSION = "2026-02-21-00-53"
-  export const CHANNEL = "local"
+  export const CHANNEL = typeof OPENCODE_CHANNEL === "string" ? OPENCODE_CHANNEL : "local"
   export const USER_AGENT = `opencode/${CHANNEL}/${VERSION}/${Flag.OPENCODE_CLIENT}`
 
   export async function latest(installMethod?: Method) {
