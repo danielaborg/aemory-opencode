@@ -253,6 +253,7 @@ function App() {
     renderer.clearSelection()
   }
   const [terminalTitleEnabled, setTerminalTitleEnabled] = createSignal(kv.get("terminal_title_enabled", true))
+  const [sidebarClockEnabled, setSidebarClockEnabled] = createSignal(kv.get("sidebar_clock_visible", true))
 
   createEffect(() => {
     console.log(JSON.stringify(route.data))
@@ -742,6 +743,19 @@ function App() {
       category: "System",
       onSelect: (dialog) => {
         kv.set("markdown_all_messages", !kv.get("markdown_all_messages", false))
+        dialog.clear()
+      },
+    },
+    {
+      title: sidebarClockEnabled() ? "Hide sidebar clock" : "Show sidebar clock",
+      value: "system.toggle.sidebar_clock",
+      category: "System",
+      onSelect: (dialog) => {
+        setSidebarClockEnabled((prev) => {
+          const next = !prev
+          kv.set("sidebar_clock_visible", next)
+          return next
+        })
         dialog.clear()
       },
     },
