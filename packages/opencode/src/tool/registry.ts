@@ -29,6 +29,7 @@ import { PlanExitTool, PlanEnterTool } from "./plan"
 import { SetCurrentSessionTitleTool } from "./set-current-session-title"
 import { ApplyPatchTool } from "./apply_patch"
 import { GetCurrentSessionTitleTool } from "./session-title"
+import { BookmarkCurrentSessionTool } from "./bookmark"
 import { Glob } from "../util/glob"
 
 export namespace ToolRegistry {
@@ -112,11 +113,11 @@ export namespace ToolRegistry {
       TaskTool,
       WebFetchTool,
       TodoWriteTool,
-      // TodoReadTool,
       SetCurrentSessionTitleTool,
       WebSearchTool,
       CodeSearchTool,
       SkillTool,
+      BookmarkCurrentSessionTool,
       ApplyPatchTool,
       GetCurrentSessionTitleTool,
       ...(Flag.OPENCODE_EXPERIMENTAL_LSP_TOOL ? [LspTool] : []),
@@ -141,12 +142,10 @@ export namespace ToolRegistry {
     const result = await Promise.all(
       tools
         .filter((t) => {
-          // Enable websearch/codesearch for zen users OR via enable flag
           if (t.id === "codesearch" || t.id === "websearch") {
             return model.providerID === "opencode" || Flag.OPENCODE_ENABLE_EXA
           }
 
-          // use apply tool in same format as codex
           const usePatch =
             model.modelID.includes("gpt-") && !model.modelID.includes("oss") && !model.modelID.includes("gpt-4")
           if (t.id === "apply_patch") return usePatch
