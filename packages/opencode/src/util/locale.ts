@@ -46,7 +46,7 @@ export namespace Locale {
     } else {
       const dateStr = date.toLocaleDateString(undefined, {
         month: "short",
-        day: "numeric",
+        day: "2-digit",
       })
       return `${dateStr} ${timeStr}`
     }
