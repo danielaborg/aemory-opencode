@@ -1264,6 +1264,7 @@ export namespace Config {
             .positive()
             .optional()
             .describe("Timeout in milliseconds for model context protocol (MCP) requests"),
+          plan_mode: z.boolean().optional().describe("Enable experimental plan mode"),
         })
         .optional(),
     })
@@ -1486,6 +1487,50 @@ export namespace Config {
 
     // Return data as ThemeJson (basic validation)
     return data as ThemeJson
+  }
+
+  export async function experimentalPlanMode() {
+    // Environment variable takes precedence
+    if (Flag.OPENCODE_EXPERIMENTAL_PLAN_MODE) return true
+    const config = await get()
+    return config.experimental?.plan_mode === true
+  }
+
+    // Parse JSONC directly without special features for themes
+    const errors: JsoncParseError[] = []
+    const data = parseJsonc(text, errors, { allowTrailingComma: true })
+
+    if (errors.length) {
+      const lines = text.split("\n")
+      const errorDetails = errors
+        .map((e) => {
+          const beforeOffset = text.substring(0, e.offset).split("\n")
+          const line = beforeOffset.length
+          const column = beforeOffset[beforeOffset.length - 1].length + 1
+          const problemLine = lines[line - 1]
+
+          const error = `${printParseErrorCode(e.error)} at line ${line}, column ${column}`
+          if (!problemLine) return error
+
+          return `${error}\n   Line ${line}: ${problemLine}\n${"".padStart(column + 9)}^`
+        })
+        .join("\n")
+
+      throw new JsonError({
+        path: filepath,
+        message: `\n--- JSONC Input ---\n${text}\n--- Errors ---\n${errorDetails}\n--- End ---`,
+      })
+    }
+
+    // Return data as ThemeJson (basic validation)
+    return data as ThemeJson
+=======
+  export async function experimentalPlanMode() {
+    // Environment variable takes precedence
+    if (Flag.OPENCODE_EXPERIMENTAL_PLAN_MODE) return true
+    const config = await get()
+    return config.experimental?.plan_mode === true
+>>>>>>> origin/feat/configurable-new-plan-mode
   }
 
   export async function getGlobal() {
